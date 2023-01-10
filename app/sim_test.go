@@ -35,9 +35,9 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/confio/tgrade/x/poe/types"
-	"github.com/confio/tgrade/x/twasm"
-	twasmtypes "github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/blackfury-1/petri/x/twasm"
+	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
 )
 
 // Get flags every time the simulator is run
@@ -116,7 +116,7 @@ func TestAppImportExport(t *testing.T) {
 	}()
 
 	encConf := MakeEncodingConfig()
-	app := NewTgradeApp(logger, db, nil, true, map[int64]bool{}, dir, simapp.FlagPeriodValue, encConf, EmptyBaseAppOptions{}, nil, fauxMerkleModeOpt)
+	app := NewPetriApp(logger, db, nil, true, map[int64]bool{}, dir, simapp.FlagPeriodValue, encConf, EmptyBaseAppOptions{}, nil, fauxMerkleModeOpt)
 	require.Equal(t, appName, app.Name())
 	app.sm.Modules = append(app.sm.Modules, nonSimModuleSetup{})
 	// Run randomized simulation
@@ -155,7 +155,7 @@ func TestAppImportExport(t *testing.T) {
 		newDB.Close()
 		require.NoError(t, os.RemoveAll(newDir))
 	}()
-	newApp := NewTgradeApp(logger, newDB, nil, true, map[int64]bool{}, newDir, simapp.FlagPeriodValue, encConf, EmptyBaseAppOptions{}, nil, fauxMerkleModeOpt)
+	newApp := NewPetriApp(logger, newDB, nil, true, map[int64]bool{}, newDir, simapp.FlagPeriodValue, encConf, EmptyBaseAppOptions{}, nil, fauxMerkleModeOpt)
 	require.Equal(t, appName, newApp.Name())
 
 	var genesisState GenesisState
@@ -208,7 +208,7 @@ func TestAppImportExport(t *testing.T) {
 }
 
 // prepare both storages to be comparable
-func prepareWasmStorage(ctxA sdk.Context, app *TgradeApp, ctxB sdk.Context, newApp *TgradeApp) {
+func prepareWasmStorage(ctxA sdk.Context, app *PetriApp, ctxB sdk.Context, newApp *PetriApp) {
 	// delete persistent tx counter value
 	ctxA.KVStore(app.keys[twasm.StoreKey]).Delete(wasmtypes.TXCounterPrefix)
 
@@ -227,7 +227,7 @@ func prepareWasmStorage(ctxA sdk.Context, app *TgradeApp, ctxB sdk.Context, newA
 	dropContractHistory(ctxA.KVStore(app.keys[twasm.StoreKey]), prefixes...)
 	dropContractHistory(ctxB.KVStore(newApp.keys[twasm.StoreKey]), prefixes...)
 
-	normalizeContractInfo := func(ctx sdk.Context, app *TgradeApp) {
+	normalizeContractInfo := func(ctx sdk.Context, app *PetriApp) {
 		var index uint64
 		app.twasmKeeper.IterateContractInfo(ctx, func(address sdk.AccAddress, info wasmtypes.ContractInfo) bool {
 			created := &wasmtypes.AbsoluteTxPosition{
@@ -244,7 +244,7 @@ func prepareWasmStorage(ctxA sdk.Context, app *TgradeApp, ctxB sdk.Context, newA
 	normalizeContractInfo(ctxA, app)
 	normalizeContractInfo(ctxB, newApp)
 
-	dropExportImportPrivilegedState := func(ctx sdk.Context, xapp *TgradeApp) {
+	dropExportImportPrivilegedState := func(ctx sdk.Context, xapp *PetriApp) {
 		xapp.twasmKeeper.IteratePrivilegedContractsByType(ctx, twasmtypes.PrivilegeStateExporterImporter, func(pos uint8, contractAddr sdk.AccAddress) bool {
 			prefixStore := prefix.NewStore(ctx.KVStore(xapp.keys[twasm.StoreKey]), wasmtypes.GetContractStorePrefix(contractAddr))
 			iter := prefixStore.Iterator(nil, nil)
@@ -275,9 +275,9 @@ func TestFullAppSimulation(t *testing.T) {
 		require.NoError(t, os.RemoveAll(dir))
 	}()
 	encConf := MakeEncodingConfig()
-	app := NewTgradeApp(logger, db, nil, true, map[int64]bool{}, t.TempDir(), simapp.FlagPeriodValue,
+	app := NewPetriApp(logger, db, nil, true, map[int64]bool{}, t.TempDir(), simapp.FlagPeriodValue,
 		encConf, simapp.EmptyAppOptions{}, nil, fauxMerkleModeOpt)
-	require.Equal(t, "tgrade", app.Name())
+	require.Equal(t, "petri", app.Name())
 	app.sm.Modules = append(app.sm.Modules, nonSimModuleSetup{})
 
 	// run randomized simulation

@@ -33,7 +33,7 @@ import (
 )
 
 // DefaultConsensusParams defines the default Tendermint consensus params used in
-// TgradeApp testing.
+// PetriApp testing.
 var DefaultConsensusParams = &abci.ConsensusParams{
 	Block: &abci.BlockParams{
 		MaxBytes: 200000,
@@ -51,17 +51,17 @@ var DefaultConsensusParams = &abci.ConsensusParams{
 	},
 }
 
-func setup(withGenesis bool, invCheckPeriod uint, opts ...wasm.Option) (*TgradeApp, GenesisState) {
+func setup(withGenesis bool, invCheckPeriod uint, opts ...wasm.Option) (*PetriApp, GenesisState) {
 	db := dbm.NewMemDB()
-	app := NewTgradeApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, invCheckPeriod, MakeEncodingConfig(), EmptyBaseAppOptions{}, opts)
+	app := NewPetriApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, invCheckPeriod, MakeEncodingConfig(), EmptyBaseAppOptions{}, opts)
 	if withGenesis {
 		return app, NewDefaultGenesisState()
 	}
 	return app, GenesisState{}
 }
 
-// Setup initializes a new TgradeApp. A Nop logger is set in TgradeApp.
-func Setup(isCheckTx bool) *TgradeApp {
+// Setup initializes a new PetriApp. A Nop logger is set in PetriApp.
+func Setup(isCheckTx bool) *PetriApp {
 	app, genesisState := setup(!isCheckTx, 5)
 	if !isCheckTx {
 		// init chain must be called to stop deliverState from being nil
@@ -83,11 +83,11 @@ func Setup(isCheckTx bool) *TgradeApp {
 	return app
 }
 
-// SetupWithGenesisValSet initializes a new TgradeApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new PetriApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
-// of one consensus engine unit (10^6) in the default token of the TgradeApp from first genesis
-// account. A Nop logger is set in TgradeApp.
-func SetupWithGenesisValSet(t *testing.T, valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, opts []wasm.Option, balances ...banktypes.Balance) *TgradeApp {
+// of one consensus engine unit (10^6) in the default token of the PetriApp from first genesis
+// account. A Nop logger is set in PetriApp.
+func SetupWithGenesisValSet(t *testing.T, valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, opts []wasm.Option, balances ...banktypes.Balance) *PetriApp {
 	app, genesisState := setup(true, 5, opts...)
 	// set genesis accounts
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccs)
@@ -159,9 +159,9 @@ func SetupWithGenesisValSet(t *testing.T, valSet *tmtypes.ValidatorSet, genAccs 
 	return app
 }
 
-// SetupWithGenesisAccounts initializes a new TgradeApp with the provided genesis
+// SetupWithGenesisAccounts initializes a new PetriApp with the provided genesis
 // accounts and possible balances.
-func SetupWithGenesisAccounts(genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) *TgradeApp {
+func SetupWithGenesisAccounts(genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) *PetriApp {
 	app, genesisState := setup(true, 0)
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccs)
 	genesisState[authtypes.ModuleName] = app.appCodec.MustMarshalJSON(authGenesis)
@@ -250,7 +250,7 @@ func TestAddr(addr string, bech string) (sdk.AccAddress, error) {
 }
 
 // CheckBalance checks the balance of an account.
-func CheckBalance(t *testing.T, app *TgradeApp, addr sdk.AccAddress, balances sdk.Coins) {
+func CheckBalance(t *testing.T, app *PetriApp, addr sdk.AccAddress, balances sdk.Coins) {
 	ctxCheck := app.BaseApp.NewContext(true, tmproto.Header{})
 	require.True(t, balances.IsEqual(app.bankKeeper.GetAllBalances(ctxCheck, addr)))
 }

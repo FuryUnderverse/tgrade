@@ -17,7 +17,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm/types"
 )
 
 func TestGetProposalContent(t *testing.T) {
@@ -248,7 +248,7 @@ func TestGetProposalContent(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			var msg TgradeMsg
+			var msg PetriMsg
 			require.NoError(t, msg.UnmarshalWithAny([]byte(spec.src), ir))
 			gov := msg.ExecuteGovProposal
 			if spec.expNotGovType {

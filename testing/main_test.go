@@ -22,7 +22,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/bech32"
 	"github.com/tendermint/tendermint/libs/rand"
 
-	"github.com/confio/tgrade/app"
+	"github.com/blackfury-1/petri/app"
 )
 
 var (
@@ -130,14 +130,14 @@ func randomBech32Addr() string {
 }
 
 func encodeBech32Addr(src []byte) string {
-	bech32Addr, err := bech32.ConvertAndEncode("tgrade", src)
+	bech32Addr, err := bech32.ConvertAndEncode("petri", src)
 	if err != nil {
 		panic(err.Error())
 	}
 	return bech32Addr
 }
 
-// ContractBech32Address build a tgrade bech32 contract address
+// ContractBech32Address build a petri bech32 contract address
 func ContractBech32Address(codeID, instanceID uint64) string {
 	return encodeBech32Addr(wasmkeeper.BuildContractAddressClassic(codeID, instanceID))
 }

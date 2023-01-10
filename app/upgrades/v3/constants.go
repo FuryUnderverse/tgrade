@@ -1,10 +1,10 @@
 package v3
 
 import (
-	"github.com/confio/tgrade/app/upgrades"
+	"github.com/blackfury-1/petri/app/upgrades"
 )
 
-// UpgradeName defines the on-chain upgrade name for the Tgrade v3 upgrade.
+// UpgradeName defines the on-chain upgrade name for the Petri v3 upgrade.
 const UpgradeName = "v3"
 
 var Upgrade = upgrades.Upgrade{

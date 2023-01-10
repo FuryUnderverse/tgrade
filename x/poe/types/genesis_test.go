@@ -454,7 +454,7 @@ func TestValidateValsetContractConfig(t *testing.T) {
 			).GetSeedContracts().ValsetContractConfig,
 			expErr: true,
 		},
-		"verify validators not supported": { // see https://github.com/confio/tgrade/issues/389
+		"verify validators not supported": { // see https://github.com/blackfury-1/petri/issues/389
 			src: *GenesisStateFixture(
 				func(m *GenesisState) { m.GetSeedContracts().ValsetContractConfig.VerifyValidators = true },
 			).GetSeedContracts().ValsetContractConfig,

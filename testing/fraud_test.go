@@ -21,7 +21,7 @@ import (
 func TestRecursiveMsgsExternalTrigger(t *testing.T) {
 	sut.ResetDirtyChain(t)
 	sut.StartChain(t)
-	cli := NewTgradeCli(t, sut, verbose)
+	cli := NewPetriCli(t, sut, verbose)
 
 	codeID := cli.StoreWasm("testing/contract/hackatom.wasm")
 	initMsg := fmt.Sprintf(`{"verifier":%q, "beneficiary":%q}`, randomBech32Addr(), randomBech32Addr())
@@ -42,7 +42,7 @@ func TestRecursiveMsgsExternalTrigger(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			cli := NewTgradeCli(t, sut, verbose)
+			cli := NewPetriCli(t, sut, verbose)
 			execMsg := `{"message_loop":{}}`
 			for _, n := range sut.AllNodes(t) {
 				cli.WithRunErrorMatcher(spec.expErrMatcher).WithNodeAddress(n.RPCAddr()).
@@ -56,7 +56,7 @@ func TestRecursiveMsgsExternalTrigger(t *testing.T) {
 func TestRecursiveSmartQuery(t *testing.T) {
 	sut.ResetDirtyChain(t)
 	sut.StartChain(t)
-	cli := NewTgradeCli(t, sut, verbose)
+	cli := NewPetriCli(t, sut, verbose)
 
 	initMsg := fmt.Sprintf(`{"verifier":%q, "beneficiary":%q}`, randomBech32Addr(), randomBech32Addr())
 	maliciousContractAddr := cli.InstantiateWasm(cli.StoreWasm("testing/contract/hackatom.wasm"), initMsg)
@@ -76,7 +76,7 @@ func TestValidatorDoubleSign(t *testing.T) {
 	//   given: a running chain
 	//   when: a second instance with the same val key signs a block
 	//   then: the validator is removed from the active set and jailed forever
-	cli := NewTgradeCli(t, sut, verbose)
+	cli := NewPetriCli(t, sut, verbose)
 	sut.ResetDirtyChain(t)
 	sut.StartChain(t)
 	byzantineOperatorAddr := cli.GetKeyAddr("node0")

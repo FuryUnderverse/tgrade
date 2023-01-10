@@ -15,7 +15,7 @@ import (
 //	trigger gov proposal to unset privileges
 //	then verify that callback permission was removed
 func TestGovProposal(t *testing.T) {
-	cli := NewTgradeCli(t, sut, verbose)
+	cli := NewPetriCli(t, sut, verbose)
 	myKey := cli.GetKeyAddr("node0")
 	require.NotEmpty(t, myKey)
 	t.Logf("key: %q", myKey)
@@ -24,7 +24,7 @@ func TestGovProposal(t *testing.T) {
 		{
 			"wasm-genesis-message",
 			"store",
-			"x/poe/contract/tgrade_gov_reflect.wasm",
+			"x/poe/contract/petri_gov_reflect.wasm",
 			fmt.Sprintf("--run-as=%s", myKey),
 		},
 		{

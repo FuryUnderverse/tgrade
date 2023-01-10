@@ -13,12 +13,12 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	"github.com/confio/tgrade/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/contract"
 )
 
 // ExportAppStateAndValidators exports the state of the application for a genesis
 // file.
-func (app *TgradeApp) ExportAppStateAndValidators(
+func (app *PetriApp) ExportAppStateAndValidators(
 	forZeroHeight bool, jailAllowedAddrs []string,
 ) (servertypes.ExportedApp, error) {
 	if forZeroHeight {
@@ -49,7 +49,7 @@ func (app *TgradeApp) ExportAppStateAndValidators(
 	}, err
 }
 
-func activeValidatorSet(app *TgradeApp, ctx sdk.Context) ([]tmtypes.GenesisValidator, error) {
+func activeValidatorSet(app *PetriApp, ctx sdk.Context) ([]tmtypes.GenesisValidator, error) {
 	var result []tmtypes.GenesisValidator
 	valset := app.poeKeeper.ValsetContract(ctx)
 	var err error

@@ -10,9 +10,9 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/confio/tgrade/x/twasm/contract"
+	"github.com/blackfury-1/petri/x/twasm/contract"
 
-	"github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm/types"
 )
 
 type noopValsetUpdater struct{}
@@ -38,7 +38,7 @@ func InitGenesis(
 	// import privileges from dumped contract infos
 	for i, m := range data.Contracts {
 		info := m.ContractInfo
-		var d types.TgradeContractDetails
+		var d types.PetriContractDetails
 		if err := info.ReadExtension(&d); err != nil {
 			return nil, sdkerrors.Wrapf(err, "extension contract: %d, %s", i, m.ContractAddress)
 		}
@@ -60,7 +60,7 @@ func InitGenesis(
 			if model == nil {
 				return nil, sdkerrors.Wrapf(wasmtypes.ErrInvalidGenesis, "custom state model not set for %s", m.ContractAddress)
 			}
-			bz, err := json.Marshal(contract.TgradeSudoMsg{Import: &model.Msg})
+			bz, err := json.Marshal(contract.PetriSudoMsg{Import: &model.Msg})
 			if err != nil {
 				return nil, sdkerrors.Wrapf(err, "marshal state import for %s", m.ContractAddress)
 			}
@@ -101,7 +101,7 @@ func ExportGenesis(ctx sdk.Context, keeper *Keeper) *types.GenesisState {
 			ContractInfo:    v.ContractInfo,
 		}
 
-		var details types.TgradeContractDetails
+		var details types.PetriContractDetails
 		if err := v.ContractInfo.ReadExtension(&details); err != nil {
 			panic(fmt.Sprintf("read contract info extension for %s", v.ContractAddress))
 		}
@@ -113,7 +113,7 @@ func ExportGenesis(ctx sdk.Context, keeper *Keeper) *types.GenesisState {
 		if err != nil {
 			panic(fmt.Sprintf("address %s: %s", v.ContractAddress, err))
 		}
-		bz, err := json.Marshal(contract.TgradeSudoMsg{Export: &struct{}{}})
+		bz, err := json.Marshal(contract.PetriSudoMsg{Export: &struct{}{}})
 		if err != nil {
 			panic(sdkerrors.Wrapf(err, "marshal state export for %s", c.String()))
 		}

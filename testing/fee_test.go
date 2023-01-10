@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	poetypes "github.com/confio/tgrade/x/poe/types"
+	poetypes "github.com/blackfury-1/petri/x/poe/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
@@ -18,14 +18,14 @@ import (
 
 func TestGlobalFee(t *testing.T) {
 	sut.ModifyGenesisJSON(t, SetGlobalMinFee(t,
-		sdk.NewDecCoinFromDec("utgd", sdk.NewDecWithPrec(1, 3)),
+		sdk.NewDecCoinFromDec("upetri", sdk.NewDecWithPrec(1, 3)),
 		sdk.NewDecCoinFromDec("node0token", sdk.NewDecWithPrec(1, 4))),
 	)
 	sut.StartChain(t)
 
-	cli := NewTgradeCli(t, sut, verbose)
+	cli := NewPetriCli(t, sut, verbose)
 	rsp := cli.CustomQuery("q", "globalfee", "minimum-gas-prices")
-	exp := `[{"denom":"node0token","amount":"0.000100000000000000"},{"denom":"utgd","amount":"0.001000000000000000"}]`
+	exp := `[{"denom":"node0token","amount":"0.000100000000000000"},{"denom":"upetri","amount":"0.001000000000000000"}]`
 	require.Equal(t, exp, gjson.Get(rsp, "minimum_gas_prices").String())
 
 	const anyContract = "testing/contract/hackatom.wasm.gzip"
@@ -34,7 +34,7 @@ func TestGlobalFee(t *testing.T) {
 	RequireTxFailure(t, txResult, "insufficient fee")
 
 	t.Log("Any transaction with enough fees should pass")
-	txResult = cli.CustomCommand("tx", "wasm", "store", anyContract, "--from=node0", "--gas=1600000", "--fees=1600utgd")
+	txResult = cli.CustomCommand("tx", "wasm", "store", anyContract, "--from=node0", "--gas=1600000", "--fees=1600upetri")
 	RequireTxSuccess(t, txResult)
 
 	t.Log("Any transaction with enough alternative fee token amount should pass")
@@ -42,11 +42,11 @@ func TestGlobalFee(t *testing.T) {
 	RequireTxSuccess(t, txResult)
 
 	t.Log("Transactions with too high fees should fail (fees)")
-	txResult = cli.CustomCommand("tx", "wasm", "store", anyContract, "--from=node0", "--fees=101tgd")
+	txResult = cli.CustomCommand("tx", "wasm", "store", anyContract, "--from=node0", "--fees=101petri")
 	RequireTxFailure(t, txResult)
 
 	t.Log("Transactions with too high fees should fail (gas)")
-	txResult = cli.CustomCommand("tx", "wasm", "store", anyContract, "--from=node0", "--gas=101", "--gas-prices=1tgd")
+	txResult = cli.CustomCommand("tx", "wasm", "store", anyContract, "--from=node0", "--gas=101", "--gas-prices=1petri")
 	RequireTxFailure(t, txResult)
 }
 
@@ -57,16 +57,16 @@ func TestFeeDistribution(t *testing.T) {
 	sut.ModifyGenesisJSON(t, SetAllEngagementPoints(t, 1))
 	sut.StartChain(t)
 
-	cli := NewTgradeCli(t, sut, verbose)
-	cli.FundAddress(cli.AddKey("myFatFingerKey"), "200000000utgd")
+	cli := NewPetriCli(t, sut, verbose)
+	cli.FundAddress(cli.AddKey("myFatFingerKey"), "200000000upetri")
 	oldBalances := make([]int64, sut.nodesCount)
 	for i := 0; i < sut.nodesCount; i++ {
-		oldBalances[i] = cli.QueryBalance(cli.GetKeyAddr(fmt.Sprintf("node%d", i)), "utgd")
+		oldBalances[i] = cli.QueryBalance(cli.GetKeyAddr(fmt.Sprintf("node%d", i)), "upetri")
 	}
 
 	// when
 	const anyContract = "testing/contract/hackatom.wasm.gzip"
-	txResult := cli.CustomCommand("tx", "wasm", "store", anyContract, "--from=myFatFingerKey", "--gas=1600000", "--fees=200000000utgd")
+	txResult := cli.CustomCommand("tx", "wasm", "store", anyContract, "--from=myFatFingerKey", "--gas=1600000", "--fees=200000000upetri")
 	RequireTxSuccess(t, txResult)
 	AwaitValsetEpochCompleted(t) // so that fees are distributed
 
@@ -85,7 +85,7 @@ func TestFeeDistribution(t *testing.T) {
 	// 200000000 * 47.5% *(1/ 4 + 1/10) = 33250000 # 1/4 is reserved for all vals, 1/10 is reserved for all EPs
 	const expMinRevenue int64 = 33250000
 	for i := 0; i < sut.nodesCount; i++ {
-		newBalance := cli.QueryBalance(cli.GetKeyAddr(fmt.Sprintf("node%d", i)), "utgd")
+		newBalance := cli.QueryBalance(cli.GetKeyAddr(fmt.Sprintf("node%d", i)), "upetri")
 		diff := newBalance - oldBalances[i]
 		assert.LessOrEqualf(t, expMinRevenue, diff, "node %d got diff: %d (before %d after %d)", i, diff, oldBalances[i], newBalance)
 	}

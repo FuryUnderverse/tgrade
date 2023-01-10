@@ -8,7 +8,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 type DeliverTxFn func(abci.RequestDeliverTx) abci.ResponseDeliverTx

@@ -8,7 +8,7 @@ import (
 )
 
 // AddRegisteredPrivilege add privilege type to list
-func (d *TgradeContractDetails) AddRegisteredPrivilege(t PrivilegeType, pos uint8) {
+func (d *PetriContractDetails) AddRegisteredPrivilege(t PrivilegeType, pos uint8) {
 	d.RegisteredPrivileges = append(d.RegisteredPrivileges, RegisteredPrivilege{
 		PrivilegeType: t.String(),
 		Position:      uint32(pos),
@@ -16,7 +16,7 @@ func (d *TgradeContractDetails) AddRegisteredPrivilege(t PrivilegeType, pos uint
 }
 
 // RemoveRegisteredPrivilege remove privilege type from list
-func (d *TgradeContractDetails) RemoveRegisteredPrivilege(t PrivilegeType, pos uint8) {
+func (d *PetriContractDetails) RemoveRegisteredPrivilege(t PrivilegeType, pos uint8) {
 	src := &RegisteredPrivilege{
 		PrivilegeType: t.String(),
 		Position:      uint32(pos),
@@ -29,7 +29,7 @@ func (d *TgradeContractDetails) RemoveRegisteredPrivilege(t PrivilegeType, pos u
 }
 
 // HasRegisteredPrivilege returns true when given type was registered by this contract
-func (d *TgradeContractDetails) HasRegisteredPrivilege(c PrivilegeType) bool {
+func (d *PetriContractDetails) HasRegisteredPrivilege(c PrivilegeType) bool {
 	for _, v := range d.RegisteredPrivileges {
 		if v.PrivilegeType == c.String() {
 			return true
@@ -38,7 +38,7 @@ func (d *TgradeContractDetails) HasRegisteredPrivilege(c PrivilegeType) bool {
 	return false
 }
 
-func (d TgradeContractDetails) IterateRegisteredPrivileges(cb func(c PrivilegeType, pos uint8) bool) {
+func (d PetriContractDetails) IterateRegisteredPrivileges(cb func(c PrivilegeType, pos uint8) bool) {
 	for _, v := range d.RegisteredPrivileges {
 		if cb(*PrivilegeTypeFrom(v.PrivilegeType), uint8(v.Position)) {
 			return
@@ -47,7 +47,7 @@ func (d TgradeContractDetails) IterateRegisteredPrivileges(cb func(c PrivilegeTy
 }
 
 // ValidateBasic syntax checks
-func (d TgradeContractDetails) ValidateBasic() error {
+func (d PetriContractDetails) ValidateBasic() error {
 	unique := make(map[PrivilegeType]struct{})
 	for i, c := range d.RegisteredPrivileges {
 		if err := c.ValidateBasic(); err != nil {

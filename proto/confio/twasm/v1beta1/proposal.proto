@@ -7,7 +7,7 @@ import "cosmwasm/wasm/v1/types.proto";
 import "cosmos_proto/cosmos.proto";
 import "google/protobuf/any.proto";
 
-option go_package = "github.com/confio/tgrade/x/twasm/types";
+option go_package = "github.com/blackfury-1/petri/x/twasm/types";
 option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.goproto_getters_all) = false;
 option (gogoproto.equal_all) = true;

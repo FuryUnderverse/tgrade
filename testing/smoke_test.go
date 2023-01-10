@@ -25,7 +25,7 @@ func TestSmokeTest(t *testing.T) {
 	sut.StartChain(t)
 	sut.MarkDirty()
 
-	cli := NewTgradeCli(t, sut, verbose)
+	cli := NewPetriCli(t, sut, verbose)
 	t.Log("List keys")
 	t.Log("keys", cli.Keys("keys", "list"))
 

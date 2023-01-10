@@ -5,7 +5,7 @@ import (
 	"sort"
 	"testing"
 
-	twasmkeeper "github.com/confio/tgrade/x/twasm/keeper"
+	twasmkeeper "github.com/blackfury-1/petri/x/twasm/keeper"
 
 	"github.com/cosmos/cosmos-sdk/types/address"
 	"github.com/tendermint/tendermint/libs/rand"
@@ -17,14 +17,14 @@ import (
 	fuzz "github.com/google/gofuzz"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/confio/tgrade/x/poe/keeper"
+	"github.com/blackfury-1/petri/x/poe/keeper"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/confio/tgrade/x/poe"
-	"github.com/confio/tgrade/x/poe/contract"
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe"
+	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 func TestIntegrationBootstrapPoEContracts(t *testing.T) {
@@ -132,7 +132,7 @@ func TestVerifyPoEContracts(t *testing.T) {
 		"all good": {
 			alterState: func(t *testing.T, ctx sdk.Context, poeKeeper *keeper.Keeper, twasmKeeper *twasmkeeper.Keeper) {}, //  noop
 		},
-		// deactivated cause of https://github.com/confio/tgrade/issues/402
+		// deactivated cause of https://github.com/blackfury-1/petri/issues/402
 		//"poe contract not pinned": {
 		//	alterState: func(t *testing.T, ctx sdk.Context, poeKeeper *keeper.Keeper, twasmKeeper *twasmkeeper.Keeper) {
 		//		require.NoError(t, twasmKeeper.GetContractKeeper().UnpinCode(ctx, 1))

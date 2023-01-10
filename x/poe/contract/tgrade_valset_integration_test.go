@@ -13,8 +13,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/rand"
 
-	"github.com/confio/tgrade/x/poe/contract"
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 func TestQueryValidator(t *testing.T) {
@@ -203,7 +203,7 @@ func TestQueryValsetConfig(t *testing.T) {
 		MinPoints:      1,
 		MaxValidators:  100,
 		Scaling:        1,
-		EpochReward:    sdk.NewInt64Coin("utgd", 100000),
+		EpochReward:    sdk.NewInt64Coin("upetri", 100000),
 		FeePercentage:  sdk.MustNewDecFromStr("0.50"),
 		ValidatorGroup: distributionAddr.String(),
 		AutoUnjail:     false,

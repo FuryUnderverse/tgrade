@@ -29,7 +29,7 @@ sdk.NewEvent(
 ```
 
 ### Standard Events in x/twasm
-In twasm we have the concept of (privileged](https://github.com/confio/tgrade/tree/main/x/twasm#privileged) contracts that
+In twasm we have the concept of (privileged](https://github.com/blackfury-1/petri/tree/main/x/twasm#privileged) contracts that
 add a number of new events to the system:
 
 ```go

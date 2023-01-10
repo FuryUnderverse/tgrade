@@ -24,12 +24,12 @@ import (
 	"github.com/spf13/cobra"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/confio/tgrade/x/poe/client/cli"
-	"github.com/confio/tgrade/x/poe/contract"
-	"github.com/confio/tgrade/x/poe/keeper"
-	"github.com/confio/tgrade/x/poe/simulation"
-	"github.com/confio/tgrade/x/poe/types"
-	twasmtypes "github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/poe/client/cli"
+	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/keeper"
+	"github.com/blackfury-1/petri/x/poe/simulation"
+	"github.com/blackfury-1/petri/x/poe/types"
+	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
 )
 
 var (

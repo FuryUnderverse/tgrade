@@ -16,11 +16,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/gjson"
 
-	"github.com/confio/tgrade/app"
+	"github.com/blackfury-1/petri/app"
 )
 
-// TgradeCli wraps the command line interface
-type TgradeCli struct {
+// PetriCli wraps the command line interface
+type PetriCli struct {
 	t             *testing.T
 	nodeAddress   string
 	chainID       string
@@ -30,12 +30,12 @@ type TgradeCli struct {
 	assertErrorFn func(t require.TestingT, err error, msgAndArgs ...interface{})
 }
 
-func NewTgradeCli(t *testing.T, sut *SystemUnderTest, verbose bool) *TgradeCli {
-	return NewTgradeCliX(t, sut.rpcAddr, sut.chainID, filepath.Join(workDir, sut.outputDir), verbose)
+func NewPetriCli(t *testing.T, sut *SystemUnderTest, verbose bool) *PetriCli {
+	return NewPetriCliX(t, sut.rpcAddr, sut.chainID, filepath.Join(workDir, sut.outputDir), verbose)
 }
 
-func NewTgradeCliX(t *testing.T, nodeAddress string, chainID string, homeDir string, debug bool) *TgradeCli {
-	return &TgradeCli{
+func NewPetriCliX(t *testing.T, nodeAddress string, chainID string, homeDir string, debug bool) *PetriCli {
+	return &PetriCli{
 		t:             t,
 		nodeAddress:   nodeAddress,
 		chainID:       chainID,
@@ -50,8 +50,8 @@ func NewTgradeCliX(t *testing.T, nodeAddress string, chainID string, homeDir str
 type RunErrorAssert func(t require.TestingT, err error, msgAndArgs ...interface{})
 
 // WithRunErrorMatcher assert function to ensure run command error value
-func (c TgradeCli) WithRunErrorMatcher(f RunErrorAssert) TgradeCli {
-	return TgradeCli{
+func (c PetriCli) WithRunErrorMatcher(f RunErrorAssert) PetriCli {
+	return PetriCli{
 		t:             c.t,
 		nodeAddress:   c.nodeAddress,
 		chainID:       c.chainID,
@@ -62,8 +62,8 @@ func (c TgradeCli) WithRunErrorMatcher(f RunErrorAssert) TgradeCli {
 	}
 }
 
-func (c TgradeCli) WithNodeAddress(addr string) TgradeCli {
-	return TgradeCli{
+func (c PetriCli) WithNodeAddress(addr string) PetriCli {
+	return PetriCli{
 		t:             c.t,
 		nodeAddress:   addr,
 		chainID:       c.chainID,
@@ -74,24 +74,24 @@ func (c TgradeCli) WithNodeAddress(addr string) TgradeCli {
 	}
 }
 
-func (c TgradeCli) CustomCommand(args ...string) string {
+func (c PetriCli) CustomCommand(args ...string) string {
 	args = c.withTXFlags(args...)
 	return c.run(args)
 }
 
-func (c TgradeCli) Keys(args ...string) string {
+func (c PetriCli) Keys(args ...string) string {
 	args = c.withKeyringFlags(args...)
 	return c.run(args)
 }
 
-func (c TgradeCli) CustomQuery(args ...string) string {
+func (c PetriCli) CustomQuery(args ...string) string {
 	args = c.withQueryFlags(args...)
 	return c.run(args)
 }
 
-func (c TgradeCli) run(args []string) string {
+func (c PetriCli) run(args []string) string {
 	if c.Debug {
-		c.t.Logf("+++ running `tgrade %s`", strings.Join(args, " "))
+		c.t.Logf("+++ running `petri %s`", strings.Join(args, " "))
 	}
 	gotOut, gotErr := func() (out []byte, err error) {
 		defer func() {
@@ -99,7 +99,7 @@ func (c TgradeCli) run(args []string) string {
 				err = fmt.Errorf("recovered from panic: %v", r)
 			}
 		}()
-		cmd := exec.Command(locateExecutable("tgrade"), args...) //nolint:gosec
+		cmd := exec.Command(locateExecutable("petri"), args...) //nolint:gosec
 		cmd.Dir = workDir
 		return cmd.CombinedOutput()
 	}()
@@ -107,12 +107,12 @@ func (c TgradeCli) run(args []string) string {
 	return string(gotOut)
 }
 
-func (c TgradeCli) withQueryFlags(args ...string) []string {
+func (c PetriCli) withQueryFlags(args ...string) []string {
 	args = append(args, "--output", "json")
 	return c.withChainFlags(args...)
 }
 
-func (c TgradeCli) withTXFlags(args ...string) []string {
+func (c PetriCli) withTXFlags(args ...string) []string {
 	args = append(args,
 		"--broadcast-mode", "block",
 		"--output", "json",
@@ -122,7 +122,7 @@ func (c TgradeCli) withTXFlags(args ...string) []string {
 	return c.withChainFlags(args...)
 }
 
-func (c TgradeCli) withKeyringFlags(args ...string) []string {
+func (c PetriCli) withKeyringFlags(args ...string) []string {
 	r := append(args, //nolint:gocritic
 		"--home", c.homeDir,
 		"--keyring-backend", "test",
@@ -135,7 +135,7 @@ func (c TgradeCli) withKeyringFlags(args ...string) []string {
 	return append(r, "--output", "json")
 }
 
-func (c TgradeCli) withChainFlags(args ...string) []string {
+func (c PetriCli) withChainFlags(args ...string) []string {
 	return append(args,
 		"--node", c.nodeAddress,
 		"--chain-id", c.chainID,
@@ -143,13 +143,13 @@ func (c TgradeCli) withChainFlags(args ...string) []string {
 }
 
 // Execute send MsgExecute to a contract
-func (c TgradeCli) Execute(contractAddr, msg, from string, args ...string) string {
+func (c PetriCli) Execute(contractAddr, msg, from string, args ...string) string {
 	cmd := []string{"tx", "wasm", "execute", contractAddr, msg, "--from", from}
 	return c.run(c.withTXFlags(append(cmd, args...)...))
 }
 
 // AddKey add key to default keyring. Returns address
-func (c TgradeCli) AddKey(name string) string {
+func (c PetriCli) AddKey(name string) string {
 	cmd := c.withKeyringFlags("keys", "add", name, "--no-backup")
 	out := c.run(cmd)
 	addr := gjson.Get(out, "address").String()
@@ -158,12 +158,12 @@ func (c TgradeCli) AddKey(name string) string {
 }
 
 // GetDefaultKeyAddr returns the address of the default test key
-func (c TgradeCli) GetDefaultKeyAddr() string {
+func (c PetriCli) GetDefaultKeyAddr() string {
 	return c.GetKeyAddr(defaultSrcAddr)
 }
 
 // GetKeyAddr returns address
-func (c TgradeCli) GetKeyAddr(name string) string {
+func (c PetriCli) GetKeyAddr(name string) string {
 	cmd := c.withKeyringFlags("keys", "show", name, "-a")
 	out := c.run(cmd)
 	addr := strings.Trim(out, "\n")
@@ -174,7 +174,7 @@ func (c TgradeCli) GetKeyAddr(name string) string {
 const defaultSrcAddr = "node0"
 
 // FundAddress sends the token amount to the destination address
-func (c TgradeCli) FundAddress(destAddr, amount string) string {
+func (c PetriCli) FundAddress(destAddr, amount string) string {
 	require.NotEmpty(c.t, destAddr)
 	require.NotEmpty(c.t, amount)
 	cmd := []string{"tx", "bank", "send", defaultSrcAddr, destAddr, amount}
@@ -184,7 +184,7 @@ func (c TgradeCli) FundAddress(destAddr, amount string) string {
 }
 
 // StoreWasm uploads a wasm contract to the chain. Returns code id
-func (c TgradeCli) StoreWasm(file string, args ...string) int {
+func (c PetriCli) StoreWasm(file string, args ...string) int {
 	if len(args) == 0 {
 		args = []string{"--from=" + defaultSrcAddr, "--gas=2500000"}
 	}
@@ -196,7 +196,7 @@ func (c TgradeCli) StoreWasm(file string, args ...string) int {
 }
 
 // InstantiateWasm create a new contract instance. returns contract address
-func (c TgradeCli) InstantiateWasm(codeID int, initMsg string, args ...string) string {
+func (c PetriCli) InstantiateWasm(codeID int, initMsg string, args ...string) string {
 	if len(args) == 0 {
 		args = []string{"--label=testing", "--from=" + defaultSrcAddr, "--no-admin"}
 	}
@@ -208,21 +208,21 @@ func (c TgradeCli) InstantiateWasm(codeID int, initMsg string, args ...string) s
 }
 
 // QuerySmart run smart contract query
-func (c TgradeCli) QuerySmart(contractAddr, msg string, args ...string) string {
+func (c PetriCli) QuerySmart(contractAddr, msg string, args ...string) string {
 	cmd := append([]string{"q", "wasm", "contract-state", "smart", contractAddr, msg}, args...)
 	args = c.withQueryFlags(cmd...)
 	return c.run(args)
 }
 
 // QueryBalances queries all balances for an account. Returns json response
-// Example:`{"balances":[{"denom":"node0token","amount":"1000000000"},{"denom":"utgd","amount":"400000003"}],"pagination":{}}`
-func (c TgradeCli) QueryBalances(addr string) string {
+// Example:`{"balances":[{"denom":"node0token","amount":"1000000000"},{"denom":"upetri","amount":"400000003"}],"pagination":{}}`
+func (c PetriCli) QueryBalances(addr string) string {
 	return c.CustomQuery("q", "bank", "balances", addr)
 }
 
 // QueryBalance returns balance amount for given denom.
 // 0 when not found
-func (c TgradeCli) QueryBalance(addr, denom string) int64 {
+func (c PetriCli) QueryBalance(addr, denom string) int64 {
 	raw := c.CustomQuery("q", "bank", "balances", addr, "--denom="+denom)
 	require.Contains(c.t, raw, "amount", raw)
 	return gjson.Get(raw, "amount").Int()
@@ -230,19 +230,19 @@ func (c TgradeCli) QueryBalance(addr, denom string) int64 {
 
 // QueryTotalSupply returns total amount of tokens for a given denom.
 // 0 when not found
-func (c TgradeCli) QueryTotalSupply(denom string) int64 {
+func (c PetriCli) QueryTotalSupply(denom string) int64 {
 	raw := c.CustomQuery("q", "bank", "total", "--denom="+denom)
 	require.Contains(c.t, raw, "amount", raw)
 	return gjson.Get(raw, "amount").Int()
 }
 
 // QueryValidator queries the validator for the given operator address. Returns json response
-func (c TgradeCli) QueryValidator(addr string) string {
+func (c PetriCli) QueryValidator(addr string) string {
 	return c.CustomQuery("q", "poe", "validator", addr)
 }
 
 // QueryValidatorRewards queries the validator rewards for the given operator address
-func (c TgradeCli) QueryValidatorRewards(addr string) sdk.DecCoin {
+func (c PetriCli) QueryValidatorRewards(addr string) sdk.DecCoin {
 	raw := c.CustomQuery("q", "poe", "validator-reward", addr)
 	require.NotEmpty(c.t, raw)
 
@@ -253,7 +253,7 @@ func (c TgradeCli) QueryValidatorRewards(addr string) sdk.DecCoin {
 	return sdk.NewDecCoinFromDec(denom, amount)
 }
 
-func (c TgradeCli) GetTendermintValidatorSet() rpc.ResultValidatorsOutput {
+func (c PetriCli) GetTendermintValidatorSet() rpc.ResultValidatorsOutput {
 	args := []string{"q", "tendermint-validator-set"}
 	got := c.run(c.withQueryFlags(args...))
 
@@ -263,7 +263,7 @@ func (c TgradeCli) GetTendermintValidatorSet() rpc.ResultValidatorsOutput {
 }
 
 // GetPoEContractAddress query the PoE contract address
-func (c TgradeCli) GetPoEContractAddress(v string) string {
+func (c PetriCli) GetPoEContractAddress(v string) string {
 	qRes := c.CustomQuery("q", "poe", "contract-address", v)
 	addr := gjson.Get(qRes, "address").String()
 	require.NotEmpty(c.t, addr, "got %q", addr)
@@ -271,7 +271,7 @@ func (c TgradeCli) GetPoEContractAddress(v string) string {
 }
 
 // IsInTendermintValset returns true when the giben pub key is in the current active tendermint validator set
-func (c TgradeCli) IsInTendermintValset(valPubKey cryptotypes.PubKey) (rpc.ResultValidatorsOutput, bool) {
+func (c PetriCli) IsInTendermintValset(valPubKey cryptotypes.PubKey) (rpc.ResultValidatorsOutput, bool) {
 	valResult := c.GetTendermintValidatorSet()
 	var found bool
 	for _, v := range valResult.Validators {

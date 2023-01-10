@@ -12,7 +12,7 @@ import (
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm/types"
 )
 
 type Keeper struct {
@@ -90,19 +90,19 @@ func ModuleLogger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
 
-// setContractDetails stores new tgrade data with the contract info.
-func (k Keeper) setContractDetails(ctx sdk.Context, contract sdk.AccAddress, details *types.TgradeContractDetails) error {
+// setContractDetails stores new petri data with the contract info.
+func (k Keeper) setContractDetails(ctx sdk.Context, contract sdk.AccAddress, details *types.PetriContractDetails) error {
 	return k.contractKeeper.SetContractInfoExtension(ctx, contract, details)
 }
 
-// getContractDetails loads tgrade details. This method should only be used when no ContractInfo is used anywhere.
-func (k Keeper) getContractDetails(ctx sdk.Context, contract sdk.AccAddress) (*types.TgradeContractDetails, error) {
+// getContractDetails loads petri details. This method should only be used when no ContractInfo is used anywhere.
+func (k Keeper) getContractDetails(ctx sdk.Context, contract sdk.AccAddress) (*types.PetriContractDetails, error) {
 	contractInfo := k.GetContractInfo(ctx, contract)
 	if contractInfo == nil {
 		return nil, sdkerrors.Wrap(wasmtypes.ErrNotFound, "contract info")
 	}
 
-	var details types.TgradeContractDetails
+	var details types.PetriContractDetails
 	if err := contractInfo.ReadExtension(&details); err != nil {
 		return nil, err
 	}

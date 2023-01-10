@@ -14,8 +14,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/confio/tgrade/app"
-	poetypes "github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/app"
+	poetypes "github.com/blackfury-1/petri/x/poe/types"
 )
 
 func TestVestingAccountCreatesPostGenesisValidatorAndUndelegates(t *testing.T) {
@@ -33,16 +33,16 @@ func TestVestingAccountCreatesPostGenesisValidatorAndUndelegates(t *testing.T) {
 	//    and: the staking account balance is decreased
 
 	sut.ResetChain(t)
-	cli := NewTgradeCli(t, sut, verbose)
+	cli := NewPetriCli(t, sut, verbose)
 	vest1Addr := cli.AddKey("vesting1")
 	myEndTimestamp := time.Now().Add(365 * 24 * time.Hour).Unix()
 	sut.ModifyGenesisCLI(t,
 		// delayed vesting no cash
-		[]string{"add-genesis-account", vest1Addr, "1000000000utgd", "--vesting-amount=1000000000utgd", fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
+		[]string{"add-genesis-account", vest1Addr, "1000000000upetri", "--vesting-amount=1000000000upetri", fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
 	)
 	sut.modifyGenesisJSON(t,
 		SetUnbondingPeriod(t, time.Second),
-		SetBlockRewards(t, sdk.NewCoin("utgd", sdk.NewInt(10_000_000))),
+		SetBlockRewards(t, sdk.NewCoin("upetri", sdk.NewInt(10_000_000))),
 	)
 	sut.StartChain(t)
 	newNode := sut.AddFullnode(t)
@@ -52,16 +52,16 @@ func TestVestingAccountCreatesPostGenesisValidatorAndUndelegates(t *testing.T) {
 	require.NoError(t, err)
 	stakingContractAddr := cli.GetPoEContractAddress("STAKING")
 
-	contractInitialBalance := cli.QueryBalance(stakingContractAddr, "utgd")
-	operatorInitialBalance := cli.QueryBalance(vest1Addr, "utgd")
+	contractInitialBalance := cli.QueryBalance(stakingContractAddr, "upetri")
+	operatorInitialBalance := cli.QueryBalance(vest1Addr, "upetri")
 	poolAddr := authtypes.NewModuleAddress(poetypes.BondedPoolName).String()
-	poolInitialBalance := cli.QueryBalance(poolAddr, "utgd")
+	poolInitialBalance := cli.QueryBalance(poolAddr, "upetri")
 
 	// enough to enter the validator set
 	const stakedVestingAmount = 500_000_000
 	// when create validator
-	txResult := cli.CustomCommand("tx", "poe", "create-validator", "--moniker=newMoniker", "--amount=0utgd",
-		fmt.Sprintf("--vesting-amount=%dutgd", stakedVestingAmount),
+	txResult := cli.CustomCommand("tx", "poe", "create-validator", "--moniker=newMoniker", "--amount=0upetri",
+		fmt.Sprintf("--vesting-amount=%dupetri", stakedVestingAmount),
 		"--pubkey="+string(pubKeyEncoded), "--from=vesting1", "--gas=300000")
 	RequireTxSuccess(t, txResult)
 	// wait for msg execution
@@ -72,11 +72,11 @@ func TestVestingAccountCreatesPostGenesisValidatorAndUndelegates(t *testing.T) {
 	valResult, found := cli.IsInTendermintValset(newPubKey)
 	assert.True(t, found, "not in validator set : %#v", valResult)
 	// and balances updated
-	contractBalanceAfter := cli.QueryBalance(stakingContractAddr, "utgd")
+	contractBalanceAfter := cli.QueryBalance(stakingContractAddr, "upetri")
 	assert.Equal(t, contractInitialBalance+stakedVestingAmount, contractBalanceAfter, "contract balance")
-	operatortBalanceAfter := cli.QueryBalance(vest1Addr, "utgd")
+	operatortBalanceAfter := cli.QueryBalance(vest1Addr, "upetri")
 	assert.Equal(t, operatorInitialBalance-stakedVestingAmount, operatortBalanceAfter, "operator balance")
-	poolBalanceAfter := cli.QueryBalance(poolAddr, "utgd")
+	poolBalanceAfter := cli.QueryBalance(poolAddr, "upetri")
 	assert.Equal(t, poolInitialBalance, poolBalanceAfter, "pool balance")
 	AwaitValsetEpochCompleted(t)
 
@@ -84,24 +84,24 @@ func TestVestingAccountCreatesPostGenesisValidatorAndUndelegates(t *testing.T) {
 	distrContractAddr := cli.GetPoEContractAddress("DISTRIBUTION")
 	execRsp := cli.Execute(distrContractAddr, `{"withdraw_rewards":{}}`, "vesting1")
 	RequireTxSuccess(t, execRsp)
-	contractBalanceAfter = cli.QueryBalance(stakingContractAddr, "utgd")
+	contractBalanceAfter = cli.QueryBalance(stakingContractAddr, "upetri")
 	assert.Equal(t, contractInitialBalance+stakedVestingAmount, contractBalanceAfter, "contract balance")
-	operatortBalanceAfter = cli.QueryBalance(vest1Addr, "utgd")
+	operatortBalanceAfter = cli.QueryBalance(vest1Addr, "upetri")
 	require.Greater(t, operatortBalanceAfter, operatorInitialBalance-stakedVestingAmount, "operator balance")
-	poolBalanceAfter = cli.QueryBalance(poolAddr, "utgd")
+	poolBalanceAfter = cli.QueryBalance(poolAddr, "upetri")
 	require.Equal(t, poolInitialBalance, poolBalanceAfter, "pool balance")
 
 	// then they are transferable
 	otherAddr := cli.AddKey("other1")
 	transferableAmount := operatortBalanceAfter - (operatorInitialBalance - stakedVestingAmount)
-	txResult = cli.CustomCommand("tx", "bank", "send", "vesting1", otherAddr, fmt.Sprintf("%dutgd", transferableAmount))
+	txResult = cli.CustomCommand("tx", "bank", "send", "vesting1", otherAddr, fmt.Sprintf("%dupetri", transferableAmount))
 	RequireTxSuccess(t, txResult)
-	require.Equal(t, transferableAmount, cli.QueryBalance(otherAddr, "utgd"))
-	operatortBalanceAfter = cli.QueryBalance(vest1Addr, "utgd")
+	require.Equal(t, transferableAmount, cli.QueryBalance(otherAddr, "upetri"))
+	operatortBalanceAfter = cli.QueryBalance(vest1Addr, "upetri")
 	require.Equal(t, operatorInitialBalance-stakedVestingAmount, operatortBalanceAfter, "operator balance")
 
 	// AND when undelegate
-	txResult = cli.CustomCommand("tx", "poe", "unbond", fmt.Sprintf("%dutgd", stakedVestingAmount), "--from=vesting1")
+	txResult = cli.CustomCommand("tx", "poe", "unbond", fmt.Sprintf("%dupetri", stakedVestingAmount), "--from=vesting1")
 	RequireTxSuccess(t, txResult)
 
 	// claim unbondings
@@ -116,11 +116,11 @@ func TestVestingAccountCreatesPostGenesisValidatorAndUndelegates(t *testing.T) {
 	valResult, found = cli.IsInTendermintValset(newPubKey)
 	assert.False(t, found, "still in validator set : %#v", valResult)
 
-	contractBalanceAfter = cli.QueryBalance(stakingContractAddr, "utgd")
+	contractBalanceAfter = cli.QueryBalance(stakingContractAddr, "upetri")
 	assert.Equal(t, contractInitialBalance, contractBalanceAfter, "contract balance")
-	operatortBalanceAfter = cli.QueryBalance(vest1Addr, "utgd")
+	operatortBalanceAfter = cli.QueryBalance(vest1Addr, "upetri")
 	assert.Equal(t, operatorInitialBalance, operatortBalanceAfter, "operator balance")
-	poolBalanceAfter = cli.QueryBalance(poolAddr, "utgd")
+	poolBalanceAfter = cli.QueryBalance(poolAddr, "upetri")
 	assert.Equal(t, poolInitialBalance, poolBalanceAfter, "pool balance")
 }
 
@@ -130,12 +130,12 @@ func TestVestingAccountExecutes(t *testing.T) {
 	//   when: a message is executed with some deposits amount from a vesting account
 	//   then: the TX fails
 	sut.ResetChain(t)
-	cli := NewTgradeCli(t, sut, verbose)
+	cli := NewPetriCli(t, sut, verbose)
 	vestAddr := cli.AddKey("vesting2")
 	myEndTimestamp := time.Now().Add(time.Hour).Unix()
 	sut.ModifyGenesisCLI(t,
 		// delayed vesting no cash
-		[]string{"add-genesis-account", vestAddr, "100000000utgd", "--vesting-amount=100000000utgd", fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
+		[]string{"add-genesis-account", vestAddr, "100000000upetri", "--vesting-amount=100000000upetri", fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
 	)
 	sut.StartChain(t)
 
@@ -144,6 +144,6 @@ func TestVestingAccountExecutes(t *testing.T) {
 
 	t.Log("Instantiate wasm code")
 	initMsg := fmt.Sprintf(`{"verifier":%q, "beneficiary":%q}`, randomBech32Addr(), randomBech32Addr())
-	txResult := cli.CustomCommand("tx", "wasm", "instantiate", strconv.Itoa(codeID), initMsg, "--label=testing", "--from=vesting2", "--gas=1500000", "--amount=1000utgd", "--no-admin")
+	txResult := cli.CustomCommand("tx", "wasm", "instantiate", strconv.Itoa(codeID), initMsg, "--label=testing", "--from=vesting2", "--gas=1500000", "--amount=1000upetri", "--no-admin")
 	RequireTxFailure(t, txResult, "insufficient funds")
 }

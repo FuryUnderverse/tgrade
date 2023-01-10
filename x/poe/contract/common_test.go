@@ -13,10 +13,10 @@ import (
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/confio/tgrade/x/poe"
-	"github.com/confio/tgrade/x/poe/contract"
-	"github.com/confio/tgrade/x/poe/keeper"
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe"
+	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/keeper"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 func setupPoEContracts(t *testing.T, mutators ...func(m *types.GenesisState)) (sdk.Context, keeper.TestKeepers, []stakingtypes.Validator, []types.TG4Member) {

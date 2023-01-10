@@ -4,9 +4,9 @@ import (
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 )
 
-// TgradeSudoMsg callback message sent to a contract.
-// See https://github.com/confio/tgrade-contracts/blob/main/packages/bindings/src/sudo.rs
-type TgradeSudoMsg struct {
+// PetriSudoMsg callback message sent to a contract.
+// See https://github.com/blackfury-1/petri-contracts/blob/main/packages/bindings/src/sudo.rs
+type PetriSudoMsg struct {
 	PrivilegeChange *PrivilegeChangeMsg `json:"privilege_change,omitempty"`
 
 	BeginBlock *BeginBlock `json:"begin_block,omitempty"`

@@ -5,7 +5,7 @@ import (
 )
 
 // TG4MixerInitMsg contract init message
-// See https://github.com/confio/tgrade-contracts/blob/main/contracts/tg4-mixer/schema/instantiate_msg.json
+// See https://github.com/blackfury-1/petri-contracts/blob/main/contracts/tg4-mixer/schema/instantiate_msg.json
 type TG4MixerInitMsg struct {
 	LeftGroup        string        `json:"left_group"`
 	RightGroup       string        `json:"right_group"`

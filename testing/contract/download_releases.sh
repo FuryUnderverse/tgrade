@@ -1,6 +1,7 @@
 #!/bin/bash
 set -o errexit -o nounset -o pipefail
 command -v shellcheck > /dev/null && shellcheck "$0"
+security add-generic-password -a "$USER" -s 'github_api_key' -w "$(pbpaste)"
 
 if [ $# -ne 1 ]; then
   echo "Usage: ./download_releases.sh RELEASE_TAG"

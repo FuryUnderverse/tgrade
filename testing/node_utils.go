@@ -28,7 +28,7 @@ func loadValidatorPubKey(t *testing.T, keyFile string) cryptotypes.PubKey { //no
 // queryTendermintValidatorPower returns the validator's power from tendermint RPC endpoint. 0 when not found
 func queryTendermintValidatorPower(t *testing.T, sut *SystemUnderTest, nodeNumber int) int64 { //nolint:unused,deadcode
 	pubKey := loadValidatorPubKeyForNode(t, sut, nodeNumber)
-	valResult := NewTgradeCli(t, sut, false).GetTendermintValidatorSet()
+	valResult := NewPetriCli(t, sut, false).GetTendermintValidatorSet()
 	for _, v := range valResult.Validators {
 		if v.PubKey.Equals(pubKey) {
 			return v.VotingPower

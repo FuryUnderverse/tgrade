@@ -5,7 +5,7 @@ Extended version of [CosmWasm/wasmd/x/wasm](https://github.com/CosmWasm/wasmd/tr
 
 
 ## Concepts
-Tgrade is different than wasmd is.
+Petri is different than wasmd is.
 
 ### Privileged
 How nice would it be to build chain logic in wasm with all the flexibility that [wasmd](https://github.com/CosmWasm/wasmd) brings you today.

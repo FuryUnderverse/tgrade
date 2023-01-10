@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/confio/tgrade/x/globalfee/types"
+	"github.com/blackfury-1/petri/x/globalfee/types"
 )
 
 func TestDefaultGenesis(t *testing.T) {

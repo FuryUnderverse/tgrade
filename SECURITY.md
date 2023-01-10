@@ -10,9 +10,9 @@ This is alpha software, do not run on a production system.
 Please report any security issues via email to security@confio.gmbh. 
 
 ## Discord  
-You can find us on tgrade discord:
+You can find us on petri discord:
 
-* `Martin | Tgrade#0582`
+* `Martin | Petri#0582`
 * `Pino' | Confio#6925`
 * `Alex | Confio#2307`
 * `mauro#0159`

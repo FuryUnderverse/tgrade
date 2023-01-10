@@ -58,11 +58,11 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	poestakingadapter "github.com/confio/tgrade/x/poe/stakingadapter"
-	"github.com/confio/tgrade/x/poe/types"
-	"github.com/confio/tgrade/x/twasm"
-	twasmkeeper "github.com/confio/tgrade/x/twasm/keeper"
-	twasmtypes "github.com/confio/tgrade/x/twasm/types"
+	poestakingadapter "github.com/blackfury-1/petri/x/poe/stakingadapter"
+	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/blackfury-1/petri/x/twasm"
+	twasmkeeper "github.com/blackfury-1/petri/x/twasm/keeper"
+	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
 )
 
 var moduleBasics = module.NewBasicManager(
@@ -102,7 +102,7 @@ type TestKeepers struct {
 
 // CreateDefaultTestInput common settings for CreateTestInput
 func CreateDefaultTestInput(t *testing.T, opts ...wasmkeeper.Option) (sdk.Context, TestKeepers) {
-	return CreateTestInput(t, false, "staking,iterator,tgrade", opts...)
+	return CreateTestInput(t, false, "staking,iterator,petri", opts...)
 }
 
 // CreateTestInput encoders can be nil to accept the defaults, or set it to override some of the message handlers (like default)
@@ -219,7 +219,7 @@ func createTestInput(
 	stakingAdapter := poestakingadapter.StakingAdapter{}
 
 	bankParams := banktypes.DefaultParams()
-	bankParams = bankParams.SetSendEnabledParam("utgd", true)
+	bankParams = bankParams.SetSendEnabledParam("upetri", true)
 	bankKeeper.SetParams(ctx, bankParams)
 
 	capabilityKeeper := capabilitykeeper.NewKeeper(
@@ -281,7 +281,7 @@ func createTestInput(
 			}),
 			nested,
 			// append our custom message handler
-			twasmkeeper.NewTgradeHandler(appCodec, &twasmKeeper, bankKeeper, consensusParamsUpdater, govRouter),
+			twasmkeeper.NewPetriHandler(appCodec, &twasmKeeper, bankKeeper, consensusParamsUpdater, govRouter),
 		)
 	})
 
@@ -312,7 +312,7 @@ func createTestInput(
 	twasm.NewAppModule(appCodec, &twasmKeeper, poestakingadapter.StakingAdapter{}, accountKeeper, bankKeeper).RegisterServices(configurator)
 	govRouter.AddRoute(twasm.RouterKey, twasmkeeper.NewProposalHandler(twasmKeeper))
 
-	faucet := wasmkeeper.NewTestFaucet(t, ctx, bankKeeper, types.ModuleName, sdk.NewCoin("utgd", sdk.NewInt(100_000_000_000)))
+	faucet := wasmkeeper.NewTestFaucet(t, ctx, bankKeeper, types.ModuleName, sdk.NewCoin("upetri", sdk.NewInt(100_000_000_000)))
 
 	keepers := TestKeepers{
 		AccountKeeper:  accountKeeper,

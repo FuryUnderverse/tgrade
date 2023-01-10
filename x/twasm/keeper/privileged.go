@@ -10,8 +10,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/confio/tgrade/x/twasm/contract"
-	"github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm/contract"
+	"github.com/blackfury-1/petri/x/twasm/types"
 )
 
 // SetPrivileged does
@@ -32,7 +32,7 @@ func (k Keeper) SetPrivileged(ctx sdk.Context, contractAddr sdk.AccAddress) erro
 	k.setPrivilegedFlag(ctx, contractAddr)
 
 	// call contract and let it register for privileges
-	msg := contract.TgradeSudoMsg{PrivilegeChange: &contract.PrivilegeChangeMsg{Promoted: &struct{}{}}}
+	msg := contract.PetriSudoMsg{PrivilegeChange: &contract.PrivilegeChangeMsg{Promoted: &struct{}{}}}
 	msgBz, err := json.Marshal(&msg)
 	if err != nil {
 		return sdkerrors.Wrap(sdkerrors.ErrJSONMarshal, err.Error())
@@ -58,7 +58,7 @@ func (k Keeper) SetPrivileged(ctx sdk.Context, contractAddr sdk.AccAddress) erro
 // - remove all privileges for the contract
 func (k Keeper) UnsetPrivileged(ctx sdk.Context, contractAddr sdk.AccAddress) error {
 	// call contract to release privileges
-	msg := contract.TgradeSudoMsg{PrivilegeChange: &contract.PrivilegeChangeMsg{Demoted: &struct{}{}}}
+	msg := contract.PetriSudoMsg{PrivilegeChange: &contract.PrivilegeChangeMsg{Demoted: &struct{}{}}}
 	msgBz, err := json.Marshal(&msg)
 	if err != nil {
 		return sdkerrors.Wrap(sdkerrors.ErrJSONMarshal, err.Error())
@@ -94,7 +94,7 @@ func (k Keeper) UnsetPrivileged(ctx sdk.Context, contractAddr sdk.AccAddress) er
 	k.clearPrivilegedFlag(ctx, contractAddr)
 
 	// remove remaining privileges
-	var details types.TgradeContractDetails
+	var details types.PetriContractDetails
 	if err := contractInfo.ReadExtension(&details); err != nil {
 		return err
 	}
@@ -117,7 +117,7 @@ func (k Keeper) UnsetPrivileged(ctx sdk.Context, contractAddr sdk.AccAddress) er
 }
 
 // importPrivileged import from genesis
-func (k Keeper) importPrivileged(ctx sdk.Context, contractAddr sdk.AccAddress, codeID uint64, details types.TgradeContractDetails) error {
+func (k Keeper) importPrivileged(ctx sdk.Context, contractAddr sdk.AccAddress, codeID uint64, details types.PetriContractDetails) error {
 	// add to cache
 	if err := k.contractKeeper.PinCode(ctx, codeID); err != nil {
 		return sdkerrors.Wrapf(err, "pin")

@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 var _ distributiontypes.QueryServer = &LegacyDistributionGRPCQuerier{}

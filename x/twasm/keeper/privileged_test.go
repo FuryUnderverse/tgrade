@@ -18,8 +18,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/rand"
 
-	"github.com/confio/tgrade/x/twasm/contract"
-	"github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm/contract"
+	"github.com/blackfury-1/petri/x/twasm/types"
 )
 
 func TestSetPrivileged(t *testing.T) {
@@ -168,7 +168,7 @@ func TestUnsetPrivileged(t *testing.T) {
 			codeID, contractAddr := seedTestContract(t, ctx, k)
 			spec.setup(t, ctx, keepers, mock)
 
-			h := NewTgradeHandler(nil, k, nil, nil, nil)
+			h := NewPetriHandler(nil, k, nil, nil, nil)
 			// and privileged with a type
 			k.setPrivilegedFlag(ctx, contractAddr)
 			err := h.handlePrivilege(ctx, contractAddr, &contract.PrivilegeMsg{
@@ -206,7 +206,7 @@ func TestUnsetPrivileged(t *testing.T) {
 			assert.JSONEq(t, `{"privilege_change":{"demoted":{}}}`, string(capturedSudoMsg), "got %s", string(capturedSudoMsg))
 			// and state updated
 			info := k.GetContractInfo(ctx, contractAddr)
-			var details types.TgradeContractDetails
+			var details types.PetriContractDetails
 			require.NoError(t, info.ReadExtension(&details))
 			assert.Empty(t, details.RegisteredPrivileges)
 		})

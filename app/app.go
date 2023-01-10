@@ -7,9 +7,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/confio/tgrade/app/upgrades"
-	v2 "github.com/confio/tgrade/app/upgrades/v2"
-	v3 "github.com/confio/tgrade/app/upgrades/v3"
+	"github.com/blackfury-1/petri/app/upgrades"
+	v2 "github.com/blackfury-1/petri/app/upgrades/v2"
+	v3 "github.com/blackfury-1/petri/app/upgrades/v3"
 
 	"github.com/CosmWasm/wasmd/x/wasm"
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -81,26 +81,26 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	appparams "github.com/confio/tgrade/app/params"
-	"github.com/confio/tgrade/x/globalfee"
-	"github.com/confio/tgrade/x/poe"
-	poekeeper "github.com/confio/tgrade/x/poe/keeper"
-	poestakingadapter "github.com/confio/tgrade/x/poe/stakingadapter"
-	poetypes "github.com/confio/tgrade/x/poe/types"
-	"github.com/confio/tgrade/x/twasm"
-	twasmkeeper "github.com/confio/tgrade/x/twasm/keeper"
+	appparams "github.com/blackfury-1/petri/app/params"
+	"github.com/blackfury-1/petri/x/globalfee"
+	"github.com/blackfury-1/petri/x/poe"
+	poekeeper "github.com/blackfury-1/petri/x/poe/keeper"
+	poestakingadapter "github.com/blackfury-1/petri/x/poe/stakingadapter"
+	poetypes "github.com/blackfury-1/petri/x/poe/types"
+	"github.com/blackfury-1/petri/x/twasm"
+	twasmkeeper "github.com/blackfury-1/petri/x/twasm/keeper"
 
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"
 )
 
-const appName = "tgrade"
+const appName = "petri"
 
 const (
-	NodeDir       = ".tgrade"
-	Bech32Prefix  = "tgrade"
-	HumanCoinUnit = "tgd"
-	BaseCoinUnit  = "utgd"
+	NodeDir       = ".petri"
+	Bech32Prefix  = "petri"
+	HumanCoinUnit = "petri"
+	BaseCoinUnit  = "upetri"
 	TgdExponent   = 6
 )
 
@@ -108,7 +108,7 @@ const (
 // These are the ones we will want to use in the code, based on
 // any overrides above
 var (
-	// DefaultNodeHome default home directories for tgrade
+	// DefaultNodeHome default home directories for petri
 	DefaultNodeHome = os.ExpandEnv("$HOME/") + NodeDir
 
 	// Bech32PrefixAccAddr defines the Bech32 prefix of an account's address
@@ -159,12 +159,12 @@ var (
 )
 
 var (
-	_ simapp.App              = (*TgradeApp)(nil)
-	_ servertypes.Application = (*TgradeApp)(nil)
+	_ simapp.App              = (*PetriApp)(nil)
+	_ servertypes.Application = (*PetriApp)(nil)
 )
 
-// TgradeApp extended ABCI application
-type TgradeApp struct {
+// PetriApp extended ABCI application
+type PetriApp struct {
 	*baseapp.BaseApp
 	legacyAmino       *codec.LegacyAmino //nolint:staticcheck
 	appCodec          codec.Codec
@@ -207,8 +207,8 @@ type TgradeApp struct {
 	configurator module.Configurator
 }
 
-// NewTgradeApp returns a reference to an initialized TgradeApp.
-func NewTgradeApp(
+// NewPetriApp returns a reference to an initialized PetriApp.
+func NewPetriApp(
 	logger log.Logger,
 	db dbm.DB,
 	traceStore io.Writer,
@@ -220,7 +220,7 @@ func NewTgradeApp(
 	appOpts servertypes.AppOptions,
 	wasmOpts []wasm.Option,
 	baseAppOptions ...func(*baseapp.BaseApp),
-) *TgradeApp {
+) *PetriApp {
 	appCodec, legacyAmino := encodingConfig.Codec, encodingConfig.Amino
 	interfaceRegistry := encodingConfig.InterfaceRegistry
 
@@ -238,7 +238,7 @@ func NewTgradeApp(
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
 
-	app := &TgradeApp{
+	app := &PetriApp{
 		BaseApp:           bApp,
 		legacyAmino:       legacyAmino,
 		appCodec:          appCodec,
@@ -366,7 +366,7 @@ func NewTgradeApp(
 
 	// The last arguments can contain custom message handlers, and custom query handlers,
 	// if we want to allow any custom callbacks
-	availableCapabilities := "staking,stargate,iterator,tgrade,cosmwasm_1_1"
+	availableCapabilities := "staking,stargate,iterator,petri,cosmwasm_1_1"
 
 	wasmOpts = append(SetupWasmHandlers(appCodec, app.bankKeeper, govRouter, &app.twasmKeeper, &app.poeKeeper, app), wasmOpts...)
 
@@ -585,7 +585,7 @@ func NewTgradeApp(
 	// see cmd/wasmd/root.go: 206 - 214 approx
 	if manager := app.SnapshotManager(); manager != nil {
 		err := manager.RegisterExtensions(
-			NewTgradeSnapshotter(app, app.CommitMultiStore(), &app.twasmKeeper.Keeper),
+			NewPetriSnapshotter(app, app.CommitMultiStore(), &app.twasmKeeper.Keeper),
 		)
 		if err != nil {
 			panic(fmt.Errorf("failed to register snapshot extension: %s", err))
@@ -614,20 +614,20 @@ func NewTgradeApp(
 }
 
 // Name returns the name of the App
-func (app *TgradeApp) Name() string { return app.BaseApp.Name() }
+func (app *PetriApp) Name() string { return app.BaseApp.Name() }
 
 // BeginBlocker application updates every begin block
-func (app *TgradeApp) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
+func (app *PetriApp) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
 	return app.mm.BeginBlock(ctx, req)
 }
 
 // EndBlocker application updates every end block
-func (app *TgradeApp) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
+func (app *PetriApp) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
 	return app.mm.EndBlock(ctx, req)
 }
 
 // InitChainer application update at chain initialization
-func (app *TgradeApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
+func (app *PetriApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
 	var genesisState GenesisState
 	if err := tmjson.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
 		panic(err)
@@ -639,12 +639,12 @@ func (app *TgradeApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) ab
 }
 
 // LoadHeight loads a particular height
-func (app *TgradeApp) LoadHeight(height int64) error {
+func (app *PetriApp) LoadHeight(height int64) error {
 	return app.LoadVersion(height)
 }
 
 // ModuleAccountAddrs returns all the app's module account addresses.
-func (app *TgradeApp) ModuleAccountAddrs() map[string]bool {
+func (app *PetriApp) ModuleAccountAddrs() map[string]bool {
 	modAccAddrs := make(map[string]bool)
 	for acc := range maccPerms {
 		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
@@ -657,26 +657,26 @@ func (app *TgradeApp) ModuleAccountAddrs() map[string]bool {
 //
 // NOTE: This is solely to be used for testing purposes as it may be desirable
 // for modules to register their own custom testing types.
-func (app *TgradeApp) LegacyAmino() *codec.LegacyAmino {
+func (app *PetriApp) LegacyAmino() *codec.LegacyAmino {
 	return app.legacyAmino
 }
 
 // getSubspace returns a param subspace for a given module name.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *TgradeApp) getSubspace(moduleName string) paramstypes.Subspace {
+func (app *PetriApp) getSubspace(moduleName string) paramstypes.Subspace {
 	subspace, _ := app.paramsKeeper.GetSubspace(moduleName)
 	return subspace
 }
 
 // SimulationManager implements the SimulationApp interface
-func (app *TgradeApp) SimulationManager() *module.SimulationManager {
+func (app *PetriApp) SimulationManager() *module.SimulationManager {
 	return app.sm
 }
 
 // RegisterAPIRoutes registers all application module routes with the provided
 // API server.
-func (app *TgradeApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
+func (app *PetriApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
 	clientCtx := apiSvr.ClientCtx
 	rpc.RegisterRoutes(clientCtx, apiSvr.Router)
 	// Register legacy tx routes.
@@ -697,20 +697,20 @@ func (app *TgradeApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.API
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.
-func (app *TgradeApp) RegisterTxService(clientCtx client.Context) {
+func (app *PetriApp) RegisterTxService(clientCtx client.Context) {
 	authtx.RegisterTxService(app.BaseApp.GRPCQueryRouter(), clientCtx, app.BaseApp.Simulate, app.interfaceRegistry)
 }
 
 // RegisterTendermintService implements the Application.RegisterTendermintService method.
-func (app *TgradeApp) RegisterTendermintService(clientCtx client.Context) {
+func (app *PetriApp) RegisterTendermintService(clientCtx client.Context) {
 	tmservice.RegisterTendermintService(app.BaseApp.GRPCQueryRouter(), clientCtx, app.interfaceRegistry)
 }
 
-func (app *TgradeApp) AppCodec() codec.Codec {
+func (app *PetriApp) AppCodec() codec.Codec {
 	return app.appCodec
 }
 
-func (app *TgradeApp) setupUpgradeHandlers() {
+func (app *PetriApp) setupUpgradeHandlers() {
 	for _, upgrade := range Upgrades {
 		app.upgradeKeeper.SetUpgradeHandler(
 			upgrade.UpgradeName,

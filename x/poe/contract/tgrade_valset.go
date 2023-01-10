@@ -14,7 +14,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 func DecimalFromPercentage(percent sdk.Dec) *sdk.Dec {
@@ -31,7 +31,7 @@ func DecimalFromProMille(promille int64) *sdk.Dec {
 }
 
 // ValsetInitMsg Valset contract init message
-// See https://github.com/confio/tgrade-contracts/tree/v0.5.0-alpha/contracts/tgrade-valset/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/tree/v0.5.0-alpha/contracts/petri-valset/src/msg.rs
 type ValsetInitMsg struct {
 	Admin         string      `json:"admin,omitempty"`
 	Membership    string      `json:"membership"`
@@ -72,7 +72,7 @@ type Validator struct {
 }
 
 // TG4ValsetExecute Valset contract validator key registration
-// See https://github.com/confio/tgrade-contracts/tree/v0.5.0-alpha/contracts/tgrade-valset/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/tree/v0.5.0-alpha/contracts/petri-valset/src/msg.rs
 type TG4ValsetExecute struct {
 	RegisterValidatorKey *RegisterValidatorKey `json:"register_validator_key,omitempty"`
 	UpdateMetadata       *ValidatorMetadata    `json:"update_metadata,omitempty"`
@@ -147,7 +147,7 @@ func (m ValidatorMetadata) ToDescription() stakingtypes.Description {
 }
 
 // ValsetQuery will create many queries for the valset contract
-// See https://github.com/confio/tgrade-contracts/tree/v0.5.0-alpha/contracts/tgrade-valset/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/tree/v0.5.0-alpha/contracts/petri-valset/src/msg.rs
 type ValsetQuery struct {
 	Config                   *struct{}            `json:"configuration,omitempty"`
 	Epoch                    *struct{}            `json:"epoch,omitempty"`

@@ -1,6 +1,6 @@
 package contract
 
-import "github.com/confio/tgrade/x/twasm/contract"
+import "github.com/blackfury-1/petri/x/twasm/contract"
 
 // ValidatorVotingInitMsg setup contract on instantiation
 type ValidatorVotingInitMsg struct {

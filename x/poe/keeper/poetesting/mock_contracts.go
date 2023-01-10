@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/confio/tgrade/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/contract"
 )
 
 // var _ keeper.DistributionContract = DistributionContractMock{}

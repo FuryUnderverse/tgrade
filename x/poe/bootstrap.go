@@ -9,11 +9,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	twasmtypes "github.com/confio/tgrade/x/twasm/types"
+	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
 
-	"github.com/confio/tgrade/x/poe/contract"
-	"github.com/confio/tgrade/x/poe/keeper"
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/keeper"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 var (
@@ -23,17 +23,17 @@ var (
 	tg4Stake []byte
 	//go:embed contract/tg4_mixer.wasm
 	tg4Mixer []byte
-	//go:embed contract/tgrade_valset.wasm
+	//go:embed contract/petri_valset.wasm
 	tgValset []byte
-	//go:embed contract/tgrade_trusted_circle.wasm
+	//go:embed contract/petri_trusted_circle.wasm
 	tgTrustedCircles []byte
-	//go:embed contract/tgrade_oc_proposals.wasm
+	//go:embed contract/petri_oc_proposals.wasm
 	tgOCGovProposalsCircles []byte
-	//go:embed contract/tgrade_community_pool.wasm
+	//go:embed contract/petri_community_pool.wasm
 	tgCommunityPool []byte
-	//go:embed contract/tgrade_validator_voting.wasm
+	//go:embed contract/petri_validator_voting.wasm
 	tgValidatorVoting []byte
-	//go:embed contract/tgrade_ap_voting.wasm
+	//go:embed contract/petri_ap_voting.wasm
 	tgArbiterPool []byte
 	//go:embed contract/version.txt
 	contractVersion string
@@ -60,7 +60,7 @@ type poeKeeper interface {
 }
 
 // BootstrapPoEContracts stores and instantiates all PoE contracts:
-// See https://github.com/confio/tgrade-contracts/blob/main/docs/Architecture.md#multi-level-governance for an overview
+// See https://github.com/blackfury-1/petri-contracts/blob/main/docs/Architecture.md#multi-level-governance for an overview
 func BootstrapPoEContracts(ctx sdk.Context, k wasmtypes.ContractOpsKeeper, tk twasmKeeper, poeKeeper poeKeeper, gs types.SeedContracts) error {
 	bootstrapAccountAddr, err := sdk.AccAddressFromBech32(gs.BootstrapAccountAddress)
 	if err != nil {
@@ -572,7 +572,7 @@ func VerifyPoEContracts(ctx sdk.Context, tk twasmKeeper, poeKeeper keeper.Contra
 		// all poe contracts pinned
 		if !tk.IsPinnedCode(ctx, c.CodeID) {
 			keeper.ModuleLogger(ctx).Error("PoE contract is not pinned", "name", tp.String(), "code-id", c.CodeID, "address", addr.String())
-			// fail when https://github.com/confio/tgrade/issues/402 is implemented
+			// fail when https://github.com/blackfury-1/petri/issues/402 is implemented
 			// err = sdkerrors.Wrapf(types.ErrInvalid, "code %d not pinned for poe contract :%s", c.CodeID, tp.String())
 			// return true
 		}

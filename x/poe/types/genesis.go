@@ -11,7 +11,7 @@ import (
 	"github.com/tendermint/tendermint/libs/rand"
 )
 
-const DefaultBondDenom = "utgd"
+const DefaultBondDenom = "upetri"
 
 // DefaultGenesisState default values
 func DefaultGenesisState() *GenesisState {
@@ -268,7 +268,7 @@ func (c *EngagementContractConfig) ValidateBasic() error {
 // ValidateBasic ensure basic constraints
 func (c ValsetContractConfig) ValidateBasic() error {
 	if c.VerifyValidators {
-		return ErrInvalid.Wrap("not supported currently. See https://github.com/confio/tgrade/issues/389")
+		return ErrInvalid.Wrap("not supported currently. See https://github.com/blackfury-1/petri/issues/389")
 	}
 	if c.MaxValidators == 0 {
 		return sdkerrors.Wrap(ErrEmpty, "max validators")

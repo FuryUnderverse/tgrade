@@ -18,8 +18,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/confio/tgrade/x/twasm/contract"
-	"github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm/contract"
+	"github.com/blackfury-1/petri/x/twasm/types"
 )
 
 func TestInitGenesis(t *testing.T) {
@@ -80,7 +80,7 @@ func TestInitGenesis(t *testing.T) {
 				state.PrivilegedContractAddresses = []string{genContractAddress(2, 2).String()}
 				state.Contracts[1] = types.ContractFixture(t, func(contract *types.Contract) {
 					contract.ContractAddress = genContractAddress(2, 2).String()
-					err := contract.ContractInfo.SetExtension(&types.TgradeContractDetails{
+					err := contract.ContractInfo.SetExtension(&types.PetriContractDetails{
 						RegisteredPrivileges: []types.RegisteredPrivilege{{Position: 1, PrivilegeType: "begin_blocker"}},
 					})
 					require.NoError(t, err)
@@ -109,7 +109,7 @@ func TestInitGenesis(t *testing.T) {
 				// callback registers for end block on sudo call
 				m.PinFn = func(checksum cosmwasm.Checksum) error { return nil }
 				m.SudoFn = func(codeID cosmwasm.Checksum, env wasmvmtypes.Env, sudoMsg []byte, store cosmwasm.KVStore, goapi cosmwasm.GoAPI, querier cosmwasm.Querier, gasMeter cosmwasm.GasMeter, gasLimit uint64, deserCost wasmvmtypes.UFraction) (*wasmvmtypes.Response, uint64, error) {
-					tradeMsg := contract.TgradeMsg{Privilege: &contract.PrivilegeMsg{Request: types.PrivilegeTypeEndBlock}}
+					tradeMsg := contract.PetriMsg{Privilege: &contract.PrivilegeMsg{Request: types.PrivilegeTypeEndBlock}}
 					msgBz, err := json.Marshal(&tradeMsg)
 					require.NoError(t, err)
 					return &wasmvmtypes.Response{
@@ -123,7 +123,7 @@ func TestInitGenesis(t *testing.T) {
 			state: types.GenesisStateFixture(t, func(state *types.GenesisState) {
 				state.PrivilegedContractAddresses = nil
 				state.Contracts[1].ContractAddress = genContractAddress(2, 2).String()
-				err := state.Contracts[1].ContractInfo.SetExtension(&types.TgradeContractDetails{
+				err := state.Contracts[1].ContractInfo.SetExtension(&types.PetriContractDetails{
 					RegisteredPrivileges: []types.RegisteredPrivilege{{Position: 1, PrivilegeType: "begin_blocker"}},
 				})
 				require.NoError(t, err)
@@ -135,7 +135,7 @@ func TestInitGenesis(t *testing.T) {
 			state: types.GenesisStateFixture(t, func(state *types.GenesisState) {
 				state.PrivilegedContractAddresses = nil
 				var err error
-				state.Contracts[1].ContractInfo.Extension, err = codectypes.NewAnyWithValue(&types.TgradeContractDetails{
+				state.Contracts[1].ContractInfo.Extension, err = codectypes.NewAnyWithValue(&types.PetriContractDetails{
 					RegisteredPrivileges: []types.RegisteredPrivilege{{Position: 1, PrivilegeType: "non-existing-privilege"}},
 				})
 				require.NoError(t, err)
@@ -155,7 +155,7 @@ func TestInitGenesis(t *testing.T) {
 				state.PrivilegedContractAddresses = nil
 				state.Contracts[1].ContractAddress = genContractAddress(2, 2).String()
 				state.Contracts[1].ContractState = &types.Contract_CustomModel{CustomModel: &types.CustomModel{Msg: wasmtypes.RawContractMessage(`{"my":"state"}`)}}
-				err := state.Contracts[1].ContractInfo.SetExtension(&types.TgradeContractDetails{
+				err := state.Contracts[1].ContractInfo.SetExtension(&types.PetriContractDetails{
 					RegisteredPrivileges: []types.RegisteredPrivilege{{Position: 1, PrivilegeType: "state_exporter_importer"}},
 				})
 				require.NoError(t, err)
@@ -173,7 +173,7 @@ func TestInitGenesis(t *testing.T) {
 				state.PrivilegedContractAddresses = nil
 				state.Contracts[1].ContractAddress = genContractAddress(2, 2).String()
 				state.Contracts[1].ContractState = &types.Contract_CustomModel{}
-				err := state.Contracts[1].ContractInfo.SetExtension(&types.TgradeContractDetails{
+				err := state.Contracts[1].ContractInfo.SetExtension(&types.PetriContractDetails{
 					RegisteredPrivileges: []types.RegisteredPrivilege{{Position: 1, PrivilegeType: "state_exporter_importer"}},
 				})
 				require.NoError(t, err)
@@ -186,7 +186,7 @@ func TestInitGenesis(t *testing.T) {
 				state.PrivilegedContractAddresses = nil
 				state.Contracts[0].ContractAddress = genContractAddress(2, 2).String()
 				state.Contracts[0].ContractState = &types.Contract_CustomModel{CustomModel: &types.CustomModel{Msg: wasmtypes.RawContractMessage(`{"my":"state"}`)}}
-				err := state.Contracts[0].ContractInfo.SetExtension(&types.TgradeContractDetails{
+				err := state.Contracts[0].ContractInfo.SetExtension(&types.PetriContractDetails{
 					RegisteredPrivileges: []types.RegisteredPrivilege{{Position: 1, PrivilegeType: "state_exporter_importer"}},
 				})
 				require.NoError(t, err)
@@ -282,7 +282,7 @@ func TestExportGenesis(t *testing.T) {
 			expState: types.DeterministicGenesisStateFixture(t, func(state *types.GenesisState) {
 				state.PrivilegedContractAddresses = nil
 				state.Contracts[1].ContractAddress = genContractAddress(1, 1).String()
-				err := state.Contracts[1].ContractInfo.SetExtension(&types.TgradeContractDetails{
+				err := state.Contracts[1].ContractInfo.SetExtension(&types.PetriContractDetails{
 					RegisteredPrivileges: []types.RegisteredPrivilege{{Position: 1, PrivilegeType: "begin_blocker"}},
 				})
 				require.NoError(t, err)
@@ -296,7 +296,7 @@ func TestExportGenesis(t *testing.T) {
 			expState: types.DeterministicGenesisStateFixture(t, func(state *types.GenesisState) {
 				state.PrivilegedContractAddresses = nil
 				state.Contracts[1].ContractState = &types.Contract_CustomModel{CustomModel: &types.CustomModel{Msg: wasmtypes.RawContractMessage(`{"my":"state"}`)}}
-				err := state.Contracts[1].ContractInfo.SetExtension(&types.TgradeContractDetails{
+				err := state.Contracts[1].ContractInfo.SetExtension(&types.PetriContractDetails{
 					RegisteredPrivileges: []types.RegisteredPrivilege{{Position: 1, PrivilegeType: "state_exporter_importer"}},
 				})
 				require.NoError(t, err)
@@ -310,7 +310,7 @@ func TestExportGenesis(t *testing.T) {
 				m.PinFn = noopVMMock.PinFn
 				m.GetCodeFn = noopVMMock.GetCodeFn
 				m.SudoFn = func(codeID cosmwasm.Checksum, env wasmvmtypes.Env, sudoMsg []byte, store cosmwasm.KVStore, goapi cosmwasm.GoAPI, querier cosmwasm.Querier, gasMeter cosmwasm.GasMeter, gasLimit uint64, deserCost wasmvmtypes.UFraction) (*wasmvmtypes.Response, uint64, error) {
-					// return tgrade message with exported state
+					// return petri message with exported state
 					return &wasmvmtypes.Response{
 						Data: []byte(`{"my":"state"}`),
 					}, 0, nil
@@ -348,7 +348,7 @@ func TestExportGenesis(t *testing.T) {
 
 func setContractPrivilege(t *testing.T, ctx sdk.Context, keepers TestKeepers, contractAddr sdk.AccAddress, priv types.PrivilegeType) {
 	t.Helper()
-	var details types.TgradeContractDetails
+	var details types.PetriContractDetails
 	contractInfo := keepers.TWasmKeeper.GetContractInfo(ctx, contractAddr)
 	require.NoError(t, contractInfo.ReadExtension(&details))
 	pos, err := keepers.TWasmKeeper.appendToPrivilegedContracts(ctx, priv, contractAddr)

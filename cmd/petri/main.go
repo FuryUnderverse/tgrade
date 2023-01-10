@@ -5,7 +5,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/server"
 
-	"github.com/confio/tgrade/app"
+	"github.com/blackfury-1/petri/app"
 )
 
 func main() {

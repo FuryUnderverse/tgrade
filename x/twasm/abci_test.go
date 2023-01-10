@@ -16,8 +16,8 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/confio/tgrade/x/twasm/keeper"
-	"github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm/keeper"
+	"github.com/blackfury-1/petri/x/twasm/types"
 )
 
 func TestBeginBlock(t *testing.T) {

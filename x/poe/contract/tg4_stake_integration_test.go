@@ -13,8 +13,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/confio/tgrade/x/poe/contract"
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 func TestQueryUnbondingPeriod(t *testing.T) {
@@ -57,7 +57,7 @@ func TestQueryStakedAmount(t *testing.T) {
 		"address has staked amount": {
 			addr: myOperatorAddr,
 			setup: func(ctx sdk.Context) {
-				err := contract.BondDelegation(ctx, stakingContractAddr, myOperatorAddr, sdk.NewCoins(sdk.NewCoin("utgd", sdk.OneInt())), nil, contractKeeper)
+				err := contract.BondDelegation(ctx, stakingContractAddr, myOperatorAddr, sdk.NewCoins(sdk.NewCoin("upetri", sdk.OneInt())), nil, contractKeeper)
 				require.NoError(t, err)
 			},
 			expAmount: &oneInt,
@@ -65,9 +65,9 @@ func TestQueryStakedAmount(t *testing.T) {
 		"address had formerly staked amount": {
 			addr: myOperatorAddr,
 			setup: func(ctx sdk.Context) {
-				err := contract.BondDelegation(ctx, stakingContractAddr, myOperatorAddr, sdk.NewCoins(sdk.NewCoin("utgd", sdk.OneInt())), nil, contractKeeper)
+				err := contract.BondDelegation(ctx, stakingContractAddr, myOperatorAddr, sdk.NewCoins(sdk.NewCoin("upetri", sdk.OneInt())), nil, contractKeeper)
 				require.NoError(t, err)
-				completionTime, err := contract.UnbondDelegation(ctx, stakingContractAddr, myOperatorAddr, sdk.NewCoin("utgd", sdk.OneInt()), contractKeeper)
+				completionTime, err := contract.UnbondDelegation(ctx, stakingContractAddr, myOperatorAddr, sdk.NewCoin("upetri", sdk.OneInt()), contractKeeper)
 				require.NoError(t, err)
 				require.NotEmpty(t, completionTime)
 			},
@@ -109,7 +109,7 @@ func TestQueryValidatorUnbonding(t *testing.T) {
 	unbondedAmount := sdk.NewInt(10)
 	contractAddr, err := example.PoEKeeper.GetPoEContractAddress(ctx, types.PoEContractTypeStaking)
 	require.NoError(t, err)
-	_, err = contract.UnbondDelegation(ctx, contractAddr, op1Addr, sdk.NewCoin("utgd", unbondedAmount), example.TWasmKeeper.GetContractKeeper())
+	_, err = contract.UnbondDelegation(ctx, contractAddr, op1Addr, sdk.NewCoin("upetri", unbondedAmount), example.TWasmKeeper.GetContractKeeper())
 	require.NoError(t, err)
 
 	op2Addr, err := sdk.AccAddressFromBech32(vals[1].OperatorAddress)

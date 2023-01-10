@@ -7,7 +7,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 
-	"github.com/confio/tgrade/x/poe/keeper"
+	"github.com/blackfury-1/petri/x/poe/keeper"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/address"
@@ -15,8 +15,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/rand"
 
-	"github.com/confio/tgrade/x/poe/contract"
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 func TestSetEngagementPoints(t *testing.T) {
@@ -56,26 +56,26 @@ func TestBondDelegation(t *testing.T) {
 		expErr  bool
 	}{
 		"liquid only": {
-			liquid: sdk.NewCoins(sdk.NewCoin("utgd", sdk.OneInt())),
+			liquid: sdk.NewCoins(sdk.NewCoin("upetri", sdk.OneInt())),
 		},
 		"vesting only": {
-			vesting: &sdk.Coin{Denom: "utgd", Amount: sdk.NewInt(2)},
+			vesting: &sdk.Coin{Denom: "upetri", Amount: sdk.NewInt(2)},
 		},
 		"both": {
-			liquid:  sdk.NewCoins(sdk.NewCoin("utgd", sdk.NewInt(1))),
-			vesting: &sdk.Coin{Denom: "utgd", Amount: sdk.NewInt(2)},
+			liquid:  sdk.NewCoins(sdk.NewCoin("upetri", sdk.NewInt(1))),
+			vesting: &sdk.Coin{Denom: "upetri", Amount: sdk.NewInt(2)},
 		},
 		"insufficient liquid tokens": {
-			liquid: sdk.NewCoins(sdk.NewCoin("utgd", sdk.NewInt(3))),
+			liquid: sdk.NewCoins(sdk.NewCoin("upetri", sdk.NewInt(3))),
 			expErr: true,
 		},
 		"insufficient vesting tokens": {
-			vesting: &sdk.Coin{Denom: "utgd", Amount: sdk.NewInt(100000)},
+			vesting: &sdk.Coin{Denom: "upetri", Amount: sdk.NewInt(100000)},
 			expErr:  true,
 		},
 		"both zero amounts": {
-			liquid:  sdk.NewCoins(sdk.NewCoin("utgd", sdk.ZeroInt())),
-			vesting: &sdk.Coin{Denom: "utgd", Amount: sdk.ZeroInt()},
+			liquid:  sdk.NewCoins(sdk.NewCoin("upetri", sdk.ZeroInt())),
+			vesting: &sdk.Coin{Denom: "upetri", Amount: sdk.ZeroInt()},
 			expErr:  true,
 		},
 	}
@@ -95,16 +95,16 @@ func TestBondDelegation(t *testing.T) {
 
 			gotRes, err := contract.QueryStakedAmount(ctx, example.TWasmKeeper, stakingContractAddr, myOperatorAddr)
 			require.NoError(t, err)
-			expAmount := vals[0].Tokens.Add(spec.liquid.AmountOf("utgd")).String()
+			expAmount := vals[0].Tokens.Add(spec.liquid.AmountOf("upetri")).String()
 			assert.Equal(t, expAmount, gotRes.Liquid.Amount)
-			assert.Equal(t, "utgd", gotRes.Liquid.Denom)
+			assert.Equal(t, "upetri", gotRes.Liquid.Denom)
 
 			expAmount = "0"
 			if spec.vesting != nil {
 				expAmount = spec.vesting.Amount.String()
 			}
 			assert.Equal(t, expAmount, gotRes.Vesting.Amount)
-			assert.Equal(t, "utgd", gotRes.Vesting.Denom)
+			assert.Equal(t, "upetri", gotRes.Vesting.Denom)
 		})
 	}
 }

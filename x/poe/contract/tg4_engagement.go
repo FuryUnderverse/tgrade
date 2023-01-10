@@ -10,11 +10,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 // TG4EngagementInitMsg contract init message
-// See https://github.com/confio/tgrade-contracts/blob/v0.5.0-alpha/contracts/tg4-engagement/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/tg4-engagement/src/msg.rs
 type TG4EngagementInitMsg struct {
 	Admin            string      `json:"admin,omitempty"`
 	Members          []TG4Member `json:"members"`
@@ -27,13 +27,13 @@ type TG4EngagementInitMsg struct {
 }
 
 // TG4EngagementSudoMsg TG4 group sudo message
-// See https://github.com/confio/tgrade-contracts/blob/v0.5.0-alpha/contracts/tg4-engagement/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/tg4-engagement/src/msg.rs
 type TG4EngagementSudoMsg struct {
 	UpdateMember *TG4Member `json:"update_member,omitempty"`
 }
 
 // TG4EngagementExecute execute message
-// See https://github.com/confio/tgrade-contracts/blob/v0.5.0-alpha/contracts/tg4-engagement/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/tg4-engagement/src/msg.rs
 type TG4EngagementExecute struct {
 	UpdateMembers      *UpdateMembersMsg      `json:"update_members,omitempty"`
 	UpdateAdmin        *TG4UpdateAdminMsg     `json:"update_admin,omitempty"`
@@ -42,7 +42,7 @@ type TG4EngagementExecute struct {
 }
 
 // UpdateMembersMsg contract execute message to update members
-// See https://github.com/confio/tgrade-contracts/blob/v0.5.0-alpha/contracts/tg4-engagement/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/tg4-engagement/src/msg.rs
 type UpdateMembersMsg struct {
 	Add    []TG4Member `json:"add"`
 	Remove []string    `json:"remove"`

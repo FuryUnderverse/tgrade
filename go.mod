@@ -1,4 +1,4 @@
-module github.com/confio/tgrade
+module github.com/blackfury-1/petri
 
 go 1.18
 

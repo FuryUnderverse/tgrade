@@ -9,7 +9,7 @@ import (
 
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	poetypes "github.com/confio/tgrade/x/poe/types"
+	poetypes "github.com/blackfury-1/petri/x/poe/types"
 
 	"github.com/stretchr/testify/assert"
 	tmjson "github.com/tendermint/tendermint/libs/json"
@@ -19,12 +19,12 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	db "github.com/tendermint/tm-db"
 
-	"github.com/confio/tgrade/x/twasm"
-	twasmtypes "github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm"
+	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
 )
 
-func TestTgradeGenesisExportImport(t *testing.T) {
-	doInitWithGenesis := func(gapp *TgradeApp, genesisState GenesisState) {
+func TestPetriGenesisExportImport(t *testing.T) {
+	doInitWithGenesis := func(gapp *PetriApp, genesisState GenesisState) {
 		stateBytes, err := json.MarshalIndent(genesisState, "", "  ")
 		require.NoError(t, err)
 
@@ -39,7 +39,7 @@ func TestTgradeGenesisExportImport(t *testing.T) {
 		gapp.Commit()
 	}
 	memDB := db.NewMemDB()
-	srcApp := NewTgradeApp(
+	srcApp := NewPetriApp(
 		log.NewTMLogger(log.NewSyncWriter(os.Stdout)),
 		memDB,
 		nil,
@@ -69,7 +69,7 @@ func TestTgradeGenesisExportImport(t *testing.T) {
 	}
 
 	// create a new instance to read state only from db. initchain was not called on this
-	srcApp = NewTgradeApp(log.NewTMLogger(log.NewSyncWriter(os.Stdout)), memDB, nil, true, map[int64]bool{}, DefaultNodeHome, 0, MakeEncodingConfig(), EmptyBaseAppOptions{}, emptyWasmOpts)
+	srcApp = NewPetriApp(log.NewTMLogger(log.NewSyncWriter(os.Stdout)), memDB, nil, true, map[int64]bool{}, DefaultNodeHome, 0, MakeEncodingConfig(), EmptyBaseAppOptions{}, emptyWasmOpts)
 
 	exported, err := srcApp.ExportAppStateAndValidators(false, []string{})
 	require.NoError(t, err, "ExportAppStateAndValidators should not have an error")
@@ -84,7 +84,7 @@ func TestTgradeGenesisExportImport(t *testing.T) {
 
 	var customModelContractCount int
 	for _, v := range twasmGs.Contracts {
-		var ext twasmtypes.TgradeContractDetails
+		var ext twasmtypes.PetriContractDetails
 		require.NoError(t, v.ContractInfo.ReadExtension(&ext))
 		if ext.HasRegisteredPrivilege(twasmtypes.PrivilegeStateExporterImporter) {
 			m := v.GetCustomModel()
@@ -106,7 +106,7 @@ func TestTgradeGenesisExportImport(t *testing.T) {
 	require.NoError(t, poetypes.ValidateGenesis(poeGs, MakeEncodingConfig().TxConfig.TxJSONDecoder()))
 	// now import the state on a fresh DB
 	memDB = db.NewMemDB()
-	newApp := NewTgradeApp(
+	newApp := NewPetriApp(
 		log.NewTMLogger(log.NewSyncWriter(os.Stdout)),
 		memDB,
 		nil,

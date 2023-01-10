@@ -7,7 +7,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	ibccoretypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
 
-	"github.com/confio/tgrade/x/poe/types"
+	"github.com/blackfury-1/petri/x/poe/types"
 )
 
 var _ ibccoretypes.StakingKeeper = &Keeper{}

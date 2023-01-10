@@ -5,14 +5,14 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/v1beta1/coin.proto";
 
-option go_package = "github.com/confio/tgrade/x/globalfee/types";
+option go_package = "github.com/blackfury-1/petri/x/globalfee/types";
 
 // Query defines the gRPC querier service.
 service Query {
   rpc MinimumGasPrices(QueryMinimumGasPricesRequest)
       returns (QueryMinimumGasPricesResponse) {
     option (google.api.http).get =
-        "/tgrade/globalfee/v1beta1/minimum_gas_prices";
+        "/petri/globalfee/v1beta1/minimum_gas_prices";
   }
 }
 

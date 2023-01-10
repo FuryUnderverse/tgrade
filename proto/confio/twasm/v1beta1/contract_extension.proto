@@ -4,13 +4,13 @@ package confio.twasm.v1beta1;
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 
-option go_package = "github.com/confio/tgrade/x/twasm/types";
+option go_package = "github.com/blackfury-1/petri/x/twasm/types";
 option (gogoproto.goproto_stringer_all) = true;
 option (gogoproto.goproto_getters_all) = false;
 option (gogoproto.equal_all) = true;
 
-// TgradeContractDetails is a custom extension to the wasmd ContractInfo
-message TgradeContractDetails {
+// PetriContractDetails is a custom extension to the wasmd ContractInfo
+message PetriContractDetails {
   option (cosmos_proto.implements_interface) = "ContractInfoExtension";
   repeated RegisteredPrivilege registered_privileges = 1
       [ (gogoproto.nullable) = false ];

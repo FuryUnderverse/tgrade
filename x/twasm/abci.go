@@ -8,9 +8,9 @@ import (
 
 	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/confio/tgrade/x/twasm/contract"
-	"github.com/confio/tgrade/x/twasm/keeper"
-	"github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/twasm/contract"
+	"github.com/blackfury-1/petri/x/twasm/keeper"
+	"github.com/blackfury-1/petri/x/twasm/types"
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -51,7 +51,7 @@ func BeginBlocker(ctx sdk.Context, k abciKeeper, b abci.RequestBeginBlock) {
 		logger.Info("Byzantine validator", "evidence", evidence)
 	}
 
-	msg := contract.TgradeSudoMsg{BeginBlock: &contract.BeginBlock{
+	msg := contract.PetriSudoMsg{BeginBlock: &contract.BeginBlock{
 		Evidence: evidence,
 	}}
 
@@ -65,7 +65,7 @@ func BeginBlocker(ctx sdk.Context, k abciKeeper, b abci.RequestBeginBlock) {
 // EndBlocker ABCI end block callback. Does not modify the validator set
 func EndBlocker(ctx sdk.Context, k abciKeeper) []abci.ValidatorUpdate {
 	defer telemetry.ModuleMeasureSince(types.ModuleName, time.Now(), telemetry.MetricKeyEndBlocker)
-	sudoMsg := contract.TgradeSudoMsg{EndBlock: &struct{}{}}
+	sudoMsg := contract.PetriSudoMsg{EndBlock: &struct{}{}}
 	msgBz, err := json.Marshal(sudoMsg)
 	if err != nil {
 		panic(err) // this will break consensus

@@ -14,8 +14,8 @@ import (
 	"github.com/tendermint/tendermint/libs/rand"
 	"github.com/tendermint/tendermint/proto/tendermint/crypto"
 
-	"github.com/confio/tgrade/x/poe/contract"
-	twasmtypes "github.com/confio/tgrade/x/twasm/types"
+	"github.com/blackfury-1/petri/x/poe/contract"
+	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
 )
 
 func TestEndBlock(t *testing.T) {
