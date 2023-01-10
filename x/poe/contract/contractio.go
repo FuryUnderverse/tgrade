@@ -174,7 +174,7 @@ func SetEngagementPoints(ctx sdk.Context, contractAddr sdk.AccAddress, k types.S
 	}
 	msgBz, err := json.Marshal(msg)
 	if err != nil {
-		return sdkerrors.Wrap(err, "tg4 group sudo msg")
+		return sdkerrors.Wrap(err, "pt4 group sudo msg")
 	}
 
 	_, err = k.Sudo(ctx, contractAddr, msgBz)

@@ -17,12 +17,12 @@ import (
 )
 
 var (
-	//go:embed contract/tg4_engagement.wasm
-	tg4Engagement []byte
-	//go:embed contract/tg4_stake.wasm
-	tg4Stake []byte
-	//go:embed contract/tg4_mixer.wasm
-	tg4Mixer []byte
+	//go:embed contract/pt4_engagement.wasm
+	pt4Engagement []byte
+	//go:embed contract/pt4_stake.wasm
+	pt4Stake []byte
+	//go:embed contract/pt4_mixer.wasm
+	pt4Mixer []byte
 	//go:embed contract/petri_valset.wasm
 	tgValset []byte
 	//go:embed contract/petri_trusted_circle.wasm
@@ -41,9 +41,9 @@ var (
 
 // ClearEmbeddedContracts release memory
 func ClearEmbeddedContracts() {
-	tg4Engagement = nil
-	tg4Stake = nil
-	tg4Mixer = nil
+	pt4Engagement = nil
+	pt4Stake = nil
+	pt4Mixer = nil
 	tgValset = nil
 	tgTrustedCircles = nil
 	tgOCGovProposalsCircles = nil
@@ -69,26 +69,26 @@ func BootstrapPoEContracts(ctx sdk.Context, k wasmtypes.ContractOpsKeeper, tk tw
 
 	// setup engagement contract
 	//
-	tg4EngagementInitMsg := newEngagementInitMsg(gs, bootstrapAccountAddr)
-	engagementCodeID, _, err := k.Create(ctx, bootstrapAccountAddr, tg4Engagement, &wasmtypes.AllowEverybody)
+	pt4EngagementInitMsg := newEngagementInitMsg(gs, bootstrapAccountAddr)
+	engagementCodeID, _, err := k.Create(ctx, bootstrapAccountAddr, pt4Engagement, &wasmtypes.AllowEverybody)
 	if err != nil {
-		return sdkerrors.Wrap(err, "store tg4 engagement contract")
+		return sdkerrors.Wrap(err, "store pt4 engagement contract")
 	}
 	engagementContractAddr, _, err := k.Instantiate(
 		ctx,
 		engagementCodeID,
 		bootstrapAccountAddr,
 		bootstrapAccountAddr,
-		mustMarshalJSON(tg4EngagementInitMsg),
+		mustMarshalJSON(pt4EngagementInitMsg),
 		"engagement",
 		nil,
 	)
 	if err != nil {
-		return sdkerrors.Wrap(err, "instantiate tg4 engagement")
+		return sdkerrors.Wrap(err, "instantiate pt4 engagement")
 	}
 	poeKeeper.SetPoEContractAddress(ctx, types.PoEContractTypeEngagement, engagementContractAddr)
 	if err := k.PinCode(ctx, engagementCodeID); err != nil {
-		return sdkerrors.Wrap(err, "pin tg4 engagement contract")
+		return sdkerrors.Wrap(err, "pin pt4 engagement contract")
 	}
 	logger := keeper.ModuleLogger(ctx)
 	logger.Info("engagement group contract", "address", engagementContractAddr, "code_id", engagementCodeID)
@@ -133,22 +133,22 @@ func BootstrapPoEContracts(ctx sdk.Context, k wasmtypes.ContractOpsKeeper, tk tw
 
 	// setup stake contract
 	//
-	stakeCodeID, _, err := k.Create(ctx, bootstrapAccountAddr, tg4Stake, &wasmtypes.AllowEverybody)
+	stakeCodeID, _, err := k.Create(ctx, bootstrapAccountAddr, pt4Stake, &wasmtypes.AllowEverybody)
 	if err != nil {
-		return sdkerrors.Wrap(err, "store tg4 stake contract")
+		return sdkerrors.Wrap(err, "store pt4 stake contract")
 	}
-	tg4StakeInitMsg := newStakeInitMsg(gs, bootstrapAccountAddr)
+	pt4StakeInitMsg := newStakeInitMsg(gs, bootstrapAccountAddr)
 	stakeContractAddr, _, err := k.Instantiate(
 		ctx,
 		stakeCodeID,
 		bootstrapAccountAddr,
 		bootstrapAccountAddr,
-		mustMarshalJSON(tg4StakeInitMsg),
+		mustMarshalJSON(pt4StakeInitMsg),
 		"stakers",
 		nil,
 	)
 	if err != nil {
-		return sdkerrors.Wrap(err, "instantiate tg4 stake")
+		return sdkerrors.Wrap(err, "instantiate pt4 stake")
 	}
 	poeKeeper.SetPoEContractAddress(ctx, types.PoEContractTypeStaking, stakeContractAddr)
 	if err := tk.SetPrivileged(ctx, stakeContractAddr); err != nil {
@@ -161,7 +161,7 @@ func BootstrapPoEContracts(ctx sdk.Context, k wasmtypes.ContractOpsKeeper, tk tw
 		P:         gs.MixerContractConfig.Sigmoid.P,
 		S:         gs.MixerContractConfig.Sigmoid.S,
 	}
-	tg4MixerInitMsg := contract.TG4MixerInitMsg{
+	pt4MixerInitMsg := contract.TG4MixerInitMsg{
 		LeftGroup:        engagementContractAddr.String(),
 		RightGroup:       stakeContractAddr.String(),
 		PreAuthsSlashing: 1,
@@ -169,25 +169,25 @@ func BootstrapPoEContracts(ctx sdk.Context, k wasmtypes.ContractOpsKeeper, tk tw
 			Sigmoid: &poeFunction,
 		},
 	}
-	mixerCodeID, _, err := k.Create(ctx, bootstrapAccountAddr, tg4Mixer, &wasmtypes.AllowEverybody)
+	mixerCodeID, _, err := k.Create(ctx, bootstrapAccountAddr, pt4Mixer, &wasmtypes.AllowEverybody)
 	if err != nil {
-		return sdkerrors.Wrap(err, "store tg4 mixer contract")
+		return sdkerrors.Wrap(err, "store pt4 mixer contract")
 	}
 	mixerContractAddr, _, err := k.Instantiate(
 		ctx,
 		mixerCodeID,
 		bootstrapAccountAddr,
 		bootstrapAccountAddr,
-		mustMarshalJSON(tg4MixerInitMsg),
+		mustMarshalJSON(pt4MixerInitMsg),
 		"poe",
 		nil,
 	)
 	if err != nil {
-		return sdkerrors.Wrap(err, "instantiate tg4 mixer")
+		return sdkerrors.Wrap(err, "instantiate pt4 mixer")
 	}
 	poeKeeper.SetPoEContractAddress(ctx, types.PoEContractTypeMixer, mixerContractAddr)
 	if err := k.PinCode(ctx, mixerCodeID); err != nil {
-		return sdkerrors.Wrap(err, "pin tg4 mixer contract")
+		return sdkerrors.Wrap(err, "pin pt4 mixer contract")
 	}
 	logger.Info("mixer contract", "address", mixerContractAddr, "code_id", mixerCodeID)
 
@@ -486,7 +486,7 @@ func newArbiterPoolVotingInitMsg(gs types.SeedContracts, apContract sdk.AccAddre
 }
 
 func newEngagementInitMsg(gs types.SeedContracts, bootstrapAccountAddr sdk.AccAddress) contract.TG4EngagementInitMsg {
-	tg4EngagementInitMsg := contract.TG4EngagementInitMsg{
+	pt4EngagementInitMsg := contract.TG4EngagementInitMsg{
 		Admin:            bootstrapAccountAddr.String(),
 		Members:          make([]contract.TG4Member, len(gs.Engagement)),
 		PreAuthsHooks:    1,
@@ -495,12 +495,12 @@ func newEngagementInitMsg(gs types.SeedContracts, bootstrapAccountAddr sdk.AccAd
 		Halflife:         uint64(gs.EngagementContractConfig.Halflife.Seconds()),
 	}
 	for i, v := range gs.Engagement {
-		tg4EngagementInitMsg.Members[i] = contract.TG4Member{
+		pt4EngagementInitMsg.Members[i] = contract.TG4Member{
 			Addr:   v.Address,
 			Points: v.Points,
 		}
 	}
-	return tg4EngagementInitMsg
+	return pt4EngagementInitMsg
 }
 
 func newStakeInitMsg(gs types.SeedContracts, adminAddr sdk.AccAddress) contract.TG4StakeInitMsg {

@@ -337,7 +337,7 @@ ImportDump has all module data for non seed mode.
 
 ### MixerContractConfig
 Mixer contract setup. See
-https://github.com/confio/poe-contracts/tree/main/contracts/tg4-mixer
+https://github.com/confio/poe-contracts/tree/main/contracts/pt4-mixer
 
 
 | Field | Type | Label | Description |

@@ -352,7 +352,7 @@ func (m *SeedContracts) GetMixerContractConfig() *MixerContractConfig {
 }
 
 // Mixer contract setup. See
-// https://github.com/confio/poe-contracts/tree/main/contracts/tg4-mixer
+// https://github.com/confio/poe-contracts/tree/main/contracts/pt4-mixer
 type MixerContractConfig struct {
 	// Sigmoid returns a sigmoid-like value of staked amount times engagement
 	// points. See the Proof-of-Engagement white-paper for details.

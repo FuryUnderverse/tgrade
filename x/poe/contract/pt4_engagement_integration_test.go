@@ -18,20 +18,20 @@ import (
 	"github.com/blackfury-1/petri/x/poe/types"
 )
 
-//go:embed tg4_engagement.wasm
-var tg4Engagement []byte
+//go:embed pt4_engagement.wasm
+var pt4Engagement []byte
 
 func TestEngagementUpdateAdmin(t *testing.T) {
 	ctx, example := keeper.CreateDefaultTestInput(t)
 	var bootstrapAccountAddr sdk.AccAddress = rand.Bytes(address.Len)
 
 	k := example.TWasmKeeper.GetContractKeeper()
-	codeID, _, err := k.Create(ctx, bootstrapAccountAddr, tg4Engagement, nil)
+	codeID, _, err := k.Create(ctx, bootstrapAccountAddr, pt4Engagement, nil)
 	require.NoError(t, err)
 
 	var newAddress sdk.AccAddress = rand.Bytes(address.Len)
 
-	tg4EngagementInitMsg := contract.TG4EngagementInitMsg{
+	pt4EngagementInitMsg := contract.TG4EngagementInitMsg{
 		Admin: bootstrapAccountAddr.String(),
 		Members: []contract.TG4Member{{
 			Addr:   newAddress.String(), // test only passes with new bootstrap account address in the group
@@ -42,7 +42,7 @@ func TestEngagementUpdateAdmin(t *testing.T) {
 		Denom:            "alx",
 		Halflife:         1,
 	}
-	initMsgBz, err := json.Marshal(&tg4EngagementInitMsg)
+	initMsgBz, err := json.Marshal(&pt4EngagementInitMsg)
 	require.NoError(t, err)
 	engagementContractAddr, _, err := k.Instantiate(ctx, codeID, bootstrapAccountAddr, bootstrapAccountAddr, initMsgBz, "engagement", nil)
 	require.NoError(t, err)

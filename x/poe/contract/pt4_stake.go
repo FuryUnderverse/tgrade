@@ -15,7 +15,7 @@ import (
 )
 
 // TG4StakeInitMsg instantiation message
-// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/tg4-stake/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/pt4-stake/src/msg.rs
 type TG4StakeInitMsg struct {
 	Admin          string `json:"admin,omitempty"`
 	Denom          string `json:"denom"`
@@ -30,7 +30,7 @@ type TG4StakeInitMsg struct {
 }
 
 // TG4StakeExecute staking contract execute messages
-// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/tg4-stake/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/pt4-stake/src/msg.rs
 type TG4StakeExecute struct {
 	Bond   *Bond     `json:"bond,omitempty"`
 	Unbond *Unbond   `json:"unbond,omitempty"`
@@ -51,9 +51,9 @@ type Unbond struct {
 	Tokens wasmvmtypes.Coin `json:"tokens"`
 }
 
-// TG4StakeQuery contains some custom queries for the tg4-stake contract.
+// TG4StakeQuery contains some custom queries for the pt4-stake contract.
 // You can also make any generic TG4Query on it.
-// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/tg4-stake/src/msg.rs
+// See https://github.com/blackfury-1/petri-contracts/blob/v0.5.0-alpha/contracts/pt4-stake/src/msg.rs
 type TG4StakeQuery struct {
 	UnbondingPeriod *struct{}        `json:"unbonding_period,omitempty"`
 	Claims          *ListClaimsQuery `json:"claims,omitempty"`

@@ -11,7 +11,7 @@ poe_tag="$1"
 petri_tag="$2"
 
 rm -f version.txt
-for contract in tg4_engagement petri_valset tg4_mixer tg4_stake petri_gov_reflect petri_community_pool petri_validator_voting; do
+for contract in pt4_engagement petri_valset pt4_mixer pt4_stake petri_gov_reflect petri_community_pool petri_validator_voting; do
   echo "Download $contract from poe-contracts"
   asset_url="https://github.com/confio/poe-contracts/releases/download/${poe_tag}/${contract}.wasm"
   rm -f "./${contract}.wasm"

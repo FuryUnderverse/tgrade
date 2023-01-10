@@ -146,7 +146,7 @@ func (q LegacyDistributionGRPCQuerier) DelegatorWithdrawAddress(c context.Contex
 		return nil, status.Error(codes.InvalidArgument, "delegator address invalid")
 	}
 
-	// Query the `tg4-engagement` contract for the delegated withdraw address
+	// Query the `pt4-engagement` contract for the delegated withdraw address
 	ctx := sdk.UnwrapSDKContext(c)
 	gotVal, err := q.keeper.EngagementContract(ctx).QueryDelegated(ctx, ownerAddr)
 	if err != nil {
