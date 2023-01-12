@@ -19,7 +19,7 @@ func NewLegacySlashingGRPCQuerier(keeper ContractSource) *LegacySlashingGRPCQuer
 	return &LegacySlashingGRPCQuerier{keeper: keeper}
 }
 
-// SigningInfo legacy support for cosmos-sdk signing info. Note that not all field are available on petri
+// SigningInfo legacy support for cosmos-sdk signing info. Note that not all field are available on furya
 func (g LegacySlashingGRPCQuerier) SigningInfo(c context.Context, req *slashingtypes.QuerySigningInfoRequest) (*slashingtypes.QuerySigningInfoResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "empty request")

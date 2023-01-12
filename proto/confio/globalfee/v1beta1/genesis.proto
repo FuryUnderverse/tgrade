@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
 import "cosmwasm/wasm/v1/genesis.proto";
 
-option go_package = "github.com/blackfury-1/petri/x/globalfee/types";
+option go_package = "github.com/oldfurya/furya/x/globalfee/types";
 
 // GenesisState - initial state of module
 message GenesisState {

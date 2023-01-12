@@ -16,7 +16,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/gjson"
 
-	"github.com/blackfury-1/petri/app"
+	"github.com/oldfurya/furya/app"
 )
 
 // PetriCli wraps the command line interface
@@ -91,7 +91,7 @@ func (c PetriCli) CustomQuery(args ...string) string {
 
 func (c PetriCli) run(args []string) string {
 	if c.Debug {
-		c.t.Logf("+++ running `petri %s`", strings.Join(args, " "))
+		c.t.Logf("+++ running `furya %s`", strings.Join(args, " "))
 	}
 	gotOut, gotErr := func() (out []byte, err error) {
 		defer func() {
@@ -99,7 +99,7 @@ func (c PetriCli) run(args []string) string {
 				err = fmt.Errorf("recovered from panic: %v", r)
 			}
 		}()
-		cmd := exec.Command(locateExecutable("petri"), args...) //nolint:gosec
+		cmd := exec.Command(locateExecutable("furya"), args...) //nolint:gosec
 		cmd.Dir = workDir
 		return cmd.CombinedOutput()
 	}()
@@ -215,7 +215,7 @@ func (c PetriCli) QuerySmart(contractAddr, msg string, args ...string) string {
 }
 
 // QueryBalances queries all balances for an account. Returns json response
-// Example:`{"balances":[{"denom":"node0token","amount":"1000000000"},{"denom":"upetri","amount":"400000003"}],"pagination":{}}`
+// Example:`{"balances":[{"denom":"node0token","amount":"1000000000"},{"denom":"ufury","amount":"400000003"}],"pagination":{}}`
 func (c PetriCli) QueryBalances(addr string) string {
 	return c.CustomQuery("q", "bank", "balances", addr)
 }

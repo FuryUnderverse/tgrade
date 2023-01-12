@@ -10,7 +10,7 @@ import "cosmos/base/v1beta1/coin.proto";
 import "cosmos/staking/v1beta1/staking.proto";
 import "tendermint/types/types.proto";
 
-option go_package = "github.com/blackfury-1/petri/x/poe/types";
+option go_package = "github.com/oldfurya/furya/x/poe/types";
 
 // PoEContractType type of PoE contract
 enum PoEContractType {

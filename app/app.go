@@ -7,9 +7,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/blackfury-1/petri/app/upgrades"
-	v2 "github.com/blackfury-1/petri/app/upgrades/v2"
-	v3 "github.com/blackfury-1/petri/app/upgrades/v3"
+	"github.com/oldfurya/furya/app/upgrades"
+	v2 "github.com/oldfurya/furya/app/upgrades/v2"
+	v3 "github.com/oldfurya/furya/app/upgrades/v3"
 
 	"github.com/CosmWasm/wasmd/x/wasm"
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -81,34 +81,34 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	appparams "github.com/blackfury-1/petri/app/params"
-	"github.com/blackfury-1/petri/x/globalfee"
-	"github.com/blackfury-1/petri/x/poe"
-	poekeeper "github.com/blackfury-1/petri/x/poe/keeper"
-	poestakingadapter "github.com/blackfury-1/petri/x/poe/stakingadapter"
-	poetypes "github.com/blackfury-1/petri/x/poe/types"
-	"github.com/blackfury-1/petri/x/twasm"
-	twasmkeeper "github.com/blackfury-1/petri/x/twasm/keeper"
+	appparams "github.com/oldfurya/furya/app/params"
+	"github.com/oldfurya/furya/x/globalfee"
+	"github.com/oldfurya/furya/x/poe"
+	poekeeper "github.com/oldfurya/furya/x/poe/keeper"
+	poestakingadapter "github.com/oldfurya/furya/x/poe/stakingadapter"
+	poetypes "github.com/oldfurya/furya/x/poe/types"
+	"github.com/oldfurya/furya/x/twasm"
+	twasmkeeper "github.com/oldfurya/furya/x/twasm/keeper"
 
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"
 )
 
-const appName = "petri"
+const appName = "furya"
 
 const (
-	NodeDir       = ".petri"
-	Bech32Prefix  = "petri"
-	HumanCoinUnit = "petri"
-	BaseCoinUnit  = "upetri"
-	TgdExponent   = 6
+	NodeDir       = ".furya"
+	Bech32Prefix  = "furya"
+	HumanCoinUnit = "furya"
+	BaseCoinUnit  = "ufury"
+	FuryExponent   = 6
 )
 
 // These constants are derived from the above variables.
 // These are the ones we will want to use in the code, based on
 // any overrides above
 var (
-	// DefaultNodeHome default home directories for petri
+	// DefaultNodeHome default home directories for furya
 	DefaultNodeHome = os.ExpandEnv("$HOME/") + NodeDir
 
 	// Bech32PrefixAccAddr defines the Bech32 prefix of an account's address
@@ -366,7 +366,7 @@ func NewPetriApp(
 
 	// The last arguments can contain custom message handlers, and custom query handlers,
 	// if we want to allow any custom callbacks
-	availableCapabilities := "staking,stargate,iterator,petri,cosmwasm_1_1"
+	availableCapabilities := "staking,stargate,iterator,furya,cosmwasm_1_1"
 
 	wasmOpts = append(SetupWasmHandlers(appCodec, app.bankKeeper, govRouter, &app.twasmKeeper, &app.poeKeeper, app), wasmOpts...)
 

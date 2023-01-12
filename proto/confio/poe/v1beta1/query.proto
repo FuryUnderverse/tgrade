@@ -10,7 +10,7 @@ import "cosmos/base/v1beta1/coin.proto";
 import "cosmos/staking/v1beta1/staking.proto";
 import "cosmos/staking/v1beta1/query.proto";
 
-option go_package = "github.com/blackfury-1/petri/x/poe/types";
+option go_package = "github.com/oldfurya/furya/x/poe/types";
 
 // Query defines the gRPC querier service.
 service Query {
@@ -18,38 +18,38 @@ service Query {
   rpc ContractAddress(QueryContractAddressRequest)
       returns (QueryContractAddressResponse) {
     option (google.api.http).get =
-        "/petri/poe/v1beta1/contract/{contract_type}";
+        "/furya/poe/v1beta1/contract/{contract_type}";
   }
 
   // Validators queries all validators that match the given status.
   rpc Validators(cosmos.staking.v1beta1.QueryValidatorsRequest)
       returns (cosmos.staking.v1beta1.QueryValidatorsResponse) {
-    option (google.api.http).get = "/petri/poe/v1beta1/validators";
+    option (google.api.http).get = "/furya/poe/v1beta1/validators";
   }
 
   // Validator queries validator info for given validator address.
   rpc Validator(cosmos.staking.v1beta1.QueryValidatorRequest)
       returns (cosmos.staking.v1beta1.QueryValidatorResponse) {
     option (google.api.http).get =
-        "/petri/poe/v1beta1/validators/{validator_addr}";
+        "/furya/poe/v1beta1/validators/{validator_addr}";
   }
   // Validator queries validator info for given validator address.
   rpc UnbondingPeriod(QueryUnbondingPeriodRequest)
       returns (QueryUnbondingPeriodResponse) {
-    option (google.api.http).get = "/petri/poe/v1beta1/unbonding";
+    option (google.api.http).get = "/furya/poe/v1beta1/unbonding";
   }
 
   // ValidatorDelegation queries self delegated amount for given validator.
   rpc ValidatorDelegation(QueryValidatorDelegationRequest)
       returns (QueryValidatorDelegationResponse) {
     option (google.api.http).get =
-        "/poe/petri/v1beta1/validators/{validator_addr}/delegation";
+        "/poe/furya/v1beta1/validators/{validator_addr}/delegation";
   }
 
   // ValidatorUnbondingDelegations queries unbonding delegations of a validator.
   rpc ValidatorUnbondingDelegations(QueryValidatorUnbondingDelegationsRequest)
       returns (QueryValidatorUnbondingDelegationsResponse) {
-    option (google.api.http).get = "/petri/poe/v1beta1/validators/"
+    option (google.api.http).get = "/furya/poe/v1beta1/validators/"
                                    "{validator_addr}/unbonding_delegations";
   }
 
@@ -57,20 +57,20 @@ service Query {
   rpc HistoricalInfo(cosmos.staking.v1beta1.QueryHistoricalInfoRequest)
       returns (cosmos.staking.v1beta1.QueryHistoricalInfoResponse) {
     option (google.api.http).get =
-        "/petri/poe/v1beta1/historical_info/{height}";
+        "/furya/poe/v1beta1/historical_info/{height}";
   }
 
   // ValidatorOutstandingRewards queries rewards of a validator address.
   rpc ValidatorOutstandingReward(QueryValidatorOutstandingRewardRequest)
       returns (QueryValidatorOutstandingRewardResponse) {
-    option (google.api.http).get = "/petri/poe/v1beta1/validators/"
+    option (google.api.http).get = "/furya/poe/v1beta1/validators/"
                                    "{validator_address}/outstanding_reward";
   }
 
   // ValidatorEngagementReward queries rewards of a validator address.
   rpc ValidatorEngagementReward(QueryValidatorEngagementRewardRequest)
       returns (QueryValidatorEngagementRewardResponse) {
-    option (google.api.http).get = "/petri/poe/v1beta1/validators/"
+    option (google.api.http).get = "/furya/poe/v1beta1/validators/"
                                    "{validator_address}/engagement_reward";
   }
 }

@@ -35,9 +35,9 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/blackfury-1/petri/x/poe/types"
-	"github.com/blackfury-1/petri/x/twasm"
-	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/poe/types"
+	"github.com/oldfurya/furya/x/twasm"
+	twasmtypes "github.com/oldfurya/furya/x/twasm/types"
 )
 
 // Get flags every time the simulator is run
@@ -277,7 +277,7 @@ func TestFullAppSimulation(t *testing.T) {
 	encConf := MakeEncodingConfig()
 	app := NewPetriApp(logger, db, nil, true, map[int64]bool{}, t.TempDir(), simapp.FlagPeriodValue,
 		encConf, simapp.EmptyAppOptions{}, nil, fauxMerkleModeOpt)
-	require.Equal(t, "petri", app.Name())
+	require.Equal(t, "furya", app.Name())
 	app.sm.Modules = append(app.sm.Modules, nonSimModuleSetup{})
 
 	// run randomized simulation

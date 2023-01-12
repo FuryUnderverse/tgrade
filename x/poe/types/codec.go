@@ -14,10 +14,10 @@ import (
 // RegisterLegacyAminoCodec registers the necessary x/poe interfaces and concrete types
 // on the provided LegacyAmino codec. These types are used for Amino JSON serialization.
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgCreateValidator{}, "petri/MsgCreateValidator", nil)
-	cdc.RegisterConcrete(&MsgUpdateValidator{}, "petri/MsgUpdateValidator", nil)
-	cdc.RegisterConcrete(&MsgDelegate{}, "petri/MsgDelegate", nil)
-	cdc.RegisterConcrete(&MsgUndelegate{}, "petri/MsgUndelegate", nil)
+	cdc.RegisterConcrete(&MsgCreateValidator{}, "furya/MsgCreateValidator", nil)
+	cdc.RegisterConcrete(&MsgUpdateValidator{}, "furya/MsgUpdateValidator", nil)
+	cdc.RegisterConcrete(&MsgDelegate{}, "furya/MsgDelegate", nil)
+	cdc.RegisterConcrete(&MsgUndelegate{}, "furya/MsgUndelegate", nil)
 }
 
 // RegisterInterfaces registers the x/poe interfaces types with the interface registry

@@ -5,7 +5,7 @@ import (
 )
 
 // PetriSudoMsg callback message sent to a contract.
-// See https://github.com/blackfury-1/petri-contracts/blob/main/packages/bindings/src/sudo.rs
+// See https://github.com/oldfurya/furya-contracts/blob/main/packages/bindings/src/sudo.rs
 type PetriSudoMsg struct {
 	PrivilegeChange *PrivilegeChangeMsg `json:"privilege_change,omitempty"`
 

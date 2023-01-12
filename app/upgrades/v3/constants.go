@@ -1,7 +1,7 @@
 package v3
 
 import (
-	"github.com/blackfury-1/petri/app/upgrades"
+	"github.com/oldfurya/furya/app/upgrades"
 )
 
 // UpgradeName defines the on-chain upgrade name for the Petri v3 upgrade.

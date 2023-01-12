@@ -183,7 +183,7 @@ Query defines the gRPC querier service.
 
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
-| `MinimumGasPrices` | [QueryMinimumGasPricesRequest](#confio.globalfee.v1beta1.QueryMinimumGasPricesRequest) | [QueryMinimumGasPricesResponse](#confio.globalfee.v1beta1.QueryMinimumGasPricesResponse) |  | GET|/petri/globalfee/v1beta1/minimum_gas_prices|
+| `MinimumGasPrices` | [QueryMinimumGasPricesRequest](#confio.globalfee.v1beta1.QueryMinimumGasPricesRequest) | [QueryMinimumGasPricesResponse](#confio.globalfee.v1beta1.QueryMinimumGasPricesResponse) |  | GET|/furya/globalfee/v1beta1/minimum_gas_prices|
 
  <!-- end services -->
 
@@ -260,10 +260,10 @@ ArbiterPoolContractConfig initial setup config for the trusted circle
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `name` | [string](#string) |  | Name of TRUSTED_CIRCLE |
-| `escrow_amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | EscrowAmount The required escrow amount, in the default denom (upetri) |
+| `escrow_amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | EscrowAmount The required escrow amount, in the default denom (ufury) |
 | `voting_rules` | [VotingRules](#confio.poe.v1beta1.VotingRules) |  | VotingRules rules for the tally |
 | `deny_list_contract_address` | [string](#string) |  | DenyListContractAddress is an optional cw4 contract with list of addresses denied to be part of TrustedCircle |
-| `dispute_cost` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | DisputeCost The required dispute amount, in the default denom (upetri) |
+| `dispute_cost` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | DisputeCost The required dispute amount, in the default denom (ufury) |
 | `waiting_period` | [google.protobuf.Duration](#google.protobuf.Duration) |  |  |
 
 
@@ -375,7 +375,7 @@ OversightCommitteeContractConfig initial setup config for the trusted circle
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `name` | [string](#string) |  | Name of TRUSTED_CIRCLE |
-| `escrow_amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | EscrowAmount The required escrow amount, in the default denom (upetri) |
+| `escrow_amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | EscrowAmount The required escrow amount, in the default denom (ufury) |
 | `voting_rules` | [VotingRules](#confio.poe.v1beta1.VotingRules) |  | VotingRules rules for the tally |
 | `deny_list_contract_address` | [string](#string) |  | DenyListContractAddress is an optional cw4 contract with list of addresses denied to be part of TrustedCircle |
 
@@ -743,15 +743,15 @@ Query defines the gRPC querier service.
 
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
-| `ContractAddress` | [QueryContractAddressRequest](#confio.poe.v1beta1.QueryContractAddressRequest) | [QueryContractAddressResponse](#confio.poe.v1beta1.QueryContractAddressResponse) | ContractAddress queries the address for one of the PoE contracts | GET|/petri/poe/v1beta1/contract/{contract_type}|
-| `Validators` | [.cosmos.staking.v1beta1.QueryValidatorsRequest](#cosmos.staking.v1beta1.QueryValidatorsRequest) | [.cosmos.staking.v1beta1.QueryValidatorsResponse](#cosmos.staking.v1beta1.QueryValidatorsResponse) | Validators queries all validators that match the given status. | GET|/petri/poe/v1beta1/validators|
-| `Validator` | [.cosmos.staking.v1beta1.QueryValidatorRequest](#cosmos.staking.v1beta1.QueryValidatorRequest) | [.cosmos.staking.v1beta1.QueryValidatorResponse](#cosmos.staking.v1beta1.QueryValidatorResponse) | Validator queries validator info for given validator address. | GET|/petri/poe/v1beta1/validators/{validator_addr}|
-| `UnbondingPeriod` | [QueryUnbondingPeriodRequest](#confio.poe.v1beta1.QueryUnbondingPeriodRequest) | [QueryUnbondingPeriodResponse](#confio.poe.v1beta1.QueryUnbondingPeriodResponse) | Validator queries validator info for given validator address. | GET|/petri/poe/v1beta1/unbonding|
-| `ValidatorDelegation` | [QueryValidatorDelegationRequest](#confio.poe.v1beta1.QueryValidatorDelegationRequest) | [QueryValidatorDelegationResponse](#confio.poe.v1beta1.QueryValidatorDelegationResponse) | ValidatorDelegation queries self delegated amount for given validator. | GET|/poe/petri/v1beta1/validators/{validator_addr}/delegation|
-| `ValidatorUnbondingDelegations` | [QueryValidatorUnbondingDelegationsRequest](#confio.poe.v1beta1.QueryValidatorUnbondingDelegationsRequest) | [QueryValidatorUnbondingDelegationsResponse](#confio.poe.v1beta1.QueryValidatorUnbondingDelegationsResponse) | ValidatorUnbondingDelegations queries unbonding delegations of a validator. | GET|/petri/poe/v1beta1/validators/{validator_addr}/unbonding_delegations|
-| `HistoricalInfo` | [.cosmos.staking.v1beta1.QueryHistoricalInfoRequest](#cosmos.staking.v1beta1.QueryHistoricalInfoRequest) | [.cosmos.staking.v1beta1.QueryHistoricalInfoResponse](#cosmos.staking.v1beta1.QueryHistoricalInfoResponse) | HistoricalInfo queries the historical info for given height. | GET|/petri/poe/v1beta1/historical_info/{height}|
-| `ValidatorOutstandingReward` | [QueryValidatorOutstandingRewardRequest](#confio.poe.v1beta1.QueryValidatorOutstandingRewardRequest) | [QueryValidatorOutstandingRewardResponse](#confio.poe.v1beta1.QueryValidatorOutstandingRewardResponse) | ValidatorOutstandingRewards queries rewards of a validator address. | GET|/petri/poe/v1beta1/validators/{validator_address}/outstanding_reward|
-| `ValidatorEngagementReward` | [QueryValidatorEngagementRewardRequest](#confio.poe.v1beta1.QueryValidatorEngagementRewardRequest) | [QueryValidatorEngagementRewardResponse](#confio.poe.v1beta1.QueryValidatorEngagementRewardResponse) | ValidatorEngagementReward queries rewards of a validator address. | GET|/petri/poe/v1beta1/validators/{validator_address}/engagement_reward|
+| `ContractAddress` | [QueryContractAddressRequest](#confio.poe.v1beta1.QueryContractAddressRequest) | [QueryContractAddressResponse](#confio.poe.v1beta1.QueryContractAddressResponse) | ContractAddress queries the address for one of the PoE contracts | GET|/furya/poe/v1beta1/contract/{contract_type}|
+| `Validators` | [.cosmos.staking.v1beta1.QueryValidatorsRequest](#cosmos.staking.v1beta1.QueryValidatorsRequest) | [.cosmos.staking.v1beta1.QueryValidatorsResponse](#cosmos.staking.v1beta1.QueryValidatorsResponse) | Validators queries all validators that match the given status. | GET|/furya/poe/v1beta1/validators|
+| `Validator` | [.cosmos.staking.v1beta1.QueryValidatorRequest](#cosmos.staking.v1beta1.QueryValidatorRequest) | [.cosmos.staking.v1beta1.QueryValidatorResponse](#cosmos.staking.v1beta1.QueryValidatorResponse) | Validator queries validator info for given validator address. | GET|/furya/poe/v1beta1/validators/{validator_addr}|
+| `UnbondingPeriod` | [QueryUnbondingPeriodRequest](#confio.poe.v1beta1.QueryUnbondingPeriodRequest) | [QueryUnbondingPeriodResponse](#confio.poe.v1beta1.QueryUnbondingPeriodResponse) | Validator queries validator info for given validator address. | GET|/furya/poe/v1beta1/unbonding|
+| `ValidatorDelegation` | [QueryValidatorDelegationRequest](#confio.poe.v1beta1.QueryValidatorDelegationRequest) | [QueryValidatorDelegationResponse](#confio.poe.v1beta1.QueryValidatorDelegationResponse) | ValidatorDelegation queries self delegated amount for given validator. | GET|/poe/furya/v1beta1/validators/{validator_addr}/delegation|
+| `ValidatorUnbondingDelegations` | [QueryValidatorUnbondingDelegationsRequest](#confio.poe.v1beta1.QueryValidatorUnbondingDelegationsRequest) | [QueryValidatorUnbondingDelegationsResponse](#confio.poe.v1beta1.QueryValidatorUnbondingDelegationsResponse) | ValidatorUnbondingDelegations queries unbonding delegations of a validator. | GET|/furya/poe/v1beta1/validators/{validator_addr}/unbonding_delegations|
+| `HistoricalInfo` | [.cosmos.staking.v1beta1.QueryHistoricalInfoRequest](#cosmos.staking.v1beta1.QueryHistoricalInfoRequest) | [.cosmos.staking.v1beta1.QueryHistoricalInfoResponse](#cosmos.staking.v1beta1.QueryHistoricalInfoResponse) | HistoricalInfo queries the historical info for given height. | GET|/furya/poe/v1beta1/historical_info/{height}|
+| `ValidatorOutstandingReward` | [QueryValidatorOutstandingRewardRequest](#confio.poe.v1beta1.QueryValidatorOutstandingRewardRequest) | [QueryValidatorOutstandingRewardResponse](#confio.poe.v1beta1.QueryValidatorOutstandingRewardResponse) | ValidatorOutstandingRewards queries rewards of a validator address. | GET|/furya/poe/v1beta1/validators/{validator_address}/outstanding_reward|
+| `ValidatorEngagementReward` | [QueryValidatorEngagementRewardRequest](#confio.poe.v1beta1.QueryValidatorEngagementRewardRequest) | [QueryValidatorEngagementRewardResponse](#confio.poe.v1beta1.QueryValidatorEngagementRewardResponse) | ValidatorEngagementReward queries rewards of a validator address. | GET|/furya/poe/v1beta1/validators/{validator_address}/engagement_reward|
 
  <!-- end services -->
 
@@ -1166,8 +1166,8 @@ Query provides defines the gRPC querier service
 
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
-| `PrivilegedContracts` | [QueryPrivilegedContractsRequest](#confio.twasm.v1beta1.QueryPrivilegedContractsRequest) | [QueryPrivilegedContractsResponse](#confio.twasm.v1beta1.QueryPrivilegedContractsResponse) | PrivilegedContracts returns all privileged contracts | GET|/petri/twasm/v1beta1/contracts/privileged|
-| `ContractsByPrivilegeType` | [QueryContractsByPrivilegeTypeRequest](#confio.twasm.v1beta1.QueryContractsByPrivilegeTypeRequest) | [QueryContractsByPrivilegeTypeResponse](#confio.twasm.v1beta1.QueryContractsByPrivilegeTypeResponse) | ContractsByPrivilegeType returns all contracts that have registered for the privilege type | GET|/petri/twasm/v1beta1/contracts/privilege/{privilege_type}|
+| `PrivilegedContracts` | [QueryPrivilegedContractsRequest](#confio.twasm.v1beta1.QueryPrivilegedContractsRequest) | [QueryPrivilegedContractsResponse](#confio.twasm.v1beta1.QueryPrivilegedContractsResponse) | PrivilegedContracts returns all privileged contracts | GET|/furya/twasm/v1beta1/contracts/privileged|
+| `ContractsByPrivilegeType` | [QueryContractsByPrivilegeTypeRequest](#confio.twasm.v1beta1.QueryContractsByPrivilegeTypeRequest) | [QueryContractsByPrivilegeTypeResponse](#confio.twasm.v1beta1.QueryContractsByPrivilegeTypeResponse) | ContractsByPrivilegeType returns all contracts that have registered for the privilege type | GET|/furya/twasm/v1beta1/contracts/privilege/{privilege_type}|
 
  <!-- end services -->
 

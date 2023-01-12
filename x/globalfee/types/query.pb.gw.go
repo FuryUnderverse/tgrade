@@ -136,6 +136,6 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 	return nil
 }
 
-var pattern_Query_MinimumGasPrices_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"petri", "globalfee", "v1beta1", "minimum_gas_prices"}, "", runtime.AssumeColonVerbOpt(true)))
+var pattern_Query_MinimumGasPrices_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"furya", "globalfee", "v1beta1", "minimum_gas_prices"}, "", runtime.AssumeColonVerbOpt(true)))
 
 var forward_Query_MinimumGasPrices_0 = runtime.ForwardResponseMessage

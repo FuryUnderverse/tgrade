@@ -28,7 +28,7 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 type GenesisBalancesIterator = genutiltypes.GenesisBalancesIterator
@@ -52,7 +52,7 @@ file. The following default parameters are included:
     %s
 
 Example:
-$ %s gentx my-key-name 1000000upetri --home=/path/to/home/dir --keyring-backend=os --chain-id=test-chain-1 \
+$ %s gentx my-key-name 1000000ufury --home=/path/to/home/dir --keyring-backend=os --chain-id=test-chain-1 \
     --moniker="myvalidator" \
     --details="..." \
     --security-contact="..." \

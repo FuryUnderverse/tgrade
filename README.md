@@ -10,11 +10,11 @@ make install
 ```
 * Setup network
 ```sh
-petri testnet --chain-id=testing --output-dir=$(pwd)/testnet --v=2 --keyring-backend=test --commit-timeout=1500ms --minimum-gas-prices=""
+furya testnet --chain-id=testing --output-dir=$(pwd)/testnet --v=2 --keyring-backend=test --commit-timeout=1500ms --minimum-gas-prices=""
 ```
 * Start a validator node
 ```sh
-petri start --home=./testnet/node0/petri
+furya start --home=./testnet/node0/furya
 ```
 
 ## License

@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 var _ types.QueryServer = &Querier{}

@@ -12,8 +12,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	"github.com/blackfury-1/petri/app/params"
-	poetypes "github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/app/params"
+	poetypes "github.com/oldfurya/furya/x/poe/types"
 )
 
 // Simulation operation weights constants

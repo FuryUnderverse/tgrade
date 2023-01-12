@@ -4,7 +4,7 @@ executors:
   golang:
     docker:
       - image: cimg/go:1.18
-    working_directory: /home/circleci/go/src/github.com/blackfury-1/petri
+    working_directory: /home/circleci/go/src/github.com/oldfurya/furya
 
 commands:
   make:
@@ -104,13 +104,13 @@ jobs:
           name: Build and run system tests
           command: make test-system
       - store_artifacts:
-          path: /go/src/github.com/blackfury-1/petri/testnet/node0.out
+          path: /go/src/github.com/oldfurya/furya/testnet/node0.out
       - store_artifacts:
-          path: /go/src/github.com/blackfury-1/petri/testnet/node1.out
+          path: /go/src/github.com/oldfurya/furya/testnet/node1.out
       - store_artifacts:
-          path: /go/src/github.com/blackfury-1/petri/testnet/node2.out
+          path: /go/src/github.com/oldfurya/furya/testnet/node2.out
       - store_artifacts:
-          path: /go/src/github.com/blackfury-1/petri/testnet/node3.out
+          path: /go/src/github.com/oldfurya/furya/testnet/node3.out
 
   simulations:
     executor: golang
@@ -156,11 +156,11 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Build Docker artifact
-          command: docker build --pull -t "blackfury-1/petri:${CIRCLE_SHA1}" .
+          command: docker build --pull -t "oldfurya/furya:${CIRCLE_SHA1}" .
       - run:
           name: Ensure libwasmvm version is correct
           command: |
-            IN_DOCKER=$(docker run --rm "blackfury-1/petri:${CIRCLE_SHA1}" /usr/bin/petri query wasm libwasmvm-version)
+            IN_DOCKER=$(docker run --rm "oldfurya/furya:${CIRCLE_SHA1}" /usr/bin/furya query wasm libwasmvm-version)
             echo "Runtime libwasmvm-version in docker: $IN_DOCKER"
             IN_GOMOD=$(go list -m github.com/CosmWasm/wasmvm | cut -d" " -f2 | cut -d"v" -f2)
             echo "wasmvm version in go.mod: $IN_GOMOD"
@@ -170,7 +170,7 @@ jobs:
             fi
       - run:
           name: Smoke test Docker artifact
-          command: docker run "blackfury-1/petri:${CIRCLE_SHA1}" petri version
+          command: docker run "oldfurya/furya:${CIRCLE_SHA1}" furya version
       - when:
           condition:
             equal: [ main, << pipeline.git.branch >> ]
@@ -178,9 +178,9 @@ jobs:
             - run:
                 name: Push application Docker image to docker hub
                 command: |
-                  docker tag "blackfury-1/petri:${CIRCLE_SHA1}" blackfury-1/petri:latest
+                  docker tag "oldfurya/furya:${CIRCLE_SHA1}" oldfurya/furya:latest
                   docker login --password-stdin -u "$DOCKER_USER" \<<<"$DOCKER_PASS"
-                  docker push blackfury-1/petri:latest
+                  docker push oldfurya/furya:latest
                   docker logout
 
   docker-tagged:
@@ -193,12 +193,12 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Build Docker artifact
-          command: docker build --pull -t "blackfury-1/petri:${CIRCLE_TAG}" .
+          command: docker build --pull -t "oldfurya/furya:${CIRCLE_TAG}" .
       - run:
           name: Push application Docker image to docker hub
           command: |
             docker login --password-stdin -u "$DOCKER_USER" \<<<"$DOCKER_PASS"
-            docker push "blackfury-1/petri:${CIRCLE_TAG}"
+            docker push "oldfurya/furya:${CIRCLE_TAG}"
             docker logout
   gosec:
     executor: golang

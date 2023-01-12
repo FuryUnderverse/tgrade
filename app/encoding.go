@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/cosmos/cosmos-sdk/std"
 
-	appparams "github.com/blackfury-1/petri/app/params"
+	appparams "github.com/oldfurya/furya/app/params"
 )
 
 // MakeEncodingConfig creates a new EncodingConfig with all modules registered

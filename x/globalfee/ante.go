@@ -5,7 +5,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/blackfury-1/petri/x/globalfee/types"
+	"github.com/oldfurya/furya/x/globalfee/types"
 )
 
 var _ sdk.AnteDecorator = GlobalMinimumChainFeeDecorator{}

@@ -21,7 +21,7 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/proto/tendermint/crypto"
 
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 // RegisterValidator calls valset contract to register a new validator key and address
@@ -65,7 +65,7 @@ func CallEndBlockWithValidatorUpdate(ctx sdk.Context, contractAddr sdk.AccAddres
 	sudoMsg := ValidatorUpdateSudoMsg{EndWithValidatorUpdate: &struct{}{}}
 	msgBz, err := json.Marshal(sudoMsg)
 	if err != nil {
-		return nil, sdkerrors.Wrap(err, "petri sudo msg")
+		return nil, sdkerrors.Wrap(err, "furya sudo msg")
 	}
 
 	resp, err := k.Sudo(ctx, contractAddr, msgBz)
@@ -251,7 +251,7 @@ func (a BaseContractAdapter) doPageableQuery(ctx sdk.Context, query interface{},
 	if p, ok := result.(PageableResult); ok {
 		return p.PaginationCursor(res)
 	}
-	// no pagination support (in petri, yet)
+	// no pagination support (in furya, yet)
 	return nil, nil
 }
 

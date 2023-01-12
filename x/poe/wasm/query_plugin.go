@@ -8,9 +8,9 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	abcitypes "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
-	"github.com/blackfury-1/petri/x/poe/keeper"
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/keeper"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 type ViewKeeper interface {
@@ -170,7 +170,7 @@ func CustomQuerier(poeKeeper ViewKeeper) func(ctx sdk.Context, request json.RawM
 	return func(ctx sdk.Context, request json.RawMessage) ([]byte, error) {
 		var contractQuery PetriQuery
 		if err := json.Unmarshal(request, &contractQuery); err != nil {
-			return nil, sdkerrors.Wrap(err, "petri query")
+			return nil, sdkerrors.Wrap(err, "furya query")
 		}
 
 		switch {

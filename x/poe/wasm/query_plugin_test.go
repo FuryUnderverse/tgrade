@@ -13,10 +13,10 @@ import (
 	"github.com/stretchr/testify/require"
 	abcitypes "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
-	"github.com/blackfury-1/petri/x/poe/keeper"
-	"github.com/blackfury-1/petri/x/poe/keeper/poetesting"
-	poetypes "github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/keeper"
+	"github.com/oldfurya/furya/x/poe/keeper/poetesting"
+	poetypes "github.com/oldfurya/furya/x/poe/types"
 )
 
 func TestStakingQuerier(t *testing.T) {

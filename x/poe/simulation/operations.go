@@ -14,9 +14,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/blackfury-1/petri/app/params"
-	"github.com/blackfury-1/petri/x/poe/keeper"
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/app/params"
+	"github.com/oldfurya/furya/x/poe/keeper"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 // Simulation operation weights constants

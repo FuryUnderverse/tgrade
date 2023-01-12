@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 func TestGetSetHistoricalInfo(t *testing.T) {

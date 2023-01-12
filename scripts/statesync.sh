@@ -4,11 +4,11 @@
 set -ux
 
 # Initialize chain.
-petri init test --chain-id petri-mainnet-1
+furya init test --chain-id furya-mainnet-1
 
 # Get "trust_hash" and "trust_height".
 INTERVAL=2000
-SNAP_RPC="https://rpc.mainnet-1.petri.confio.run:443"
+SNAP_RPC="https://rpc.mainnet-1.furya.confio.run:443"
 LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height)
 BLOCK_HEIGHT=$(($LATEST_HEIGHT-$INTERVAL))
 TRUST_HASH=$(curl -s "$SNAP_RPC/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
@@ -19,9 +19,9 @@ echo "TRUST HASH: $TRUST_HASH"
 
 # Export state sync variables.
 export PETRI_STATESYNC_ENABLE=true
-export PETRI_STATESYNC_RPC_SERVERS="$SNAP_RPC,https://petri-mainnet-rpc.allthatnode.com:26657"
+export PETRI_STATESYNC_RPC_SERVERS="$SNAP_RPC,https://furya-mainnet-rpc.allthatnode.com:26657"
 export PETRI_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
 export PETRI_STATESYNC_TRUST_HASH=$TRUST_HASH
 
 # Start chain.
-petri start --p2p.seeds="0c3b7d5a4253216de01b8642261d4e1e76aee9d8@45.76.202.195:26656,7d08b16e568d8fcee1a6a4850197054aa469bf71@seed.petri.stakewith.us:54456" --p2p.persistent_peers="0a63421f67d02e7fb823ea6d6ceb8acf758df24d@142.132.226.137:26656,4a319eead699418e974e8eed47c2de6332c3f825@167.235.255.9:26656,6918efd409684d64694cac485dbcc27dfeea4f38@49.12.240.203:26656"
+furya start --p2p.seeds="0c3b7d5a4253216de01b8642261d4e1e76aee9d8@45.76.202.195:26656,7d08b16e568d8fcee1a6a4850197054aa469bf71@seed.furya.stakewith.us:54456" --p2p.persistent_peers="0a63421f67d02e7fb823ea6d6ceb8acf758df24d@142.132.226.137:26656,4a319eead699418e974e8eed47c2de6332c3f825@167.235.255.9:26656,6918efd409684d64694cac485dbcc27dfeea4f38@49.12.240.203:26656"

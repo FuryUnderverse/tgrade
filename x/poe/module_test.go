@@ -15,10 +15,10 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/proto/tendermint/crypto"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
-	"github.com/blackfury-1/petri/x/poe/keeper"
-	"github.com/blackfury-1/petri/x/poe/types"
-	twasmkeeper "github.com/blackfury-1/petri/x/twasm/keeper"
+	"github.com/oldfurya/furya/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/keeper"
+	"github.com/oldfurya/furya/x/poe/types"
+	twasmkeeper "github.com/oldfurya/furya/x/twasm/keeper"
 )
 
 func TestInitGenesis(t *testing.T) {
@@ -95,7 +95,7 @@ func TestInitGenesis(t *testing.T) {
 			{Address: engagementAddr.String(), Ratio: sdk.MustNewDecFromStr("0.475")},
 			{Address: communityPoolAddr.String(), Ratio: sdk.MustNewDecFromStr("0.05")},
 		},
-		EpochReward:    sdk.NewInt64Coin("upetri", 100000),
+		EpochReward:    sdk.NewInt64Coin("ufury", 100000),
 		ValidatorGroup: wasmkeeper.BuildContractAddressClassic(1, 7).String(),
 		AutoUnjail:     false,
 	}

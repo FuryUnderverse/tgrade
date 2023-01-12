@@ -721,7 +721,7 @@ func (m *EngagementContractConfig) GetHalflife() time.Duration {
 type OversightCommitteeContractConfig struct {
 	// Name of TRUSTED_CIRCLE
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// EscrowAmount The required escrow amount, in the default denom (upetri)
+	// EscrowAmount The required escrow amount, in the default denom (ufury)
 	EscrowAmount types.Coin `protobuf:"bytes,2,opt,name=escrow_amount,json=escrowAmount,proto3" json:"escrow_amount"`
 	// VotingRules rules for the tally
 	VotingRules VotingRules `protobuf:"bytes,3,opt,name=voting_rules,json=votingRules,proto3" json:"voting_rules"`
@@ -1087,14 +1087,14 @@ func (m *VotingRules) GetAllowEndEarly() bool {
 type ArbiterPoolContractConfig struct {
 	// Name of TRUSTED_CIRCLE
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// EscrowAmount The required escrow amount, in the default denom (upetri)
+	// EscrowAmount The required escrow amount, in the default denom (ufury)
 	EscrowAmount types.Coin `protobuf:"bytes,2,opt,name=escrow_amount,json=escrowAmount,proto3" json:"escrow_amount"`
 	// VotingRules rules for the tally
 	VotingRules VotingRules `protobuf:"bytes,3,opt,name=voting_rules,json=votingRules,proto3" json:"voting_rules"`
 	// DenyListContractAddress is an optional cw4 contract with list of addresses
 	// denied to be part of TrustedCircle
 	DenyListContractAddress string `protobuf:"bytes,4,opt,name=deny_list_contract_address,json=denyListContractAddress,proto3" json:"deny_list_contract_address,omitempty"`
-	// DisputeCost The required dispute amount, in the default denom (upetri)
+	// DisputeCost The required dispute amount, in the default denom (ufury)
 	DisputeCost   types.Coin    `protobuf:"bytes,5,opt,name=dispute_cost,json=disputeCost,proto3" json:"dispute_cost"`
 	WaitingPeriod time.Duration `protobuf:"bytes,6,opt,name=waiting_period,json=waitingPeriod,proto3,stdduration" json:"waiting_period"`
 }

@@ -21,7 +21,7 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	db "github.com/tendermint/tm-db"
 
-	poetypes "github.com/blackfury-1/petri/x/poe/types"
+	poetypes "github.com/oldfurya/furya/x/poe/types"
 )
 
 // default empty opts = nil

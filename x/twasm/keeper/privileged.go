@@ -10,8 +10,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/blackfury-1/petri/x/twasm/contract"
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/contract"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 // SetPrivileged does

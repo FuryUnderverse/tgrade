@@ -41,7 +41,7 @@ func NewStakingAdapter(k poeKeeper, contractKeeper wasmtypes.ContractOpsKeeper) 
 
 func (s StakingAdapter) BondDenom(ctx sdk.Context) (res string) {
 	log(ctx, "BondDenom")
-	return "upetri"
+	return "ufury"
 }
 
 func (s StakingAdapter) GetValidator(ctx sdk.Context, addr sdk.ValAddress) (validator stakingtypes.Validator, found bool) {

@@ -1,4 +1,4 @@
-module github.com/blackfury-1/petri
+module github.com/oldfurya/furya
 
 go 1.18
 

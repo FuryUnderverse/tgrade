@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/rand"
 
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 func TestGovHandler(t *testing.T) {

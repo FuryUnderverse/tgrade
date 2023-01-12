@@ -18,8 +18,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/blackfury-1/petri/x/twasm/contract"
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/contract"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 func TestInitGenesis(t *testing.T) {
@@ -310,7 +310,7 @@ func TestExportGenesis(t *testing.T) {
 				m.PinFn = noopVMMock.PinFn
 				m.GetCodeFn = noopVMMock.GetCodeFn
 				m.SudoFn = func(codeID cosmwasm.Checksum, env wasmvmtypes.Env, sudoMsg []byte, store cosmwasm.KVStore, goapi cosmwasm.GoAPI, querier cosmwasm.Querier, gasMeter cosmwasm.GasMeter, gasLimit uint64, deserCost wasmvmtypes.UFraction) (*wasmvmtypes.Response, uint64, error) {
-					// return petri message with exported state
+					// return furya message with exported state
 					return &wasmvmtypes.Response{
 						Data: []byte(`{"my":"state"}`),
 					}, 0, nil

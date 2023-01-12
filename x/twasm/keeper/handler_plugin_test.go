@@ -16,8 +16,8 @@ import (
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/blackfury-1/petri/x/twasm/contract"
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/contract"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 func TestPetriHandlesDispatchMsg(t *testing.T) {
@@ -55,7 +55,7 @@ func TestPetriHandlesDispatchMsg(t *testing.T) {
 		},
 		"handle mint msg": {
 			src: wasmvmtypes.CosmosMsg{
-				Custom: []byte(fmt.Sprintf(`{"mint_tokens":{"amount":"1","denom":"upetri","recipient":%q}}`, otherAddr.String())),
+				Custom: []byte(fmt.Sprintf(`{"mint_tokens":{"amount":"1","denom":"ufury","recipient":%q}}`, otherAddr.String())),
 			},
 			setup: func(m *handlerPetriKeeperMock) {
 				setupHandlerKeeperMock(m, withPrivilegeSet(t, types.PrivilegeTypeTokenMinter))
@@ -63,7 +63,7 @@ func TestPetriHandlesDispatchMsg(t *testing.T) {
 			expEvents: sdk.Events{sdk.NewEvent(
 				types.EventTypeMintTokens,
 				sdk.NewAttribute(wasmtypes.AttributeKeyContractAddr, contractAddr.String()),
-				sdk.NewAttribute(sdk.AttributeKeyAmount, "1upetri"),
+				sdk.NewAttribute(sdk.AttributeKeyAmount, "1ufury"),
 				sdk.NewAttribute(types.AttributeKeyRecipient, otherAddr.String()),
 			)},
 		},
@@ -77,7 +77,7 @@ func TestPetriHandlesDispatchMsg(t *testing.T) {
 		},
 		"handle delegate msg": {
 			src: wasmvmtypes.CosmosMsg{
-				Custom: []byte(fmt.Sprintf(`{"delegate":{ "funds": { "amount": "1", "denom": "upetri"} ,"staker":%q}}`, otherAddr.String())),
+				Custom: []byte(fmt.Sprintf(`{"delegate":{ "funds": { "amount": "1", "denom": "ufury"} ,"staker":%q}}`, otherAddr.String())),
 			},
 			setup: func(m *handlerPetriKeeperMock) {
 				setupHandlerKeeperMock(m, withPrivilegeSet(t, types.PrivilegeDelegator))
@@ -85,13 +85,13 @@ func TestPetriHandlesDispatchMsg(t *testing.T) {
 			expEvents: sdk.Events{sdk.NewEvent(
 				types.EventTypeDelegateTokens,
 				sdk.NewAttribute(wasmtypes.AttributeKeyContractAddr, contractAddr.String()),
-				sdk.NewAttribute(sdk.AttributeKeyAmount, "1upetri"),
+				sdk.NewAttribute(sdk.AttributeKeyAmount, "1ufury"),
 				sdk.NewAttribute(types.AttributeKeySender, otherAddr.String()),
 			)},
 		},
 		"handle undelegate msg": {
 			src: wasmvmtypes.CosmosMsg{
-				Custom: []byte(fmt.Sprintf(`{"undelegate":{ "funds": { "amount": "2", "denom": "upetri"} ,"recipient":%q}}`, otherAddr.String())),
+				Custom: []byte(fmt.Sprintf(`{"undelegate":{ "funds": { "amount": "2", "denom": "ufury"} ,"recipient":%q}}`, otherAddr.String())),
 			},
 			setup: func(m *handlerPetriKeeperMock) {
 				setupHandlerKeeperMock(m, withPrivilegeSet(t, types.PrivilegeDelegator))
@@ -99,7 +99,7 @@ func TestPetriHandlesDispatchMsg(t *testing.T) {
 			expEvents: sdk.Events{sdk.NewEvent(
 				types.EventTypeUndelegateTokens,
 				sdk.NewAttribute(wasmtypes.AttributeKeyContractAddr, contractAddr.String()),
-				sdk.NewAttribute(sdk.AttributeKeyAmount, "2upetri"),
+				sdk.NewAttribute(sdk.AttributeKeyAmount, "2ufury"),
 				sdk.NewAttribute(types.AttributeKeyRecipient, otherAddr.String()),
 			)},
 		},

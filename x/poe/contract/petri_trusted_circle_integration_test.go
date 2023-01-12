@@ -10,10 +10,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/rand"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/contract"
 )
 
-//go:embed petri_trusted_circle.wasm
+//go:embed furya_trusted_circle.wasm
 var tgTrustedCircles []byte
 
 func TestInitTrustedCircle(t *testing.T) {
@@ -22,7 +22,7 @@ func TestInitTrustedCircle(t *testing.T) {
 	ctx, example, _, _ := setupPoEContracts(t)
 	contractKeeper := example.TWasmKeeper.GetContractKeeper()
 
-	depositAmount := sdk.NewCoin("upetri", sdk.NewInt(10_000_000))
+	depositAmount := sdk.NewCoin("ufury", sdk.NewInt(10_000_000))
 	example.Faucet.Fund(ctx, creator, depositAmount)
 
 	init := contract.TrustedCircleInitMsg{
@@ -36,7 +36,7 @@ func TestInitTrustedCircle(t *testing.T) {
 		InitialMembers:            []string{creator.String()},
 		DenyList:                  "",
 		EditTrustedCircleDisabled: false,
-		RewardDenom:               "upetri",
+		RewardDenom:               "ufury",
 	}
 	initBz, err := json.Marshal(init)
 	require.NoError(t, err)

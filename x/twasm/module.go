@@ -24,10 +24,10 @@ import (
 	"github.com/spf13/cobra"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/blackfury-1/petri/x/twasm/client/cli"
-	"github.com/blackfury-1/petri/x/twasm/keeper"
-	"github.com/blackfury-1/petri/x/twasm/simulation"
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/client/cli"
+	"github.com/oldfurya/furya/x/twasm/keeper"
+	"github.com/oldfurya/furya/x/twasm/simulation"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 var (

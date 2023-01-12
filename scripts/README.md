@@ -5,4 +5,4 @@ with minor modifications. All credits and big thanks go to the original authors.
 Please note that a custom [fork](github.com/regen-network/protobuf) by the Regen network team is used.
 See [`go.mod`](../go.mod) for version.
 
-* statesync.sh - start to sync a node for `petri-mainnet-1`
+* statesync.sh - start to sync a node for `furya-mainnet-1`

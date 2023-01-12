@@ -8,10 +8,10 @@ if [ $# -ne 2 ]; then
 fi
 
 poe_tag="$1"
-petri_tag="$2"
+furya_tag="$2"
 
 rm -f version.txt
-for contract in pt4_engagement petri_valset pt4_mixer pt4_stake petri_gov_reflect petri_community_pool petri_validator_voting; do
+for contract in pt4_engagement furya_valset pt4_mixer pt4_stake furya_gov_reflect furya_community_pool furya_validator_voting; do
   echo "Download $contract from poe-contracts"
   asset_url="https://github.com/confio/poe-contracts/releases/download/${poe_tag}/${contract}.wasm"
   rm -f "./${contract}.wasm"
@@ -23,9 +23,9 @@ done
 # load token from OS keychain when not set via ENV
 GITHUB_API_TOKEN=${GITHUB_API_TOKEN:-"$(security find-generic-password -a "$USER" -s "github_api_key" -w)"}
 
-for contract in petri_trusted_circle petri_oc_proposals petri_ap_voting; do
+for contract in furya_trusted_circle furya_oc_proposals furya_ap_voting; do
   echo "Download $contract"
-  list_asset_url="https://api.github.com/repos/blackfury-1/petri-contracts/releases/tags/${petri_tag}"
+  list_asset_url="https://api.github.com/repos/oldfurya/furya-contracts/releases/tags/${furya_tag}"
   # get url for artifact with name==$artifact
   asset_url=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $GITHUB_API_TOKEN" "${list_asset_url}" | jq -r ".assets[] | select(.name==\"${contract}.wasm\") | .url")
   rm -f "./${contract}.wasm"
@@ -33,4 +33,4 @@ for contract in petri_trusted_circle petri_oc_proposals petri_ap_voting; do
   curl -LJO -H 'Accept: application/octet-stream' -H "Authorization: token $GITHUB_API_TOKEN" "$asset_url"
 done
 
-echo -e "Poe $poe_tag\nPetri $petri_tag" >version.txt
+echo -e "Poe $poe_tag\nPetri $furya_tag" >version.txt

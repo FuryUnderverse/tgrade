@@ -13,7 +13,7 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/contract"
 )
 
 // ExportAppStateAndValidators exports the state of the application for a genesis

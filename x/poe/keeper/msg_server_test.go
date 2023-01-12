@@ -23,10 +23,10 @@ import (
 	"github.com/tendermint/tendermint/libs/rand"
 	types1 "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
-	"github.com/blackfury-1/petri/x/poe/keeper/poetesting"
-	"github.com/blackfury-1/petri/x/poe/types"
-	wasmtesting "github.com/blackfury-1/petri/x/twasm/testing"
+	"github.com/oldfurya/furya/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/keeper/poetesting"
+	"github.com/oldfurya/furya/x/poe/types"
+	wasmtesting "github.com/oldfurya/furya/x/twasm/testing"
 )
 
 func TestCreateValidator(t *testing.T) {
@@ -141,7 +141,7 @@ func TestCreateValidator(t *testing.T) {
 				assert.Equal(t, spec.expVestingDelegation.Amount.String(), gotStakeMsg.Bond.VestingTokens.Amount)
 				assert.Equal(t, spec.expVestingDelegation.Denom, gotStakeMsg.Bond.VestingTokens.Denom)
 			} else {
-				assert.Equal(t, wasmvmtypes.NewCoin(0, "upetri"), *gotStakeMsg.Bond.VestingTokens)
+				assert.Equal(t, wasmvmtypes.NewCoin(0, "ufury"), *gotStakeMsg.Bond.VestingTokens)
 			}
 
 			assert.Equal(t, myOperatorAddr, capturedOpAddr)
@@ -428,7 +428,7 @@ func TestDelegate(t *testing.T) {
 			assert.Equal(t, sdk.EventTypeMessage, em.Events()[0].Type)
 			assert.Equal(t, types.EventTypeDelegate, em.Events()[1].Type)
 			assert.Equal(t, "amount", string(em.Events()[1].Attributes[0].Key))
-			assert.Equal(t, "1upetri", string(em.Events()[1].Attributes[0].Value))
+			assert.Equal(t, "1ufury", string(em.Events()[1].Attributes[0].Value))
 		})
 	}
 }
@@ -507,7 +507,7 @@ func TestUndelegate(t *testing.T) {
 			assert.Equal(t, sdk.EventTypeMessage, em.Events()[1].Type)
 			assert.Equal(t, types.EventTypeUndelegate, em.Events()[2].Type)
 			assert.Equal(t, "amount", string(em.Events()[2].Attributes[0].Key))
-			assert.Equal(t, "1upetri", string(em.Events()[2].Attributes[0].Value))
+			assert.Equal(t, "1ufury", string(em.Events()[2].Attributes[0].Value))
 		})
 	}
 }

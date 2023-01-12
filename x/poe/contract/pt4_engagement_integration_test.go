@@ -12,10 +12,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/rand"
 
-	"github.com/blackfury-1/petri/x/poe"
-	"github.com/blackfury-1/petri/x/poe/contract"
-	"github.com/blackfury-1/petri/x/poe/keeper"
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe"
+	"github.com/oldfurya/furya/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/keeper"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 //go:embed pt4_engagement.wasm
@@ -154,9 +154,9 @@ func TestQueryWithdrawableRewards(t *testing.T) {
 			require.NoError(t, gotErr)
 
 			if spec.expRewards {
-				assert.True(t, gotAmount.IsGTE(sdk.NewCoin("upetri", sdk.OneInt())))
+				assert.True(t, gotAmount.IsGTE(sdk.NewCoin("ufury", sdk.OneInt())))
 			} else {
-				assert.Equal(t, sdk.NewCoin("upetri", sdk.ZeroInt()), gotAmount)
+				assert.Equal(t, sdk.NewCoin("ufury", sdk.ZeroInt()), gotAmount)
 			}
 		})
 	}

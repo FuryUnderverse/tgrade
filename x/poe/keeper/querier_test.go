@@ -19,9 +19,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
-	"github.com/blackfury-1/petri/x/poe/keeper/poetesting"
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/keeper/poetesting"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 func TestQueryContractAddress(t *testing.T) {
@@ -277,7 +277,7 @@ func TestValidatorDelegation(t *testing.T) {
 	var myOperatorAddr sdk.AccAddress = rand.Bytes(address.Len)
 
 	poeKeeper := PoEKeeperMock{
-		GetBondDenomFn: func(ctx sdk.Context) string { return "upetri" },
+		GetBondDenomFn: func(ctx sdk.Context) string { return "ufury" },
 	}
 
 	specs := map[string]struct {
@@ -293,7 +293,7 @@ func TestValidatorDelegation(t *testing.T) {
 				return &amount, nil
 			}},
 			exp: &types.QueryValidatorDelegationResponse{
-				Balance: sdk.NewCoin("upetri", sdk.NewInt(10)),
+				Balance: sdk.NewCoin("ufury", sdk.NewInt(10)),
 			},
 		},
 		"empty": {
@@ -423,10 +423,10 @@ func TestValidatorOutstandingReward(t *testing.T) {
 			src: &types.QueryValidatorOutstandingRewardRequest{ValidatorAddress: anyAddr.String()},
 			mock: poetesting.DistributionContractMock{ValidatorOutstandingRewardFn: func(ctx sdk.Context, addr sdk.AccAddress) (sdk.Coin, error) {
 				require.Equal(t, anyAddr, addr)
-				return sdk.NewCoin("upetri", sdk.OneInt()), nil
+				return sdk.NewCoin("ufury", sdk.OneInt()), nil
 			}},
 			exp: &types.QueryValidatorOutstandingRewardResponse{
-				Reward: sdk.NewDecCoin("upetri", sdk.OneInt()),
+				Reward: sdk.NewDecCoin("ufury", sdk.OneInt()),
 			},
 		},
 		"not found": {
@@ -478,10 +478,10 @@ func TestValidatorEngagementReward(t *testing.T) {
 			src: &types.QueryValidatorEngagementRewardRequest{ValidatorAddress: anyAddr.String()},
 			mock: poetesting.EngagementContractMock{QueryWithdrawableRewardsFn: func(ctx sdk.Context, addr sdk.AccAddress) (sdk.Coin, error) {
 				require.Equal(t, anyAddr, addr)
-				return sdk.NewCoin("upetri", sdk.OneInt()), nil
+				return sdk.NewCoin("ufury", sdk.OneInt()), nil
 			}},
 			exp: &types.QueryValidatorEngagementRewardResponse{
-				Reward: sdk.NewDecCoin("upetri", sdk.OneInt()),
+				Reward: sdk.NewDecCoin("ufury", sdk.OneInt()),
 			},
 		},
 		"not found": {

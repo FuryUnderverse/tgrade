@@ -30,13 +30,13 @@ RUN cp /lib/libwasmvm_muslc.${arch}.a /lib/libwasmvm_muslc.a
 # force it to use static lib (from above) not standard libgo_cosmwasm.so file
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc LINK_STATICALLY=true make build
 RUN echo "Ensuring binary is statically linked ..." \
-  && (file /code/build/petri | grep "statically linked")
+  && (file /code/build/furya | grep "statically linked")
 
 
 # --------------------------------------------------------
 FROM alpine:3.15
 
-COPY --from=go-builder /code/build/petri /usr/bin/petri
+COPY --from=go-builder /code/build/furya /usr/bin/furya
 
 WORKDIR /opt
 
@@ -47,4 +47,4 @@ EXPOSE 26656
 # tendermint rpc
 EXPOSE 26657
 
-CMD ["/usr/bin/petri", "version"]
+CMD ["/usr/bin/furya", "version"]

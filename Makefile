@@ -12,7 +12,7 @@ SIMAPP = ./app
 DOCKER := $(shell which docker)
 BUF_IMAGE=bufbuild/buf@sha256:3cb1f8a4b48bd5ad8f09168f10f607ddc318af202f5c057d52a45216793d85e5 # v1.4.0
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(BUF_IMAGE)
-HTTPS_GIT := https://github.com/confiog/petri.git
+HTTPS_GIT := https://github.com/confiog/furya.git
 
 export GO111MODULE = on
 
@@ -55,8 +55,8 @@ build_tags_comma_sep := $(subst $(empty),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=petri \
-		  -X github.com/cosmos/cosmos-sdk/version.AppName=petri \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=furya \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=furya \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
@@ -82,14 +82,14 @@ build: go.sum
 ifeq ($(OS),Windows_NT)
 	exit 1
 else
-	go build -mod=readonly $(BUILD_FLAGS) -o build/petri ./cmd/petri
+	go build -mod=readonly $(BUILD_FLAGS) -o build/furya ./cmd/furya
 endif
 
 install: go.sum
-	go install -mod=readonly $(BUILD_FLAGS) ./cmd/petri
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/furya
 
 build-docker:
-	$(DOCKER) build -t blackfury-1/petri:local .
+	$(DOCKER) build -t oldfurya/furya:local .
 
 ########################################
 ### Tools & dependencies
@@ -105,7 +105,7 @@ go.sum: go.mod
 draw-deps:
 	@# requires brew install graphviz or apt-get install graphviz
 	go install github.com/RobotsAndPencils/goviz
-	@goviz -i ./cmd/petri -d 2 | dot -Tpng -o dependency-graph.png
+	@goviz -i ./cmd/furya -d 2 | dot -Tpng -o dependency-graph.png
 
 clean:
 	rm -rf build/ testnet/
@@ -158,7 +158,7 @@ lint: format-tools
 format: format-tools
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs gofumpt -w -s
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs misspell -w
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs goimports -w -local github.com/blackfury-1/petri
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs goimports -w -local github.com/oldfurya/furya
 
 ###############################################################################
 ###                                Protobuf                                 ###

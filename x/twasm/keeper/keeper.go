@@ -12,7 +12,7 @@ import (
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 type Keeper struct {
@@ -90,12 +90,12 @@ func ModuleLogger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
 
-// setContractDetails stores new petri data with the contract info.
+// setContractDetails stores new furya data with the contract info.
 func (k Keeper) setContractDetails(ctx sdk.Context, contract sdk.AccAddress, details *types.PetriContractDetails) error {
 	return k.contractKeeper.SetContractInfoExtension(ctx, contract, details)
 }
 
-// getContractDetails loads petri details. This method should only be used when no ContractInfo is used anywhere.
+// getContractDetails loads furya details. This method should only be used when no ContractInfo is used anywhere.
 func (k Keeper) getContractDetails(ctx sdk.Context, contract sdk.AccAddress) (*types.PetriContractDetails, error) {
 	contractInfo := k.GetContractInfo(ctx, contract)
 	if contractInfo == nil {

@@ -30,7 +30,7 @@ func TestGenesisCodePin(t *testing.T) {
 		[]string{
 			"wasm-genesis-message",
 			"store",
-			"x/poe/contract/petri_gov_reflect.wasm",
+			"x/poe/contract/furya_gov_reflect.wasm",
 			fmt.Sprintf("--run-as=%s", myKey),
 		},
 		[]string{"wasm-genesis-flags", "set-pinned", "1"},
@@ -82,11 +82,11 @@ func TestVestingAccounts(t *testing.T) {
 	myEndTimestamp := time.Now().Add(time.Hour).Unix()
 	sut.ModifyGenesisCLI(t,
 		// delayed vesting no cash
-		[]string{"add-genesis-account", vest1Addr, "100000000upetri", "--vesting-amount=100000000upetri", fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
+		[]string{"add-genesis-account", vest1Addr, "100000000ufury", "--vesting-amount=100000000ufury", fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
 		// continuous vesting no cash
-		[]string{"add-genesis-account", vest2Addr, "100000001upetri", "--vesting-amount=100000001upetri", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
+		[]string{"add-genesis-account", vest2Addr, "100000001ufury", "--vesting-amount=100000001ufury", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
 		// continuous vesting with some cash
-		[]string{"add-genesis-account", vest3Addr, "200000002upetri", "--vesting-amount=100000002upetri", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
+		[]string{"add-genesis-account", vest3Addr, "200000002ufury", "--vesting-amount=100000002ufury", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
 	)
 	raw := sut.ReadGenesisJSON(t)
 	// delayed vesting: without a start time
@@ -96,7 +96,7 @@ func TestVestingAccounts(t *testing.T) {
 	assert.Equal(t, vest1Addr, gotAddr)
 	amounts := accounts[0].Get("base_vesting_account.original_vesting").Array()
 	require.Len(t, amounts, 1)
-	assert.Equal(t, "upetri", amounts[0].Get("denom").String())
+	assert.Equal(t, "ufury", amounts[0].Get("denom").String())
 	assert.Equal(t, "100000000", amounts[0].Get("amount").String())
 	assert.Equal(t, myEndTimestamp, accounts[0].Get("base_vesting_account.end_time").Int())
 	assert.Equal(t, int64(0), accounts[0].Get("start_time").Int())
@@ -108,7 +108,7 @@ func TestVestingAccounts(t *testing.T) {
 	assert.Equal(t, vest2Addr, gotAddr)
 	amounts = accounts[0].Get("base_vesting_account.original_vesting").Array()
 	require.Len(t, amounts, 1)
-	assert.Equal(t, "upetri", amounts[0].Get("denom").String())
+	assert.Equal(t, "ufury", amounts[0].Get("denom").String())
 	assert.Equal(t, "100000001", amounts[0].Get("amount").String())
 	assert.Equal(t, myEndTimestamp, accounts[0].Get("base_vesting_account.end_time").Int())
 	assert.Equal(t, myStartTimestamp, accounts[0].Get("start_time").Int())
@@ -117,15 +117,15 @@ func TestVestingAccounts(t *testing.T) {
 	assert.Equal(t, vest3Addr, gotAddr)
 	amounts = accounts[1].Get("base_vesting_account.original_vesting").Array()
 	require.Len(t, amounts, 1)
-	assert.Equal(t, "upetri", amounts[0].Get("denom").String())
+	assert.Equal(t, "ufury", amounts[0].Get("denom").String())
 	assert.Equal(t, "100000002", amounts[0].Get("amount").String())
 	assert.Equal(t, myEndTimestamp, accounts[0].Get("base_vesting_account.end_time").Int())
 	assert.Equal(t, myStartTimestamp, accounts[0].Get("start_time").Int())
 
 	// check accounts have some balances
-	assert.Equal(t, sdk.NewCoins(sdk.NewCoin("upetri", sdk.NewInt(100000000))), getGenesisBalance([]byte(raw), vest1Addr))
-	assert.Equal(t, sdk.NewCoins(sdk.NewCoin("upetri", sdk.NewInt(100000001))), getGenesisBalance([]byte(raw), vest2Addr))
-	assert.Equal(t, sdk.NewCoins(sdk.NewCoin("upetri", sdk.NewInt(200000002))), getGenesisBalance([]byte(raw), vest3Addr))
+	assert.Equal(t, sdk.NewCoins(sdk.NewCoin("ufury", sdk.NewInt(100000000))), getGenesisBalance([]byte(raw), vest1Addr))
+	assert.Equal(t, sdk.NewCoins(sdk.NewCoin("ufury", sdk.NewInt(100000001))), getGenesisBalance([]byte(raw), vest2Addr))
+	assert.Equal(t, sdk.NewCoins(sdk.NewCoin("ufury", sdk.NewInt(200000002))), getGenesisBalance([]byte(raw), vest3Addr))
 }
 
 func TestVestingAccountsWithHumanCoinType(t *testing.T) {
@@ -137,16 +137,16 @@ func TestVestingAccountsWithHumanCoinType(t *testing.T) {
 	myStartTimestamp := time.Now().Add(time.Minute).Unix()
 	myEndTimestamp := time.Now().Add(time.Hour).Unix()
 	sut.ModifyGenesisCLI(t,
-		[]string{"add-genesis-account", vest1Addr, "5petri", "--vesting-amount=3petri", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
-		[]string{"add-genesis-account", vest2Addr, "500petri", "--vesting-amount=10upetri", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
-		[]string{"add-genesis-account", vest3Addr, "0.3petri", "--vesting-amount=0.2petri", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
+		[]string{"add-genesis-account", vest1Addr, "5furya", "--vesting-amount=3furya", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
+		[]string{"add-genesis-account", vest2Addr, "500furya", "--vesting-amount=10ufury", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
+		[]string{"add-genesis-account", vest3Addr, "0.3furya", "--vesting-amount=0.2furya", fmt.Sprintf("--vesting-start-time=%d", myStartTimestamp), fmt.Sprintf("--vesting-end-time=%d", myEndTimestamp)},
 	)
 
 	sut.StartChain(t)
 
-	assert.Equal(t, int64(5_000_000), cli.QueryBalance(vest1Addr, "upetri"))
-	assert.Equal(t, int64(500_000_000), cli.QueryBalance(vest2Addr, "upetri"))
-	assert.Equal(t, int64(300_000), cli.QueryBalance(vest3Addr, "upetri"))
+	assert.Equal(t, int64(5_000_000), cli.QueryBalance(vest1Addr, "ufury"))
+	assert.Equal(t, int64(500_000_000), cli.QueryBalance(vest2Addr, "ufury"))
+	assert.Equal(t, int64(300_000), cli.QueryBalance(vest3Addr, "ufury"))
 }
 
 func getGenesisBalance(raw []byte, addr string) sdk.Coins {

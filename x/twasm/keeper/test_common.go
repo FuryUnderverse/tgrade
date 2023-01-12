@@ -55,8 +55,8 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	appparams "github.com/blackfury-1/petri/app/params"
-	"github.com/blackfury-1/petri/x/twasm/types"
+	appparams "github.com/oldfurya/furya/app/params"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 var moduleBasics = module.NewBasicManager(
@@ -233,7 +233,7 @@ func createTestInput(
 	scopedIBCKeeper := capabilityKeeper.ScopeToModule(ibchost.ModuleName)
 	scopedWasmKeeper := capabilityKeeper.ScopeToModule(types.ModuleName)
 
-	faucet := wasmkeeper.NewTestFaucet(t, ctx, bankKeeper, types.ModuleName, sdk.NewCoin("upetri", sdk.NewInt(100_000_000_000)))
+	faucet := wasmkeeper.NewTestFaucet(t, ctx, bankKeeper, types.ModuleName, sdk.NewCoin("ufury", sdk.NewInt(100_000_000_000)))
 
 	ibcKeeper := ibckeeper.NewKeeper(
 		appCodec,

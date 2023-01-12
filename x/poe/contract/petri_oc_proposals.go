@@ -3,7 +3,7 @@ package contract
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 type OCProposalsContractAdapter struct {

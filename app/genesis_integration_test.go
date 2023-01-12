@@ -9,7 +9,7 @@ import (
 
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	poetypes "github.com/blackfury-1/petri/x/poe/types"
+	poetypes "github.com/oldfurya/furya/x/poe/types"
 
 	"github.com/stretchr/testify/assert"
 	tmjson "github.com/tendermint/tendermint/libs/json"
@@ -19,8 +19,8 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	db "github.com/tendermint/tm-db"
 
-	"github.com/blackfury-1/petri/x/twasm"
-	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm"
+	twasmtypes "github.com/oldfurya/furya/x/twasm/types"
 )
 
 func TestPetriGenesisExportImport(t *testing.T) {

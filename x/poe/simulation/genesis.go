@@ -20,14 +20,14 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
-const defaultDenom = "upetri"
+const defaultDenom = "ufury"
 
 // RandomizedGenState generates a random GenesisState
 func RandomizedGenState(simState *module.SimulationState) {
-	// petri-contracts do not support "stake" token
+	// furya-contracts do not support "stake" token
 	// quick and dirty hack to replace the default staking denom everywhere
 
 	for k, v := range simState.GenState {

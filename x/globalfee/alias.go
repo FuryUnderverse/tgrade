@@ -3,7 +3,7 @@
 package globalfee
 
 import (
-	"github.com/blackfury-1/petri/x/globalfee/types"
+	"github.com/oldfurya/furya/x/globalfee/types"
 )
 
 const (

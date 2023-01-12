@@ -83,7 +83,7 @@ func (s *SystemUnderTest) SetupChain() {
 		"--single-host",
 	}
 	cmd := exec.Command( //nolint:gosec
-		locateExecutable("petri"),
+		locateExecutable("furya"),
 		args...,
 	)
 	cmd.Dir = workDir
@@ -244,7 +244,7 @@ func (s *SystemUnderTest) StopChain() {
 	}
 	s.cleanupFn = nil
 	// send SIGTERM
-	cmd := exec.Command(locateExecutable("pkill"), "-15", "petri") //nolint:gosec
+	cmd := exec.Command(locateExecutable("pkill"), "-15", "furya") //nolint:gosec
 	cmd.Dir = workDir
 	if _, err := cmd.CombinedOutput(); err != nil {
 		s.Logf("failed to stop chain: %s\n", err)
@@ -255,14 +255,14 @@ func (s *SystemUnderTest) StopChain() {
 		select {
 		case <-timeout:
 			s.Log("killing nodes now")
-			cmd = exec.Command(locateExecutable("pkill"), "-9", "petri") //nolint:gosec
+			cmd = exec.Command(locateExecutable("pkill"), "-9", "furya") //nolint:gosec
 			cmd.Dir = workDir
 			if _, err := cmd.CombinedOutput(); err != nil {
 				s.Logf("failed to kill process: %s\n", err)
 			}
 			shutdown = true
 		default:
-			if err := exec.Command(locateExecutable("pgrep"), "petri").Run(); err != nil { //nolint:gosec
+			if err := exec.Command(locateExecutable("pgrep"), "furya").Run(); err != nil { //nolint:gosec
 				shutdown = true
 			}
 		}
@@ -285,7 +285,7 @@ func (s SystemUnderTest) PrintBuffer() {
 	})
 }
 
-// BuildNewBinary builds and installs new petri binary
+// BuildNewBinary builds and installs new furya binary
 func (s SystemUnderTest) BuildNewBinary() {
 	s.Log("Install binaries\n")
 	makePath := locateExecutable("make")
@@ -426,7 +426,7 @@ func saveGenesis(home string, content []byte) error {
 	return nil
 }
 
-// ForEachNodeExecAndWait runs the given petri commands for all cluster nodes synchronously
+// ForEachNodeExecAndWait runs the given furya commands for all cluster nodes synchronously
 // The commands output is returned for each node.
 func (s *SystemUnderTest) ForEachNodeExecAndWait(t *testing.T, cmds ...[]string) [][]string {
 	result := make([][]string, s.nodesCount)
@@ -434,9 +434,9 @@ func (s *SystemUnderTest) ForEachNodeExecAndWait(t *testing.T, cmds ...[]string)
 		result[i] = make([]string, len(cmds))
 		for j, xargs := range cmds {
 			xargs = append(xargs, "--home", home)
-			s.Logf("Execute `petri %s`\n", strings.Join(xargs, " "))
+			s.Logf("Execute `furya %s`\n", strings.Join(xargs, " "))
 			cmd := exec.Command( //nolint:gosec
-				locateExecutable("petri"),
+				locateExecutable("furya"),
 				xargs...,
 			)
 			cmd.Dir = workDir
@@ -449,14 +449,14 @@ func (s *SystemUnderTest) ForEachNodeExecAndWait(t *testing.T, cmds ...[]string)
 	return result
 }
 
-// forEachNodesExecAsync runs the given petri command for all cluster nodes and returns without waiting
+// forEachNodesExecAsync runs the given furya command for all cluster nodes and returns without waiting
 func (s *SystemUnderTest) forEachNodesExecAsync(t *testing.T, xargs ...string) []func() error {
 	r := make([]func() error, s.nodesCount)
 	s.withEachNodeHome(func(i int, home string) {
 		args := append(xargs, "--home", home) //nolint:gocritic
-		s.Logf("Execute `petri %s`\n", strings.Join(args, " "))
+		s.Logf("Execute `furya %s`\n", strings.Join(args, " "))
 		cmd := exec.Command( //nolint:gosec
-			locateExecutable("petri"),
+			locateExecutable("furya"),
 			args...,
 		)
 		cmd.Dir = workDir
@@ -475,7 +475,7 @@ func (s SystemUnderTest) withEachNodeHome(cb func(i int, home string)) {
 
 // nodePath returns the path of the node within the work dir. not absolute
 func (s SystemUnderTest) nodePath(i int) string {
-	return fmt.Sprintf("%s/node%d/petri", s.outputDir, i)
+	return fmt.Sprintf("%s/node%d/furya", s.outputDir, i)
 }
 
 func (s SystemUnderTest) Log(msg string) {
@@ -533,9 +533,9 @@ func (s *SystemUnderTest) AddFullnode(t *testing.T, beforeStart ...func(nodeNumb
 	// prepare new node
 	moniker := fmt.Sprintf("node%d", nodeNumber)
 	args := []string{"init", moniker, "--home", nodePath, "--overwrite"}
-	s.Logf("Execute `petri %s`\n", strings.Join(args, " "))
+	s.Logf("Execute `furya %s`\n", strings.Join(args, " "))
 	cmd := exec.Command( //nolint:gosec
-		locateExecutable("petri"),
+		locateExecutable("furya"),
 		args...,
 	)
 	cmd.Dir = workDir
@@ -570,9 +570,9 @@ func (s *SystemUnderTest) AddFullnode(t *testing.T, beforeStart ...func(nodeNumb
 		"--trace", "--log_level=info",
 		"--home", nodePath,
 	}
-	s.Logf("Execute `petri %s`\n", strings.Join(args, " "))
+	s.Logf("Execute `furya %s`\n", strings.Join(args, " "))
 	cmd = exec.Command( //nolint:gosec
-		locateExecutable("petri"),
+		locateExecutable("furya"),
 		args...,
 	)
 	cmd.Dir = workDir

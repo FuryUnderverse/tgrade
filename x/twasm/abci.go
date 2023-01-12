@@ -8,9 +8,9 @@ import (
 
 	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/blackfury-1/petri/x/twasm/contract"
-	"github.com/blackfury-1/petri/x/twasm/keeper"
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/contract"
+	"github.com/oldfurya/furya/x/twasm/keeper"
+	"github.com/oldfurya/furya/x/twasm/types"
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"

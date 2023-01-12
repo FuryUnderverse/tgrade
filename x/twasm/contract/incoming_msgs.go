@@ -16,7 +16,7 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ibcclienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
 
-	"github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 // PetriMsg messages coming from a contract
@@ -132,7 +132,7 @@ func (p *ExecuteGovProposal) unpackInterfaces(unpacker codectypes.AnyUnpacker) e
 	var err error
 	switch { //nolint:gocritic
 	case p.Proposal.RegisterUpgrade != nil:
-		// revisit with https://github.com/blackfury-1/petri/issues/364
+		// revisit with https://github.com/oldfurya/furya/issues/364
 		if p.Proposal.RegisterUpgrade.UpgradedClientState != nil { //nolint:staticcheck
 			return sdkerrors.ErrInvalidRequest.Wrap("upgrade logic for IBC has been moved to the IBC module")
 		}
@@ -257,7 +257,7 @@ func (p *GovProposal) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// proposalContent contains the concrete cosmos-sdk/ petri gov proposal types
+// proposalContent contains the concrete cosmos-sdk/ furya gov proposal types
 type proposalContent struct {
 	// Signaling proposal, the text and description field will be recorded
 	Text *govtypes.TextProposal `json:"text"`
@@ -279,10 +279,10 @@ type proposalContent struct {
 	// See https://github.com/cosmos/cosmos-sdk/blob/v0.42.3/proto/ibc/core/client/v1/client.proto#L36-L49
 	IBCClientUpdate *ibcclienttypes.ClientUpdateProposal `json:"ibc_client_update"`
 
-	// See https://github.com/blackfury-1/petri/blob/privileged_contracts_5/proto/confio/twasm/v1beta1/proposal.proto
+	// See https://github.com/oldfurya/furya/blob/privileged_contracts_5/proto/confio/twasm/v1beta1/proposal.proto
 	PromoteToPrivilegedContract *types.PromoteToPrivilegedContractProposal `json:"promote_to_privileged_contract"`
 
-	// See https://github.com/blackfury-1/petri/blob/privileged_contracts_5/proto/confio/twasm/v1beta1/proposal.proto
+	// See https://github.com/oldfurya/furya/blob/privileged_contracts_5/proto/confio/twasm/v1beta1/proposal.proto
 	DemotePrivilegedContract *types.DemotePrivilegedContractProposal `json:"demote_privileged_contract"`
 
 	// See https://github.com/CosmWasm/wasmd/blob/master/proto/cosmwasm/wasm/v1/proposal.proto#L32-L54
@@ -308,7 +308,7 @@ type proposalContent struct {
 }
 
 // MintTokens custom message to mint native tokens on the chain.
-// See https://github.com/blackfury-1/petri-contracts/blob/main/packages/bindings/schema/petri_msg.json
+// See https://github.com/oldfurya/furya-contracts/blob/main/packages/bindings/schema/furya_msg.json
 type MintTokens struct {
 	Denom         string `json:"denom"`
 	Amount        string `json:"amount"`

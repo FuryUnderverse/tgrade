@@ -1,8 +1,8 @@
 # Contracts
-Petri smart contracts. See https://github.com/blackfury-1/petri-contracts for source code and details.
+Petri smart contracts. See https://github.com/oldfurya/furya-contracts for source code and details.
 
-![Arch with Gov](https://github.com/blackfury-1/petri-contracts/blob/main/docs/Architecture.md)
-[Architecture](https://github.com/blackfury-1/petri-contracts/blob/main/docs/Architecture.md)
+![Arch with Gov](https://github.com/oldfurya/furya-contracts/blob/main/docs/Architecture.md)
+[Architecture](https://github.com/oldfurya/furya-contracts/blob/main/docs/Architecture.md)
 
 ## Developers
 ### Test strategy

@@ -22,8 +22,8 @@ import (
 	"github.com/spf13/cobra"
 	flag "github.com/spf13/pflag"
 
-	poecontracts "github.com/blackfury-1/petri/x/poe/contract"
-	"github.com/blackfury-1/petri/x/poe/types"
+	poecontracts "github.com/oldfurya/furya/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
 // default values
@@ -79,13 +79,13 @@ func NewCreateValidatorCmd() *cobra.Command {
 address instead of keyname to --from flag.
 
 Example:
-$ petri tx poe create-validator \
-	--amount 1000upetri \
-	--vesting-amount 1000upetri \
-	--from petri1n4kjhlrpapnpv0n0e3048ydftrjs9m6mm473jf \
-	--pubkey petrivalconspub1zcjduepqu7xf85mmfyv5p9m8mc6wk0u0pcjwcpr9p8wsv4h96dhpxqyxs4uqv06vlq \
+$ furya tx poe create-validator \
+	--amount 1000ufury \
+	--vesting-amount 1000ufury \
+	--from furya1n4kjhlrpapnpv0n0e3048ydftrjs9m6mm473jf \
+	--pubkey furyavalconspub1zcjduepqu7xf85mmfyv5p9m8mc6wk0u0pcjwcpr9p8wsv4h96dhpxqyxs4uqv06vlq \
 	--home $APP_HOME \
-	--chain-id=petri-int \
+	--chain-id=furya-int \
     --moniker="myvalidator" \
     --details="..." \
     --security-contact="..." \
@@ -357,8 +357,8 @@ func NewDelegateCmd() *cobra.Command {
 			fmt.Sprintf(`Delegate an amount of liquid and/or illiquid (vesting) coins to a validator from your wallet.
 
 Examples:
-$ %s tx poe self-delegate 1000000000upetri 0upetri --from mykey
-$ %s tx poe self-delegate 500000000upetri 500000000upetri --from mykey
+$ %s tx poe self-delegate 1000000000ufury 0ufury --from mykey
+$ %s tx poe self-delegate 500000000ufury 500000000ufury --from mykey
 `,
 				version.AppName,
 				version.AppName,
@@ -540,7 +540,7 @@ func NewSetWithdrawAddressCmd() *cobra.Command {
 		Long: fmt.Sprintf(`Sets given address as allowed for senders funds withdrawal.
 
 Example:
-$ %s tx poe set-withdraw-address petri1n4kjhlrpapnpv0n0e3048ydftrjs9m6mm473jf`, version.AppName),
+$ %s tx poe set-withdraw-address furya1n4kjhlrpapnpv0n0e3048ydftrjs9m6mm473jf`, version.AppName),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {

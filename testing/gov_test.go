@@ -24,7 +24,7 @@ func TestGovProposal(t *testing.T) {
 		{
 			"wasm-genesis-message",
 			"store",
-			"x/poe/contract/petri_gov_reflect.wasm",
+			"x/poe/contract/furya_gov_reflect.wasm",
 			fmt.Sprintf("--run-as=%s", myKey),
 		},
 		{

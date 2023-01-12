@@ -7,7 +7,7 @@ import "cosmwasm/wasm/v1/genesis.proto";
 import "confio/poe/v1beta1/poe.proto";
 import "google/protobuf/duration.proto";
 
-option go_package = "github.com/blackfury-1/petri/x/poe/types";
+option go_package = "github.com/oldfurya/furya/x/poe/types";
 
 // GenesisState - initial state of module
 message GenesisState {
@@ -194,7 +194,7 @@ message EngagementContractConfig {
 message OversightCommitteeContractConfig {
   // Name of TRUSTED_CIRCLE
   string name = 1;
-  // EscrowAmount The required escrow amount, in the default denom (upetri)
+  // EscrowAmount The required escrow amount, in the default denom (ufury)
   cosmos.base.v1beta1.Coin escrow_amount = 2 [ (gogoproto.nullable) = false ];
 
   // VotingRules rules for the tally
@@ -256,7 +256,7 @@ message VotingRules {
 message ArbiterPoolContractConfig {
   // Name of TRUSTED_CIRCLE
   string name = 1;
-  // EscrowAmount The required escrow amount, in the default denom (upetri)
+  // EscrowAmount The required escrow amount, in the default denom (ufury)
   cosmos.base.v1beta1.Coin escrow_amount = 2 [ (gogoproto.nullable) = false ];
 
   // VotingRules rules for the tally
@@ -266,7 +266,7 @@ message ArbiterPoolContractConfig {
   // denied to be part of TrustedCircle
   string deny_list_contract_address = 4;
 
-  // DisputeCost The required dispute amount, in the default denom (upetri)
+  // DisputeCost The required dispute amount, in the default denom (ufury)
   cosmos.base.v1beta1.Coin dispute_cost = 5 [ (gogoproto.nullable) = false ];
 
   google.protobuf.Duration waiting_period = 6

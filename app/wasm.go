@@ -10,9 +10,9 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
-	poewasm "github.com/blackfury-1/petri/x/poe/wasm"
-	twasmkeeper "github.com/blackfury-1/petri/x/twasm/keeper"
-	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
+	poewasm "github.com/oldfurya/furya/x/poe/wasm"
+	twasmkeeper "github.com/oldfurya/furya/x/twasm/keeper"
+	twasmtypes "github.com/oldfurya/furya/x/twasm/types"
 )
 
 func SetupWasmHandlers(

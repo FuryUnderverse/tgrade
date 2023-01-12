@@ -12,13 +12,13 @@ This module provides first class support for PoE:
 
 ### Contracts
 
-* [pt4-group](https://github.com/blackfury-1/petri-contracts/tree/main/contracts/pt4-group) - engagement group with weighted
+* [pt4-group](https://github.com/oldfurya/furya-contracts/tree/main/contracts/pt4-group) - engagement group with weighted
   members
-* [pt4-stake](https://github.com/blackfury-1/petri-contracts/tree/main/contracts/pt4-stake) - validator group weighted by
+* [pt4-stake](https://github.com/oldfurya/furya-contracts/tree/main/contracts/pt4-stake) - validator group weighted by
   staked amount
-* [valset](https://github.com/blackfury-1/petri-contracts/tree/main/contracts/petri-valset) - privileged contract to map a
+* [valset](https://github.com/oldfurya/furya-contracts/tree/main/contracts/furya-valset) - privileged contract to map a
   trusted cw4 contract to the Tendermint validator set running the chain
-* [mixer](https://github.com/blackfury-1/petri-contracts/tree/main/contracts/pt4-mixer) - calculates the combined value of
+* [mixer](https://github.com/oldfurya/furya-contracts/tree/main/contracts/pt4-mixer) - calculates the combined value of
   stake and engagement points. Source for the valset contract.
 
 ### Command line interface (CLI)
@@ -26,13 +26,13 @@ This module provides first class support for PoE:
 * Commands
 
 ```sh
-  petri tx poe -h
+  furya tx poe -h
 ```
 
 * Query
 
 ```sh
-  petri query poe -h
+  furya query poe -h
 ```
 
 ### Disclaimer

@@ -9,7 +9,7 @@ import (
 
 	wasmapp "github.com/CosmWasm/wasmd/app"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/contract"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
@@ -18,10 +18,10 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/x/poe/types"
 )
 
-//go:embed petri_validator_voting.wasm
+//go:embed furya_validator_voting.wasm
 var validatorVotingContract []byte
 
 func TestValidatorsGovProposal(t *testing.T) {

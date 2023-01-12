@@ -15,9 +15,9 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	poetypes "github.com/blackfury-1/petri/x/poe/types"
-	"github.com/blackfury-1/petri/x/twasm/contract"
-	"github.com/blackfury-1/petri/x/twasm/types"
+	poetypes "github.com/oldfurya/furya/x/poe/types"
+	"github.com/oldfurya/furya/x/twasm/contract"
+	"github.com/oldfurya/furya/x/twasm/types"
 )
 
 // PetriWasmHandlerKeeper defines a subset of Keeper

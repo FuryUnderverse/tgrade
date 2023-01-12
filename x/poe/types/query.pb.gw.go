@@ -860,23 +860,23 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_ContractAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"petri", "poe", "v1beta1", "contract", "contract_type"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_ContractAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"furya", "poe", "v1beta1", "contract", "contract_type"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Validators_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"petri", "poe", "v1beta1", "validators"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Validators_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"furya", "poe", "v1beta1", "validators"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Validator_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"petri", "poe", "v1beta1", "validators", "validator_addr"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Validator_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"furya", "poe", "v1beta1", "validators", "validator_addr"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_UnbondingPeriod_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"petri", "poe", "v1beta1", "unbonding"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_UnbondingPeriod_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"furya", "poe", "v1beta1", "unbonding"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_ValidatorDelegation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"poe", "petri", "v1beta1", "validators", "validator_addr", "delegation"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_ValidatorDelegation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"poe", "furya", "v1beta1", "validators", "validator_addr", "delegation"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_ValidatorUnbondingDelegations_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"petri", "poe", "v1beta1", "validators", "validator_addr", "unbonding_delegations"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_ValidatorUnbondingDelegations_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"furya", "poe", "v1beta1", "validators", "validator_addr", "unbonding_delegations"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_HistoricalInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"petri", "poe", "v1beta1", "historical_info", "height"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_HistoricalInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"furya", "poe", "v1beta1", "historical_info", "height"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_ValidatorOutstandingReward_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"petri", "poe", "v1beta1", "validators", "validator_address", "outstanding_reward"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_ValidatorOutstandingReward_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"furya", "poe", "v1beta1", "validators", "validator_address", "outstanding_reward"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_ValidatorEngagementReward_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"petri", "poe", "v1beta1", "validators", "validator_address", "engagement_reward"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_ValidatorEngagementReward_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"furya", "poe", "v1beta1", "validators", "validator_address", "engagement_reward"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

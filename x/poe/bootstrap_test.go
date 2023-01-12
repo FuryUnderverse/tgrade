@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/blackfury-1/petri/x/poe/contract"
-	"github.com/blackfury-1/petri/x/poe/types"
-	twasmtypes "github.com/blackfury-1/petri/x/twasm/types"
+	"github.com/oldfurya/furya/x/poe/contract"
+	"github.com/oldfurya/furya/x/poe/types"
+	twasmtypes "github.com/oldfurya/furya/x/twasm/types"
 )
 
 func TestCreateValsetInitMsg(t *testing.T) {
@@ -34,7 +34,7 @@ func TestCreateValsetInitMsg(t *testing.T) {
 				MinPoints:            1,
 				MaxValidators:        100,
 				EpochLength:          60,
-				EpochReward:          sdk.NewCoin("upetri", sdk.NewInt(100_000)),
+				EpochReward:          sdk.NewCoin("ufury", sdk.NewInt(100_000)),
 				Scaling:              1,
 				FeePercentage:        contract.DecimalFromProMille(500),
 				InitialKeys:          []contract.Validator{},
@@ -59,7 +59,7 @@ func TestCreateValsetInitMsg(t *testing.T) {
 				MinPoints:            1,
 				MaxValidators:        100,
 				EpochLength:          60,
-				EpochReward:          sdk.NewCoin("upetri", sdk.NewInt(100_000)),
+				EpochReward:          sdk.NewCoin("ufury", sdk.NewInt(100_000)),
 				Scaling:              1,
 				FeePercentage:        contract.DecimalFromProMille(501),
 				InitialKeys:          []contract.Validator{},
@@ -84,7 +84,7 @@ func TestCreateValsetInitMsg(t *testing.T) {
 				MinPoints:            1,
 				MaxValidators:        100,
 				EpochLength:          60,
-				EpochReward:          sdk.NewCoin("upetri", sdk.NewInt(100_000)),
+				EpochReward:          sdk.NewCoin("ufury", sdk.NewInt(100_000)),
 				Scaling:              1,
 				FeePercentage:        contract.DecimalFromProMille(1),
 				InitialKeys:          []contract.Validator{},
@@ -109,7 +109,7 @@ func TestCreateValsetInitMsg(t *testing.T) {
 				MinPoints:            1,
 				MaxValidators:        100,
 				EpochLength:          60,
-				EpochReward:          sdk.NewCoin("upetri", sdk.NewInt(100_000)),
+				EpochReward:          sdk.NewCoin("ufury", sdk.NewInt(100_000)),
 				Scaling:              1,
 				FeePercentage:        &minDecimal,
 				InitialKeys:          []contract.Validator{},

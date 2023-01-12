@@ -9,7 +9,7 @@ import (
 )
 
 // defined via in protobuf package structure. Note the leading `/`
-const petriExtType = "/confio.twasm.v1beta1.PetriContractDetails"
+const furyaExtType = "/confio.twasm.v1beta1.PetriContractDetails"
 
 func (g GenesisState) ValidateBasic() error {
 	wasmState := g.RawWasmState()
@@ -18,7 +18,7 @@ func (g GenesisState) ValidateBasic() error {
 	}
 	for _, c := range wasmState.Contracts {
 		if c.ContractInfo.Extension != nil {
-			if petriExtType != c.ContractInfo.Extension.TypeUrl {
+			if furyaExtType != c.ContractInfo.Extension.TypeUrl {
 				return sdkerrors.Wrapf(wasmtypes.ErrInvalidGenesis, "invalid extension type: %s, contract %s", c.ContractInfo.Extension.TypeUrl, c.ContractAddress)
 			}
 		}

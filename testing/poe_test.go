@@ -15,10 +15,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/gjson"
 
-	"github.com/blackfury-1/petri/app"
-	testingcontract "github.com/blackfury-1/petri/testing/contract"
-	poecontracts "github.com/blackfury-1/petri/x/poe/contract"
-	poetypes "github.com/blackfury-1/petri/x/poe/types"
+	"github.com/oldfurya/furya/app"
+	testingcontract "github.com/oldfurya/furya/testing/contract"
+	poecontracts "github.com/oldfurya/furya/x/poe/contract"
+	poetypes "github.com/oldfurya/furya/x/poe/types"
 )
 
 func TestProofOfEngagementSetup(t *testing.T) {
@@ -34,7 +34,7 @@ func TestProofOfEngagementSetup(t *testing.T) {
 	cli := NewPetriCli(t, sut, verbose)
 
 	// contract addresses are deterministic. You can get a list of all contracts in genesis via
-	// `petri wasm-genesis-message list-contracts --home ./testnet/node0/petri`
+	// `furya wasm-genesis-message list-contracts --home ./testnet/node0/furya`
 
 	pt4BootstrapAccountAddr := cli.GetKeyAddr("bootstrap-account")
 
@@ -73,9 +73,9 @@ func TestProofOfEngagementSetup(t *testing.T) {
 	}
 	initialValBalances := make(map[string]int64, len(sortedMember))
 	for _, v := range sortedMember {
-		initialValBalances[v.Addr] = cli.QueryBalance(v.Addr, "upetri")
+		initialValBalances[v.Addr] = cli.QueryBalance(v.Addr, "ufury")
 	}
-	initialSupply := cli.QueryTotalSupply("upetri")
+	initialSupply := cli.QueryTotalSupply("ufury")
 
 	// And when removed from **engagement** group
 	engagementUpdateMsg := poecontracts.UpdateMembersMsg{
@@ -95,12 +95,12 @@ func TestProofOfEngagementSetup(t *testing.T) {
 	assertValidatorsUpdated(t, sortedMember, stakedAmounts, sut.nodesCount-1)
 
 	// and new tokens were minted
-	assert.Greater(t, cli.QueryTotalSupply("upetri"), initialSupply)
+	assert.Greater(t, cli.QueryTotalSupply("ufury"), initialSupply)
 
 	// check rewards distributed
 	for _, v := range sortedMember {
 		reward := cli.QueryValidatorRewards(v.Addr)
-		assert.True(t, reward.IsGTE(sdk.NewDecCoinFromDec("upetri", sdk.OneDec())), "got %s for addr: %s", reward, v.Addr)
+		assert.True(t, reward.IsGTE(sdk.NewDecCoinFromDec("ufury", sdk.OneDec())), "got %s for addr: %s", reward, v.Addr)
 	}
 
 	// And when moniker updated
@@ -119,18 +119,18 @@ func TestPoEAddPostGenesisValidatorWithAutoEngagementPoints(t *testing.T) {
 	//    and: is added to the active validator set
 	cli := NewPetriCli(t, sut, verbose)
 	sut.ModifyGenesisJSON(t,
-		SetPoEParamsMutator(t, poetypes.NewParams(100, 10, sdk.NewCoins(sdk.NewCoin("upetri", sdk.NewInt(5))))),
+		SetPoEParamsMutator(t, poetypes.NewParams(100, 10, sdk.NewCoins(sdk.NewCoin("ufury", sdk.NewInt(5))))),
 	)
 	sut.StartChain(t)
 	newNode := sut.AddFullnode(t)
 	sut.AwaitNodeUp(t, fmt.Sprintf("http://127.0.0.1:%d", newNode.RPCPort))
 	opAddr := cli.AddKey("newOperator")
-	cli.FundAddress(opAddr, "100000000upetri")
+	cli.FundAddress(opAddr, "100000000ufury")
 	newPubKey := loadValidatorPubKeyForNode(t, sut, sut.nodesCount-1)
 	pubKeyEncoded, err := app.MakeEncodingConfig().Codec.MarshalInterfaceJSON(newPubKey)
 	require.NoError(t, err)
 	// when
-	txResult := cli.CustomCommand("tx", "poe", "create-validator", "--moniker=newMoniker", "--amount=100000000upetri", "--vesting-amount=0upetri",
+	txResult := cli.CustomCommand("tx", "poe", "create-validator", "--moniker=newMoniker", "--amount=100000000ufury", "--vesting-amount=0ufury",
 		"--pubkey="+string(pubKeyEncoded), "--from=newOperator", "--gas=275000")
 	RequireTxSuccess(t, txResult)
 	// wait for msg execution
@@ -152,7 +152,7 @@ func TestPoEAddPostGenesisValidatorWithGovProposalEngagementPoints(t *testing.T)
 	//   then: is added to the active validator set
 	cli := NewPetriCli(t, sut, verbose)
 	sut.ModifyGenesisJSON(t,
-		SetPoEParamsMutator(t, poetypes.NewParams(100, 0, sdk.NewCoins(sdk.NewCoin("upetri", sdk.NewInt(5))))),
+		SetPoEParamsMutator(t, poetypes.NewParams(100, 0, sdk.NewCoins(sdk.NewCoin("ufury", sdk.NewInt(5))))),
 	)
 	sut.StartChain(t)
 	engagementGroupAddr := gjson.Get(cli.CustomQuery("q", "poe", "contract-address", "ENGAGEMENT"), "address").String()
@@ -160,14 +160,14 @@ func TestPoEAddPostGenesisValidatorWithGovProposalEngagementPoints(t *testing.T)
 	newNode := sut.AddFullnode(t)
 	sut.AwaitNodeUp(t, fmt.Sprintf("http://127.0.0.1:%d", newNode.RPCPort))
 	opAddr := cli.AddKey("newOperator")
-	cli.FundAddress(opAddr, "100000000upetri")
+	cli.FundAddress(opAddr, "100000000ufury")
 	newPubKey := loadValidatorPubKeyForNode(t, sut, sut.nodesCount-1)
 	t.Logf("new operator address %s", opAddr)
 	pubKeyEncoded, err := app.MakeEncodingConfig().Codec.MarshalInterfaceJSON(newPubKey)
 	require.NoError(t, err)
 
 	// when
-	txResult := cli.CustomCommand("tx", "poe", "create-validator", "--moniker=newMoniker", "--amount=100000000upetri", "--vesting-amount=0upetri",
+	txResult := cli.CustomCommand("tx", "poe", "create-validator", "--moniker=newMoniker", "--amount=100000000ufury", "--vesting-amount=0ufury",
 		"--pubkey="+string(pubKeyEncoded), "--from=newOperator")
 	RequireTxSuccess(t, txResult)
 	// wait for msg execution
@@ -246,7 +246,7 @@ func TestPoESelfDelegate(t *testing.T) {
 	powerBefore := queryTendermintValidatorPower(t, sut, 0)
 
 	// when
-	txResult := cli.CustomCommand("tx", "poe", "self-delegate", "900000000upetri", "0upetri", "--from=node0")
+	txResult := cli.CustomCommand("tx", "poe", "self-delegate", "900000000ufury", "0ufury", "--from=node0")
 	RequireTxSuccess(t, txResult)
 	// wait for msg execution
 	sut.AwaitNextBlock(t)
@@ -272,19 +272,19 @@ func TestPoEUndelegate(t *testing.T) {
 	// then claims got executed automatically
 
 	unbodingPeriod := 20 * time.Second // not too short so that claims not get auto unbonded
-	sut.ModifyGenesisJSON(t, SetUnbondingPeriod(t, unbodingPeriod), SetBlockRewards(t, sdk.NewCoin("upetri", sdk.ZeroInt())))
+	sut.ModifyGenesisJSON(t, SetUnbondingPeriod(t, unbodingPeriod), SetBlockRewards(t, sdk.NewCoin("ufury", sdk.ZeroInt())))
 	sut.StartChain(t)
 	cli := NewPetriCli(t, sut, verbose)
 
 	qRes := cli.CustomQuery("q", "poe", "self-delegation", cli.GetKeyAddr("node0"))
 	delegatedAmountBefore := gjson.Get(qRes, "balance.amount").Int()
 	powerBefore := queryTendermintValidatorPower(t, sut, 0)
-	balanceBefore := cli.QueryBalance(cli.GetKeyAddr("node0"), "upetri")
+	balanceBefore := cli.QueryBalance(cli.GetKeyAddr("node0"), "ufury")
 
 	// when
-	txResult := cli.CustomCommand("tx", "poe", "unbond", "100000000upetri", "--from=node0")
+	txResult := cli.CustomCommand("tx", "poe", "unbond", "100000000ufury", "--from=node0")
 	RequireTxSuccess(t, txResult)
-	txResult = cli.CustomCommand("tx", "poe", "unbond", "200000000upetri", "--from=node0")
+	txResult = cli.CustomCommand("tx", "poe", "unbond", "200000000ufury", "--from=node0")
 	RequireTxSuccess(t, txResult)
 	// wait for msg executions
 	sut.AwaitNextBlock(t)
@@ -300,7 +300,7 @@ func TestPoEUndelegate(t *testing.T) {
 	assert.Less(t, powerAfter, powerBefore)
 
 	// account balance not increased, yet
-	balanceAfter := cli.QueryBalance(cli.GetKeyAddr("node0"), "upetri")
+	balanceAfter := cli.QueryBalance(cli.GetKeyAddr("node0"), "ufury")
 	require.Equal(t, balanceBefore, balanceAfter)
 
 	// but unbonding delegations pending
@@ -317,7 +317,7 @@ func TestPoEUndelegate(t *testing.T) {
 	expBalance := balanceBefore + 100000000 + 200000000
 	balanceAfter = 0
 	for i := 0; i < int(unbodingPeriod/sut.blockTime); i++ {
-		balanceAfter = cli.QueryBalance(cli.GetKeyAddr("node0"), "upetri")
+		balanceAfter = cli.QueryBalance(cli.GetKeyAddr("node0"), "ufury")
 		if balanceAfter == expBalance {
 			break
 		}
